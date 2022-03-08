@@ -30,7 +30,8 @@
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "typeface-merriweather": "0.0.72",
-    "typeface-montserrat": "0.0.75"
+    "typeface-montserrat": "0.0.75",
+    "sharp": "^0.30.2"
   },
   "devDependencies": {
     "prettier": "^2.5.1"
@@ -48,6 +49,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "deploy": "gatsby build && gh-pages -d public",
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
