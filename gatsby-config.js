@@ -1,14 +1,14 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `logging.ohyunkyo`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `오현교`,
+      summary: `공부는 인덱싱 하는거래`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
+    description: `없음`,
     siteUrl: `https://ohyunkyo.github.io/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: ``,
     },
   },
   plugins: [
