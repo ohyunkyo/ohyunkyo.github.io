@@ -19,8 +19,10 @@ github pages 에서 블로그를 만드는것은 일반적으로 생각하는 �
 [이 영상](https://youtu.be/2MsN8gpT6jY) 에선 github pages 가 github repository 를 웹 사이트로 바꿔준다고 말한다.  
 그리고 웹 사이트를 만드는데 데이터베이스도, 서버도 필요 없다고 설명한다. 심지어는 HTML 을 몰라도 된단다.
 
+하지만 오늘은 사용하는 방법은 그런 지식 없이는 따라하기 힘들 것 같다.
+
 ## 2. gatsby 로 시작하기
-[gatsby](https://github.com/gatsbyjs/gatsby-starter-blog) 는 웹사이트를 만들기 위한 react 기반의 프레임워크인데, 공식 테마를 사용하여 쉽게 시작할 수 있다.  
+[gatsby](https://github.com/gatsbyjs/gatsby-starter-blog) 는 웹 사이트를 만들기 위한 react 기반의 프레임워크인데, 공식 테마를 사용하여 쉽게 시작할 수 있다.  
 먼저 `gatsby` 모듈을 설치 한 다음 `gatsby new [rootPath] [starter]` 로 소스코드를 다운로드 한다.  
 이때 rootPath 에 입력한 인수와 같은 이름을 가진 디렉토리가 생성되고 그안에 소스코드가 다운로드된다. 만약 존재하는 디렉토리라면 디렉토리 생성은 생략된다.
 ```shell
@@ -75,3 +77,10 @@ npm run deploy
 
 깃허브 저장소페이지에 가서 Settings - Pages 탭에 있는 Source 옵션을 gh-pages 로 변경해주고 저장하면  
 로컬에서 본 화면을 https://[username].github.io 에서도 볼 수 있다.
+
+## 99. 끝나고 나서
+아무것도 모르고 블로그를 만들 생각만 할 때에는 안되던 것들이 있었다.  
+그러다 귀찮음을 감수하고 여러번 반복했을때, 그리고 공부하기로 마음먹었을때 신기하게도 문제가 해결됐다.  
+
+뭐든지 시작하는게 제일 힘들다고 한다.  
+그래서 시작이 반이라는 말도 있겠지만, 나머지 절반을 채우기 위해선 시작하는것보다 더 큰 노력이 필요하다는 생각을 했다.
