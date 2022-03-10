@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 08 Mar 2022 09:58:35 GMT</lastBuildDate><item><title><![CDATA[github pages 를 사용하여 블로그 만들기]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/git/github-page-make-blog/</link><guid isPermaLink="false">https://ohyunkyo.github.io/git/github-page-make-blog/</guid><pubDate>Tue, 08 Mar 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 10 Mar 2022 03:10:15 GMT</lastBuildDate><item><title><![CDATA[github pages 를 사용하여 블로그 만들기]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/git/github-page-make-blog/</link><guid isPermaLink="false">https://ohyunkyo.github.io/git/github-page-make-blog/</guid><pubDate>Tue, 08 Mar 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;요즘 공부한것들 정리할 겸 포트폴리오 제작을 위해 블로그에 글을 쓰고 있었다.&lt;br&gt;
 그러던중 이직을 위해서, 그리고 나를 위해서 처음부터 형식을 잘 갖춰놓는게 좋겠다는 생각이 들어 다른 개발자들의 포트폴리오를 찾아봤다.&lt;/p&gt;
 &lt;p&gt;다른 개발자들은 각자의 방법으로 포트폴리오를 제작하고, 블로그를 운영하고 있었는데 나는 그중에서 github pages 를 선택했다.&lt;br&gt;
@@ -10,8 +10,9 @@
 기본적으로는 웹 사이트를 만드는것이라고 생각하면 되는데&lt;br&gt;
 &lt;a href=&quot;https://youtu.be/2MsN8gpT6jY&quot;&gt;이 영상&lt;/a&gt; 에선 github pages 가 github repository 를 웹 사이트로 바꿔준다고 말한다.&lt;br&gt;
 그리고 웹 사이트를 만드는데 데이터베이스도, 서버도 필요 없다고 설명한다. 심지어는 HTML 을 몰라도 된단다.&lt;/p&gt;
+&lt;p&gt;하지만 오늘은 사용하는 방법은 그런 지식 없이는 따라하기 힘들 것 같다.&lt;/p&gt;
 &lt;h2&gt;2. gatsby 로 시작하기&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/gatsbyjs/gatsby-starter-blog&quot;&gt;gatsby&lt;/a&gt; 는 웹사이트를 만들기 위한 react 기반의 프레임워크인데, 공식 테마를 사용하여 쉽게 시작할 수 있다.&lt;br&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/gatsbyjs/gatsby-starter-blog&quot;&gt;gatsby&lt;/a&gt; 는 웹 사이트를 만들기 위한 react 기반의 프레임워크인데, 공식 테마를 사용하여 쉽게 시작할 수 있다.&lt;br&gt;
 먼저 &lt;code class=&quot;language-text&quot;&gt;gatsby&lt;/code&gt; 모듈을 설치 한 다음 &lt;code class=&quot;language-text&quot;&gt;gatsby new [rootPath] [starter]&lt;/code&gt; 로 소스코드를 다운로드 한다.&lt;br&gt;
 이때 rootPath 에 입력한 인수와 같은 이름을 가진 디렉토리가 생성되고 그안에 소스코드가 다운로드된다. 만약 존재하는 디렉토리라면 디렉토리 생성은 생략된다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -g gatsby-cli
@@ -53,7 +54,12 @@ gatsby new blog https://github.com/gatsbyjs/gatsby-starter-blog&lt;/code&gt;&lt;
 &lt;p&gt;하지만 아직은 완료된게 아니다.&lt;/p&gt;
 &lt;p&gt;배포가 잘 실행되었다면 &lt;code class=&quot;language-text&quot;&gt;gh-pages&lt;/code&gt; 라는 브랜치가 생성 되었을텐데 이 브랜치를 github pages 가 퍼블리싱 할 브랜치로 설정해줘야 한다.&lt;/p&gt;
 &lt;p&gt;깃허브 저장소페이지에 가서 Settings - Pages 탭에 있는 Source 옵션을 gh-pages 로 변경해주고 저장하면&lt;br&gt;
-로컬에서 본 화면을 https://[username].github.io 에서도 볼 수 있다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[New Beginnings]]></title><description><![CDATA[Far far away, behind the word mountains, far from the countries Vokalia and
+로컬에서 본 화면을 https://[username].github.io 에서도 볼 수 있다.&lt;/p&gt;
+&lt;h2&gt;99. 끝나고 나서&lt;/h2&gt;
+&lt;p&gt;아무것도 모르고 블로그를 만들 생각만 할 때에는 안되던 것들이 있었다.&lt;br&gt;
+그러다 귀찮음을 감수하고 여러번 반복했을때, 그리고 공부하기로 마음먹었을때 신기하게도 문제가 해결됐다.&lt;/p&gt;
+&lt;p&gt;뭐든지 시작하는게 제일 힘들다고 한다.&lt;br&gt;
+그래서 시작이 반이라는 말도 있겠지만, 나머지 절반을 채우기 위해선 시작하는것보다 더 큰 노력이 필요하다는 생각을 했다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[New Beginnings]]></title><description><![CDATA[Far far away, behind the word mountains, far from the countries Vokalia and
 Consonantia, there live the blind texts. Separated they live in…]]></description><link>https://ohyunkyo.github.io/new-beginnings/</link><guid isPermaLink="false">https://ohyunkyo.github.io/new-beginnings/</guid><pubDate>Thu, 28 May 2015 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
 Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
 right at the coast of the Semantics, a large language ocean. A small river named
