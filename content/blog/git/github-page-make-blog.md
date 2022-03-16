@@ -23,7 +23,7 @@ github pages 에서 블로그를 만드는것은 일반적으로 생각하는 �
 
 ## 2. gatsby 로 시작하기
 [gatsby](https://github.com/gatsbyjs/gatsby-starter-blog) 는 웹 사이트를 만들기 위한 react 기반의 프레임워크인데, 공식 테마를 사용하여 쉽게 시작할 수 있다.  
-먼저 `gatsby` 모듈을 설치 한 다음 `gatsby new [rootPath] [starter]` 로 소스코드를 다운로드 한다.  
+먼저 `gatsby` 모듈을 설치 한 다음 `gatsby new [rootPath] [starter]` 부트스트래핑 한다.   
 이때 rootPath 에 입력한 인수와 같은 이름을 가진 디렉토리가 생성되고 그안에 소스코드가 다운로드된다. 만약 존재하는 디렉토리라면 디렉토리 생성은 생략된다.
 ```shell
 npm install -g gatsby-cli
