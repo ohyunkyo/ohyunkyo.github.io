@@ -79,6 +79,8 @@ services:
 
 이제 `docker-compose up -d` 명령어로 컨테이너를 생성하고 실행한다. 이렇게 하면 젠킨스 서비스가 실행된다.
 
+> docker-compose.yml 파일이 있는곳에서 명령어를 실행해야 한다. 해당 파일의 볼륨에 있는 로그를 가져오는듯
+
 다음과 같이 브라우저에 URL 을 입력하여 젠킨스 서비스 화면을 확인해 볼 수 있다.
 
 > \[EIP]:8080 (ex: 10.0.0.0:8080)
@@ -133,7 +135,6 @@ $ sudo docker exec -it jenkins_cicd /bin/bash
 이제 깃허브와 연결할 ssh 키를 생성한다
 ```
 # mkdir /var/jenkins_home/.ssh
-# cd /var/jenkins_home/.ssh
 
 # ssh-keygen -t rsa -f /var/jenkins_home/.ssh/jenkins_ci
 ```
@@ -235,7 +236,7 @@ pip install django==3.2.6
 
 그리고 mysqlclient 의 원활한 설치를 위해 관련된 패키지도 설치했다. [출처](https://pypi.org/project/mysqlclient/)  
 ```shell
-apt-get install python3-dev default-libmysqlclient-dev build-essential
+apt-get install python3-dev default-libmysqlclient-dev build-essential -y
 ```
 
 ### 6. 연결 테스트 하기
