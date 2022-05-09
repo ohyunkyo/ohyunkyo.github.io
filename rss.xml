@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 May 2022 02:28:24 GMT</lastBuildDate><item><title><![CDATA[notify.events 를 통해 텔레그램으로 젠킨스 알림 받기]]></title><description><![CDATA[0. 서론 블로그를 보고 젠킨스를 사용한 CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</guid><pubDate>Wed, 04 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 May 2022 05:54:39 GMT</lastBuildDate><item><title><![CDATA[notify.events 를 통해 텔레그램으로 젠킨스 알림 받기]]></title><description><![CDATA[0. 서론 블로그를 보고 젠킨스를 사용한 CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</guid><pubDate>Wed, 04 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;블로그를 보고 젠킨스를 사용한 CI/CD 를 구성하는 방법을 따라하고 있었다.&lt;br&gt;
 그 블로그에선 슬랙을 통해 젠킨스 빌드 알림 메시지를 받는 방법을 안내했는데,&lt;br&gt;
 나는 회사에서 텔레그램을 사용하기 때문에 텔레그램을 사용하여 알림 메시지를 받는 방법을 찾아봤다.&lt;/p&gt;
@@ -20,19 +20,205 @@
 이 &lt;code class=&quot;language-text&quot;&gt;Channel&lt;/code&gt; 이라는것은 메시지를 수집하여 수신자에게 보내는 하나의 그룹이라고 생각하면 된다.&lt;br&gt;
 여기에서 메시지의 &lt;code class=&quot;language-text&quot;&gt;Source(메시지 발신지)&lt;/code&gt; 를 설정하고 그 메시지를 어떤 &lt;code class=&quot;language-text&quot;&gt;Recipients(메시지 수신지)&lt;/code&gt; 에서 수신할지 정해주는것이다.&lt;/p&gt;
 &lt;p&gt;다음 사진과 같이 &lt;code class=&quot;language-text&quot;&gt;Channel&lt;/code&gt; 의 &lt;code class=&quot;language-text&quot;&gt;Title(제목)&lt;/code&gt; 만 설정하고 생성한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/a8efc65e4ade8cfeba640b0742f468ec/200-0-channel-list.png&quot; alt=&quot;channel-list&quot;&gt;
-&lt;img src=&quot;/91cc5f7607b9d71bde3a2c70b78bbf3e/200-1-create-channel.png&quot; alt=&quot;create-channel&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a8efc65e4ade8cfeba640b0742f468ec/84f4d/200-0-channel-list.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.79746835443038%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABrUlEQVQoz62R2UpcQRCG+8VyYVwu4syJgfgGPoGQ1SiIMb6Cd3kArwQRjDInRBBJXIZREiJB5kZQRCZ6lu6uXv5QdSZzJiHepeCjqKVra7U4u4qV+feYmV5C8mAWUyPP8HjkORLm4Qs0R1+iOfoKzbHXaIzPoTH+Bo2JeUxOLODp1Ds8SZaRNN4iaS7j0eQS1P6nDo6229jdOsDm+h52Nj9ja2Mf6YdDpNtHQks4rthh2sLHVgcpk54IrVYHyvuAaBz+l6ib6x4uL69RZBqmJOjCwhRW9D/Jzf2xwkLltzl6Nz9htIWzHmQcyNA9uL9y3BAEawjKxWpd5xyISHQIATFEhBBrHaP487yo4n3bWhK891XBsy8/0D3tQpeFJBfF0IMYBkTWIdQN+zYX8sFXxbng3toxvqbfAXBHDDoHX8Gf5p0f2DKxr+OSG6ocqwkK3N0HMeQOusZoQrSOe8mdhmN/3q9GZVkuq3IH15/k991YrjKLs+4FiLxMzzFe0xgrELnBHXlSdXuX4S7LQfwp/fuwhFgVPO+V2G1/Q0lebPZK4RhlgFJrGGuhjRHfLy97LTor7SseAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;channel-list&quot;
+        title=&quot;channel-list&quot;
+        src=&quot;/static/a8efc65e4ade8cfeba640b0742f468ec/f058b/200-0-channel-list.png&quot;
+        srcset=&quot;/static/a8efc65e4ade8cfeba640b0742f468ec/c26ae/200-0-channel-list.png 158w,
+/static/a8efc65e4ade8cfeba640b0742f468ec/6bdcf/200-0-channel-list.png 315w,
+/static/a8efc65e4ade8cfeba640b0742f468ec/f058b/200-0-channel-list.png 630w,
+/static/a8efc65e4ade8cfeba640b0742f468ec/40601/200-0-channel-list.png 945w,
+/static/a8efc65e4ade8cfeba640b0742f468ec/84f4d/200-0-channel-list.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/91cc5f7607b9d71bde3a2c70b78bbf3e/84f4d/200-1-create-channel.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 72.15189873417721%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABuklEQVQ4y6XTy27TQBiGYd8ji1CyidMgsUPcAlI5tBECBCrXgBBLWLJiywKB2DRq0lSJDzixU9tz8My8yHaISpQuUiw9/mes0Sf9Mx7vkX/M6fA971584KF/Qv/OYwadIw47R/Q7T+jffUr/4Bn+wXP8e8f43RP87pBed8ig95IH99/S918xOHxDr/caL5j95mI0I/g55XIcMp2EzKYxl5OIOFwSBUuicJf0Wl2LUrxKG2SpUTWpscbijMMa19R9eaKQREHMMknRokKVqg3fgywUyySjzvKU0JRConSF/B+q7dDLheI8zjibL5hlijA3BHl1K4XQeFJoCqnQxqGNRRmLvCWlKrz6pa2lshZtDQ5H8zi3N10HCqnJpCBfE1JijGkz1/H/cO5GTaCWEpWOEckZcjGiTEbI9JxqNWldXVCtxpu5EwFORjvE1FmelhqVp8gixVYCjMCoHJElyDLD6qKRFwlSZLhKNOt2qbO8+qjLdatFUbJa5ShlsOutsX/ZrfkOTcv1LZlPFkync8Iobv6l5sZYi7N2U7fH29/q2gRepYIvH3/x+dNXvn3/0R6Gdc2C1vXxTdwm8A+KoCNGT63kHgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;create-channel&quot;
+        title=&quot;create-channel&quot;
+        src=&quot;/static/91cc5f7607b9d71bde3a2c70b78bbf3e/f058b/200-1-create-channel.png&quot;
+        srcset=&quot;/static/91cc5f7607b9d71bde3a2c70b78bbf3e/c26ae/200-1-create-channel.png 158w,
+/static/91cc5f7607b9d71bde3a2c70b78bbf3e/6bdcf/200-1-create-channel.png 315w,
+/static/91cc5f7607b9d71bde3a2c70b78bbf3e/f058b/200-1-create-channel.png 630w,
+/static/91cc5f7607b9d71bde3a2c70b78bbf3e/40601/200-1-create-channel.png 945w,
+/static/91cc5f7607b9d71bde3a2c70b78bbf3e/84f4d/200-1-create-channel.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;여기에서 subscription 이라는것은 &lt;code class=&quot;language-text&quot;&gt;Recipients&lt;/code&gt; 를 추가하는 방법을 의미한다. &lt;code class=&quot;language-text&quot;&gt;Channel&lt;/code&gt; 의 소유자가 아닌 다른 유저들이 &lt;code class=&quot;language-text&quot;&gt;Channel&lt;/code&gt; 의 &lt;code class=&quot;language-text&quot;&gt;Recipients&lt;/code&gt; 에 자신을 등록 할 수 있다.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;3. Source 추가하기&lt;/h2&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Channel &lt;/code&gt;생성을 완료했다면 상세페이지에서 Add Source 버튼을 눌러 &lt;code class=&quot;language-text&quot;&gt;Source&lt;/code&gt; 를 추가한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/907cdcb67e53ee006860e55b7449c3d4/300-0-detail-channel.png&quot; alt=&quot;detail-channel&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/907cdcb67e53ee006860e55b7449c3d4/84f4d/300-0-detail-channel.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACLklEQVQ4y5WTO2/UQBDH/R0pQkhzvgSJDvEVkMIjCRIgEHwBChANHSUVPaAImpNyIrLiXGJ730/7D7N7NlxIg62fZnZ2dnZnZre4Vx7g1dE7vH7yHnfLQ8xv3Mfe1j52t/Yx33qA+c2HmG8/Qrn9GOWtA5Q7hyh3jjDbOcLe7Cnu3H6JefkMe7svMJs9R3FWXWC5qLD4UeF0WSeqnyucLs+xqlucn7U4r6+jS7Ke9EwRfYTVPuFspo8DhmvoY48hcc18n2WhpcHlqkFz0eKsqtE1DN4EWO02cMbD25CYbNqDtQJdyyEvBRwzKOhEUigILuFdQPDxX1wOwplIfpvzIeGthzceBQXRVsJHhwH0DRiGP9CYUrXWwlgF62yeG/9hQAgBMeYNCssVTr6dYHm8BG8aCCmTAzn2fZ8gvVkJLL5XaC4YpNr0oWApoAsoZN3i09sv+PzhGIHLfMYxWOwRQ59si+MaH998RXXSpjHZaT6x3pjqW3jj4JWEZh0kF5BCrusUEENECDmVoc+BaWGqXbiCj6mOqSmMc0ilobSGXhP7uJF2Tm2tD/2GfbRRPwprHDjnaTHVYXSgGv0vKSAdUysDJSykIGkguU5oaSed7OJvnakktXJ5nTTrGq5fh9FmeiVX7xk1IBMnqBmjz6jT+nQPKeWu6/JdMyalPHabPu99mvPBT+nRePSh2k/3kI7JGIcQMknG2EaxqbvOubQRSQpOjBtTo5RS8LTR7xr+AiTAcP4ZRl7JAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;detail-channel&quot;
+        title=&quot;detail-channel&quot;
+        src=&quot;/static/907cdcb67e53ee006860e55b7449c3d4/f058b/300-0-detail-channel.png&quot;
+        srcset=&quot;/static/907cdcb67e53ee006860e55b7449c3d4/c26ae/300-0-detail-channel.png 158w,
+/static/907cdcb67e53ee006860e55b7449c3d4/6bdcf/300-0-detail-channel.png 315w,
+/static/907cdcb67e53ee006860e55b7449c3d4/f058b/300-0-detail-channel.png 630w,
+/static/907cdcb67e53ee006860e55b7449c3d4/40601/300-0-detail-channel.png 945w,
+/static/907cdcb67e53ee006860e55b7449c3d4/84f4d/300-0-detail-channel.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;CI/CD and Version control 탭에서 Jenkins 를 클릭하고 기본 설정 그대로 추가한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/50720f1cc3d04446adb80495be01317b/300-1-select-jenkins.png&quot; alt=&quot;select-jenkins&quot;&gt;
-&lt;img src=&quot;/655c957d7ee471ec1ccc3b08c936c1c7/300-2-source-option.png&quot; alt=&quot;source-option&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/50720f1cc3d04446adb80495be01317b/84f4d/300-1-select-jenkins.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACqElEQVQ4y5WTSW8URxTH5zvmYIMvnsGRuKF8BSQIAUdiiwyEK4tYEgE+hBzAEoMAySgmjuQN4xg8e8/09PR0VdfWP1TVM8IsF0r6671a3v+tVfmpepalxTtc+fUeJ6rnqP1wkoWZUxybOUVt5jS12Z+pHTlD9cgvVI+epTp3jurcIvNziyzMn+f4j79Rq15g4dhl5ucvUmk3I/Z3m+xuNjnY7wQ0P/Q4eN+l14nptmO6nW9heEhO0B1SsdqhpCYXGiUMShpyqdDKULiCwn4fKtlI0Gl1aTXapMl4Qq6Cg1JO9S/3n/QkHtGPYsQ4p6JzjdEWFaQJujU2ROilhz+bnh++K89N2AeZayp+41c8GJBLGfQ8VwziGOss1lrSNCUdp0FXSjEcDhFCUBQFxmqEFMHOc1XMpFbKWTy1f0ShKEyO1qUzrTUqz8OdJ3TW25TO/Cqct3OYQJgbCqD3/F+a91eQIuPRmuTZZobTGX89/pvGwQFJMmL9vw2s0fyzvsWT+mu00my8f81+extPUkYodSBs/LHC3vm75NmIpRXB/VcJTiZcvfY7O293aLa73LjzAGsU95afcv3mMoV1vNx6zPrei0nK2qdscc4xysaMZBYuZDpAyhRhHGI8RguB9HUcxpMULXku0caFLkuhQr19k8oahroVoTH1+jN6g5i00yLZ2yaLIto7W3R3txn3+zxaXmZt7Q1CZLzbXiNNE1zhAkdIWU8JgVarxZWlJf5vtJE7q8QPL2GkYLVe582L5+RpyuzsLLdu3UbJjD+vXSCZRj0lDBFSEvpRGAxisiwjzTLicYbo90mjiFEUIaKIRqsVMglve33EZNQ8hzkcoYevpR8FL50tx8JpjZUywOtlDcu3U0ztywj11z/hc3gnExj32W/68if5pnwEsPdcNM5Mp9gAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;select-jenkins&quot;
+        title=&quot;select-jenkins&quot;
+        src=&quot;/static/50720f1cc3d04446adb80495be01317b/f058b/300-1-select-jenkins.png&quot;
+        srcset=&quot;/static/50720f1cc3d04446adb80495be01317b/c26ae/300-1-select-jenkins.png 158w,
+/static/50720f1cc3d04446adb80495be01317b/6bdcf/300-1-select-jenkins.png 315w,
+/static/50720f1cc3d04446adb80495be01317b/f058b/300-1-select-jenkins.png 630w,
+/static/50720f1cc3d04446adb80495be01317b/40601/300-1-select-jenkins.png 945w,
+/static/50720f1cc3d04446adb80495be01317b/84f4d/300-1-select-jenkins.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/655c957d7ee471ec1ccc3b08c936c1c7/84f4d/300-2-source-option.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 60.75949367088608%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB5UlEQVQoz5WSS2sUQRRG+6+5SDSC8xLBleDGlVvBRzJZiIpZ+BPUvVtXgiCGEOcVJE7UmSiCQkycOK/urq73keqeGBhRxoJDV93qW3Xr+250tbTGw9XHbNSfcqVUp3rmBheXblJbukU1sHyb6vIdKmdXqZxbo7JSp7yyTun8OrULd7l8aYNq+R616gPK5ftEO40PvG316Gx/pLm1x/brXRpbe7zZ7LLT7NFp9mg3ZjRP6Be0+nTan2i39otve58IQCuLzizWOJzxOOdw1oH3eOf4nxElU8GP7wMOD46YjhKyVCESeUqc5bG/IVPFeDhleDwijTMiKRRpIhCpQGUaowx6QZQM/1uMBZlpZKaItNQkscCEKB7vF8doi9GGn1/7aBFjjScKt0ilcd7nGix6mA06e4hHYx5dv0Z381WhYShzOJkSS4kwBukc0tl/opwjtgapi6d33/cYj0Z454niozEvnzR4/uwFnXfd/BY3V01YO/dnleEwkajfDgf5IhVMGUxIRjFpkqGlmUODdXjr8/n8fjAxmBkI60hrQyoEUqq8imBO6MGTXgw6fTuecDgYhrac7XlCXpAreKCUzvODQZHWmvFkSpKkGGPQxuTPKYYnzBqfD9jtf5mFTs0LUkilCqTM838BFwJ7yD1m61kAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;source-option&quot;
+        title=&quot;source-option&quot;
+        src=&quot;/static/655c957d7ee471ec1ccc3b08c936c1c7/f058b/300-2-source-option.png&quot;
+        srcset=&quot;/static/655c957d7ee471ec1ccc3b08c936c1c7/c26ae/300-2-source-option.png 158w,
+/static/655c957d7ee471ec1ccc3b08c936c1c7/6bdcf/300-2-source-option.png 315w,
+/static/655c957d7ee471ec1ccc3b08c936c1c7/f058b/300-2-source-option.png 630w,
+/static/655c957d7ee471ec1ccc3b08c936c1c7/40601/300-2-source-option.png 945w,
+/static/655c957d7ee471ec1ccc3b08c936c1c7/84f4d/300-2-source-option.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이렇게 &lt;code class=&quot;language-text&quot;&gt;Source&lt;/code&gt; 를 추가하면 토큰 값이 생성된다. 이 토큰은 바로 사용해야 하기 때문에 복사해주자.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/9a281868b399972380038627a2012fcd/300-3-jenkins-token.png&quot; alt=&quot;jenkins-token&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9a281868b399972380038627a2012fcd/84f4d/300-3-jenkins-token.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 60.75949367088608%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB70lEQVQoz52Sy04UQRSG+9VcgMqCYcCFKxM3rtyaeOGyUSM8hHHjiyAjzDAQBFEQM0g0hJ4enelrVdftM9XtoAnMxkq+nD6Vqr/P+U8F92eXWF18zdryG+41lmneeMTC1GPmp57Q9Ew/pTn9jLmbi8zdWmLu9jKNmRVmZ1ZYaDzn7p1Vmo0XzDdfMdt4SbDb/sze9jE7m0d0Wodsru/Tbh2y9e4ju51juu2jPxzT7Yz5UrN9wk73hG7Xx69VDACUNChhMMpitcNaizGG/1lBFhf0LwZcnIekcY7MS0QmEfmYciKyKImHKb+iYRXzVBBIUZKnOVma479LUR/0wqVQqFJPpJSqQmmQQlX3AiUVWZaRJAlxHCOUQlpLXlqUcVUbzrlr0dqgy5LB2RG6FGhlCfwfKiEhUN63vIAoqkkTXK14xSvvs18XvR5rDx/w42C/9tCXPhqN6IchSSEwp99wGxu4VgvTO70U/LeycdVGW/JCsHfwCVEUVV4JDocjwrBPmqYo63BRhAtD3Pk5TsorbY9z350fzjj39gVeVauCwSAi7PdJfg6x7Q7ufQu7tYVNs4mC1XCkrobhB+gJsihm/e02g15/8uO6xkNHLVi9BKkvCURccPbhO2mUYIytNrUs0aLGX9LXUFfnq/or5i34DVaBeUoKA5U0AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;jenkins-token&quot;
+        title=&quot;jenkins-token&quot;
+        src=&quot;/static/9a281868b399972380038627a2012fcd/f058b/300-3-jenkins-token.png&quot;
+        srcset=&quot;/static/9a281868b399972380038627a2012fcd/c26ae/300-3-jenkins-token.png 158w,
+/static/9a281868b399972380038627a2012fcd/6bdcf/300-3-jenkins-token.png 315w,
+/static/9a281868b399972380038627a2012fcd/f058b/300-3-jenkins-token.png 630w,
+/static/9a281868b399972380038627a2012fcd/40601/300-3-jenkins-token.png 945w,
+/static/9a281868b399972380038627a2012fcd/84f4d/300-3-jenkins-token.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h2&gt;4. 젠킨스에서 notify.event 설정하기&lt;/h2&gt;
 &lt;p&gt;이제 젠킨스에서 빌드시 notify.event 로 전달하도록 해야한다.&lt;/p&gt;
 &lt;h3&gt;4.1 플러그인 설치하기&lt;/h3&gt;
@@ -40,28 +226,272 @@
 &lt;blockquote&gt;
 &lt;p&gt;사진은 플러그인이 이미 설치된 상태인데 설치 가능 탭에서 검색하여 다운로드 한다.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;/f3f09d54827819ec83055db2e08b7ffe/410-0-plugin-list.png&quot; alt=&quot;plugin-list&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f3f09d54827819ec83055db2e08b7ffe/84f4d/410-0-plugin-list.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.202531645569614%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABSklEQVQoz6WR0W7aMBSG82pU7AK4QTStVK1csacs3IPYC+ymqgRsHVtCEsd2HMfxV8WUjm30ZjvSLx/bx78/+0R3t7fMZjOm0ym93hX9/gcGgwHD4ZDRaBTy8XjMYrFgtVqxXC75vF7zMJ/z6X7Kx5sbruOYOI6ZTCZEjW+wjcW5Fu/574iEFGR5RlVVeO9p2zZov9+z3e7Ybjekafq2143etzjn0FWFlJK6rqmtxdqGqHVtoOviWHzE1FqTJAlZllGWJVl2QGrDQRiEsmGtM/2L8JSczE6G3QGlFMaYQH9RxqBlSSkESutAGZ0bnRvmQrH5lpDneXiWlCpc0Ok4l5iq4svTjrQo8dbSNM0vwnPSLkSp2D3/4Ov3hJ9pEWjMH4SNrXnc7SmUBudonbtMeE763pfA7zXutZlR90f/qq67RVEghEAURchfAAPTn+WCnpmkAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;plugin-list&quot;
+        title=&quot;plugin-list&quot;
+        src=&quot;/static/f3f09d54827819ec83055db2e08b7ffe/f058b/410-0-plugin-list.png&quot;
+        srcset=&quot;/static/f3f09d54827819ec83055db2e08b7ffe/c26ae/410-0-plugin-list.png 158w,
+/static/f3f09d54827819ec83055db2e08b7ffe/6bdcf/410-0-plugin-list.png 315w,
+/static/f3f09d54827819ec83055db2e08b7ffe/f058b/410-0-plugin-list.png 630w,
+/static/f3f09d54827819ec83055db2e08b7ffe/40601/410-0-plugin-list.png 945w,
+/static/f3f09d54827819ec83055db2e08b7ffe/84f4d/410-0-plugin-list.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;4.2 빌드 후 조치(post build) 설정하기&lt;/h3&gt;
 &lt;p&gt;아래와 같이 프로젝트의 빌드 후 조치 탭을 수정한다.&lt;br&gt;
 복사한 토큰만 붙여넣고 나머지 부분은 기본값을 사용해도 충분하다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/9b627b053aeab41fae59e0c1724df568/420-0-post-build.png&quot; alt=&quot;post-build&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9b627b053aeab41fae59e0c1724df568/84f4d/420-0-post-build.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABqklEQVQ4y52US27bMBCGfd1epdvueoSiDVKgh+i66CJAVoGcRKJki6T4GlHSX8wYVO3UcoAS+CGK4nycl7jz3sOHgBgjem3Qaw1jDPpey1zUn9aMtTDGYnAOwzDAhQDnPXLOmKYJRIQdzgZDq6qCalv4GOUgPtA5J88QgiiyUoJTCt6Y1Z6hu2VZwOIxjiP2VYVDXYOGAclapBiRiJBSuhDlDPfygqA1li1gnmcMSoHuv2O8uwN9/Yb49ARalhOIwUWJQNOESLTaC5AnKzBnaK0lxL/yIobQFXHoN4HH4xHWDmvuisSj/wG2bSvQvu9hrV0LwpLKcoWtlbl3Xgp5ExhCFKMCY4N5niXxJd9vC8nfN4HFEy4Cb6aN3BWlWyHzQqMU6rqRfnvbKtd0nkN+/8dDooQ8TSfv3vVwvABydBfAMU/Yvyp0XSe54w3SxGKcruo8ZI7qrLEXUJ6xVxbN6zO67iAVZ/B7IZeirB6WkcYRP38/4tfDA5RqoNpGvOPwt8RpKYNTtmMP+MYYibBvanz4+BmfvvzA4dCiaRto3Z9umg3xn1UuDmb9AYbTjUq9PsgRAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;post-build&quot;
+        title=&quot;post-build&quot;
+        src=&quot;/static/9b627b053aeab41fae59e0c1724df568/f058b/420-0-post-build.png&quot;
+        srcset=&quot;/static/9b627b053aeab41fae59e0c1724df568/c26ae/420-0-post-build.png 158w,
+/static/9b627b053aeab41fae59e0c1724df568/6bdcf/420-0-post-build.png 315w,
+/static/9b627b053aeab41fae59e0c1724df568/f058b/420-0-post-build.png 630w,
+/static/9b627b053aeab41fae59e0c1724df568/40601/420-0-post-build.png 945w,
+/static/9b627b053aeab41fae59e0c1724df568/84f4d/420-0-post-build.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h2&gt;5. Recipients 추가하기&lt;/h2&gt;
 &lt;p&gt;이제 실제로 메시지를 수신 할 사용자를 추가한다.&lt;br&gt;
 &lt;code class=&quot;language-text&quot;&gt;Channel&lt;/code&gt; 상세 페이지에서 Subscribe 버튼을 클릭한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/97afa340e1df2934d1bbb89dfd628e70/500-0-detail-channel.png&quot; alt=&quot;detail-channel&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/97afa340e1df2934d1bbb89dfd628e70/84f4d/500-0-detail-channel.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACMklEQVQ4y22TO28TQRDH7ztShJDG5wSJDvEVkMIjCRIgELS0iIYKSioaJOhQJDDIkJg4Tux77O1j9vGHmTsfcWKffpr17NzM7H/2sjv5Hl4cvMbLR29wO9/H8Npd7GzsYntjF8ONexhev4/h5gPkmw+R39hDvrWPfOsAg60D7Awe49bN5xjmT7Cz/QyDwVNkJ5MzjEcTjA4nOBpPhcnvGY7Gp5hNFzg9WeB0uo5C7LRft2SBAqwmwdmWGBLSGmKISMKa/djaTCuD89kc87MFTiZTFPMSZDysdis4QyDrhd6nCeWiRrGooM5ruNIg445U3aCuFMh5eApXcW2SqqwlbnXfC2QJZAgZJ9FWgYJDSgnypFVCiLDOwlglto/rYr33CKEtkHHlX9+m+DMuxBljXMEakg4Wx2cYffmB+WQG1ShJwsk4ht+ThM4jU4XBh7eH+PjuOzxF8C8ltAlDlO6AiNGnn3j/6jMmX485QvxxSVec9ZUjk3fQuoGqldDq5BF8gPftURIR4B0iUeu7DAXRUYZSliWUUmiaBlprIcTQH0lgLWMSG1O8Ig37uLnMGoeqqjrx/2vIGl2B/Hp/hyTkNnVj0NQWqmZroCotaGX7Nfvri+uyEasb176nTKdh93UYbfqv5PI9Cz52hB4exjJmueb3ZSh85KIoYK2FMUaO3E47iSUi2SNP/fH4/zKmYc2X95DbLMsKda3E8oAuip1ihHNOCrHl5MyyMF8fHiZxoX8a/gUBRHFJrXh8fwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;detail-channel&quot;
+        title=&quot;detail-channel&quot;
+        src=&quot;/static/97afa340e1df2934d1bbb89dfd628e70/f058b/500-0-detail-channel.png&quot;
+        srcset=&quot;/static/97afa340e1df2934d1bbb89dfd628e70/c26ae/500-0-detail-channel.png 158w,
+/static/97afa340e1df2934d1bbb89dfd628e70/6bdcf/500-0-detail-channel.png 315w,
+/static/97afa340e1df2934d1bbb89dfd628e70/f058b/500-0-detail-channel.png 630w,
+/static/97afa340e1df2934d1bbb89dfd628e70/40601/500-0-detail-channel.png 945w,
+/static/97afa340e1df2934d1bbb89dfd628e70/84f4d/500-0-detail-channel.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;여러 서비스 중에서 텔레그램을 선택한다&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/066b509098e4f62545c51c89c1fe237c/500-1-select-telegram.png&quot; alt=&quot;select-telegram&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/066b509098e4f62545c51c89c1fe237c/84f4d/500-1-select-telegram.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAADCklEQVQ4y5WSy28bVRTG/T+yCCWbOA0SO8SCrli1lEcbJKAgkFiBxCZkx6OoqgIldVXaKm1sK++kceyMx+MZz8v3PTM/NJMgisSGK326332c75zz3dt6p32Lr1bX+PqTdd5u32b5teusLNzk6sJNlhc+YPn1D1m+8hHtKx/TfuMW7cXbtBdXWVpcZWXpU95680uW25+xcvULlpY+p+V7IYNjj+M9j9FgwnAwwRtOGZ0FTCcxgR8TTP4LySvzJYKEVmFLjLRoaTHKYZVDK9OgKqr/jZbMFZNxwNgL8M59xuc+IldNghrqcv43Nw3MJU/jjCiMkXNNyxqHFYoqTSFNMGlORUVRFFhtobAU1lIaC9Y2e66osGWFUaY+xpkKa+ozR8vYErTgj5OItZ0ZLp3x7Pc9Dp6fIoxm8yhlOpvTi3LuHCbMrSPb22P66BFKFxx7v+GFfahq4b8FjeT+Uch3vSkui+nc7bHz5Ihca755HHHs55wmOTd2ZkTKIE5OiHtdjK04PL/PaNptBOtuW86VFEJgkxibJsgwalp2Re2ZhCLFaoEzBijRSmGqinrVcF3f041FzhYXHtbjrN9l8PgBzmqePn3G/v4+2lh+fZIQzBRjb8TPv9xlrhRiNCLc3kZbRa/v8/J01iRrKqwz1OPe9kM2O983/PqN91n/YY2ygve+DRlMLP3uFtfevUYqJWm3R7CxgS0sDzZ36e8Mm7iLlm3RlDvPc/IsZy4EhXEYbZBS4nSGVgJtDCWglMJZ28QorUnDiCxOKMvy4lGcKaAsmaQZwzhCS8VpOMSPJyipGI4j4jRHS0nuTzBKMkoyjqKg4YPsjFE8oiornHX/ePhy94D+i4dobfjpcIM/h12sNPzYOeDUj3FRhNjoUDjLzvNdtrbuoYxi3VunE3YaDWNsXaGjrErCaYh3Pm5e1p+FTOOoaU+IOUJKdD5H+hOU0phkhk2mKG0J5wGJiF/5NrVgWSGyGSILEVKReWPmSYpUipkfIGoxbQgzgdGK4VSw7+UURpEKRy40VeNhwV8i9VLla9vx2AAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;select-telegram&quot;
+        title=&quot;select-telegram&quot;
+        src=&quot;/static/066b509098e4f62545c51c89c1fe237c/f058b/500-1-select-telegram.png&quot;
+        srcset=&quot;/static/066b509098e4f62545c51c89c1fe237c/c26ae/500-1-select-telegram.png 158w,
+/static/066b509098e4f62545c51c89c1fe237c/6bdcf/500-1-select-telegram.png 315w,
+/static/066b509098e4f62545c51c89c1fe237c/f058b/500-1-select-telegram.png 630w,
+/static/066b509098e4f62545c51c89c1fe237c/40601/500-1-select-telegram.png 945w,
+/static/066b509098e4f62545c51c89c1fe237c/84f4d/500-1-select-telegram.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;텔레그램을 선택하면 나오는 설명인데, 요약하자면 NotifyEventsBot 을 텔레그램 채팅 리스트에 추가하고 명령어를 입력하라는것이다.&lt;br&gt;
 Notify.Events bot 링크를 클릭하여 텔레그램 봇과 채팅을 시작한 뒤 명령어를 입력하면 된다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/9b908489234131b5c0dcb8c1bc9693f6/500-2-how-to-subscribe.png&quot; alt=&quot;how-to-subscribe&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2560cfdeec0cd9c836e8da31ffe27389/500-3-channel-subscribed.png&quot; alt=&quot;channel-subscribed&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9b908489234131b5c0dcb8c1bc9693f6/84f4d/500-2-how-to-subscribe.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAADA0lEQVQ4y32TW28bRRiG/d8QhwicUIkb+AWIU4I4qfwCuKmAC0SUi5RWQiA1DQlO4uzBe57Z3fHaoUItpCDaxlGbQxNycNan9YM8NkVCESs92tHsp0fvN99s6Y3yLFfnPuPT9z/n9fIs08+9yavPv8WM5m2mX3iH6Rff1ZRfeo/y1CzlqTlemZpj+uUPeO3KJ8yUP+TKzMeUyx9RMqo2lZUqK0tV1iumprpusbFmYpkupuFMcDHNS/jPfimJU2QUa0Q4JgqFZvTt/0lIkxSVKlQyphT6AqNqsrlhYBk2ju2SxopMNain2Rh1CWmma0Ziz/GpWS4jVykWCXGcoITg94e7HJycc3x0SK/XYzAY0O/39foyiqLgwZ87REGs045cJSkTfm4orldqyPstim6Ho6cnnPx1xunpqZZe9gyHQ/2+86vD6sYNsmxLS8fCTLGwYhFtt8jPTtltPeFg/5CDvT2Oj4/J85xOp0On16dzcEShFBftcy3cumvx4/oiWX0iTGRCqhQiDHjyeJc87+hkeScnBy46uW57nAqGgwLy/FnynUc7eJ6PUkqfZymWCVmjQWX5Nvd/ucv5eZvdnT0et/Z56vvsP9jhIu/S7/Xodrt0e10GRUFRjFtO679xa8mg0agzcpWkjLnT3OKb7xfxmpkuap/n9Dp9uHePwVmb/mCoU46k/ckwiskZ+sEWN24u02xOhP+07LkurUcPOTu54OSwTfs0pwsMhqNJTyY7GIynP5J2e1r6x/Y2tmFOWk7GLdeVwvJ8qoFHphRmaFOLHFScYDkBQSR1TeJ61NMUW0h+8l1dW402qdTW9OV+JswaGWsrq3z37TwiEny1PM/C6k3iSPLl4m2WKiaJ5xJ8vUAiBEs/LHN98QuEjLi2eY15a55mvanvsxaqusK2barrVUQUYbo1TMdGCEEYBoRRiAxDQsPQe9JziR0TIWPswKIW2NRV/d+Eo/5D3yH0LCIh8DcNAsfVa8ewCHwfISW2HyKloFoLubURkEiBHyX4oUSp8b/9N3Cm9E1JJCwOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;how-to-subscribe&quot;
+        title=&quot;how-to-subscribe&quot;
+        src=&quot;/static/9b908489234131b5c0dcb8c1bc9693f6/f058b/500-2-how-to-subscribe.png&quot;
+        srcset=&quot;/static/9b908489234131b5c0dcb8c1bc9693f6/c26ae/500-2-how-to-subscribe.png 158w,
+/static/9b908489234131b5c0dcb8c1bc9693f6/6bdcf/500-2-how-to-subscribe.png 315w,
+/static/9b908489234131b5c0dcb8c1bc9693f6/f058b/500-2-how-to-subscribe.png 630w,
+/static/9b908489234131b5c0dcb8c1bc9693f6/40601/500-2-how-to-subscribe.png 945w,
+/static/9b908489234131b5c0dcb8c1bc9693f6/84f4d/500-2-how-to-subscribe.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 476px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2560cfdeec0cd9c836e8da31ffe27389/f2205/500-3-channel-subscribed.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 126.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAYAAAAxFw7TAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABqElEQVQ4y+2UX2/SUBxAGxMfdFQZ0Hal0P+Uvy0QKMhY2eChdNkSMk3InA9+Ax/Mog9+C7+Bn/QYSlnURDcz3+Th5N42uae/myZHsDojjhcXhFHMMIoZnSbY7SGS0USx2r9FNluojk+l1qXamVJtv6Ls+AiqE1B2g1SwQzZa6YE/kn3wyO6gegPUWh/FaiG8kC3uUDLkv0Qyt8gWgiiZPB4rw/xlwn/AXrgX7oX/gVDMknTfuwcJ0yxlrTso6jwvVBFLxiOvnEk3VdcbAwqahygZ5DeUDF5KBqK8jet28nt7uBHa9KZLZskbVNvnWaHCk3IdQWvw9MhNp86VjHTd8FOxdykXf0h6rlghrwc0V7d01l8YXd3y1RnwrdLiQ3+J9/oz/uoj7atPOPP32YSKvUXO2D0rTiovmgHu7C326Q2NkzVrN+SdETBvRpizG2rRNXZ0TWV4iXCo1akP5nSPl/Sj83QNJnG6750k+JOY8OyS8dk5wXhBOEtoLVaY0wRvEqO6XSTLJ1fQODjUEPJlD8XpPYD+HarTQ7W76M0xenuCVg/T22z+8nfqIpSck5LzbgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;channel-subscribed&quot;
+        title=&quot;channel-subscribed&quot;
+        src=&quot;/static/2560cfdeec0cd9c836e8da31ffe27389/f2205/500-3-channel-subscribed.png&quot;
+        srcset=&quot;/static/2560cfdeec0cd9c836e8da31ffe27389/c26ae/500-3-channel-subscribed.png 158w,
+/static/2560cfdeec0cd9c836e8da31ffe27389/6bdcf/500-3-channel-subscribed.png 315w,
+/static/2560cfdeec0cd9c836e8da31ffe27389/f2205/500-3-channel-subscribed.png 476w&quot;
+        sizes=&quot;(max-width: 476px) 100vw, 476px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이렇게 하면 해당 &lt;code class=&quot;language-text&quot;&gt;Channel&lt;/code&gt; 을 구독 완료했다는 메시지를 받을 수 있다.&lt;/p&gt;
 &lt;h2&gt;6. 채널 상태 확인하기&lt;/h2&gt;
 &lt;p&gt;다음과 같이 채널에서 &lt;code class=&quot;language-text&quot;&gt;Sources&lt;/code&gt; 와 &lt;code class=&quot;language-text&quot;&gt;Recipients&lt;/code&gt; 가 설정되어 있다면 준비가 완료된것이다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/aaf5db133ab88242e73abb680bc7b67a/600-channel-check.png&quot; alt=&quot;channel-check&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/aaf5db133ab88242e73abb680bc7b67a/84f4d/600-channel-check.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 43.0379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABfklEQVQoz6WQy04UQRSG++FYgcjCmWkT4hP4AC68OxtQEzc8AguJiRt3hp1bI2RmjMMMjjfuQ0NPd3Xduqs+0w2NDLCzki+V85+/zjl1gjftVVaW33L/3hKNmQfcnX1IOPuIVsncY1pzT2jeekpz/hnN+ec0br+gsdDmzkKbxfAli+ErwuYyYes1rXCJoN8d0fm8zdfNEZ0vQ771ftLZ2GbQ/82g/+cGdhhsXWWX4XCPbvc7gXdQWI/3QMl/HKUkwdF+xPgg4nB/TDQ+RUuLyswU+kp8mSQWTGKBPBHER6cEUkhEIkgnKVIorMmxehqj7blur+WyVCIzjU4VOtMEcTwhSRKcc9XY3vsLqhhfFZvEMVEUkWXywlff9duycaC1pCgKnHdV4jLW5ihlyG1Ook2l1QVqjDEopTHlT5QlWH/X4+NaD5XZ847/luzc2aRSGNbf9/n0YYsid9d8tbeacGd0TIlIJUpqlFRTaKURScbuj2P2fkXVnm/ylZqWmr8OD5SnTQJUgQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;channel-check&quot;
+        title=&quot;channel-check&quot;
+        src=&quot;/static/aaf5db133ab88242e73abb680bc7b67a/f058b/600-channel-check.png&quot;
+        srcset=&quot;/static/aaf5db133ab88242e73abb680bc7b67a/c26ae/600-channel-check.png 158w,
+/static/aaf5db133ab88242e73abb680bc7b67a/6bdcf/600-channel-check.png 315w,
+/static/aaf5db133ab88242e73abb680bc7b67a/f058b/600-channel-check.png 630w,
+/static/aaf5db133ab88242e73abb680bc7b67a/40601/600-channel-check.png 945w,
+/static/aaf5db133ab88242e73abb680bc7b67a/84f4d/600-channel-check.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h2&gt;7. 빌드해보기&lt;/h2&gt;
 &lt;p&gt;젠킨스로 돌아가서 해당 프로젝트를 빌드하면 다음과 같이 결과에 대한 메시지를 수신 할 수 있다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/29c9a7c4ccbbf3b8b224eb1f96ef3356/700-message-arrived.png&quot; alt=&quot;message-arrived&quot;&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 CI/CD]]></title><description><![CDATA[0. 서론 지금 온라인중인 서비스는  로만 만들어져 있다. 그리고 서버에서 환경설정 후 깃허브 저장소에서 소스코드를 수동으로 가져와 제공하고 있다. 이것을 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</guid><pubDate>Mon, 02 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 485px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/29c9a7c4ccbbf3b8b224eb1f96ef3356/44c61/700-message-arrived.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 113.9240506329114%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB4UlEQVQ4y+2VS2/aQBRG2TYx5WHjFzYGg7GJjTHmaUiUhtio7bbPSFV/SKQqWfVvn4ohRVUbqVHLMoszd+bO6NN3x1eeUrnR5piUdsNLtXM0DoJHd3gsp8+Cz4LHFnxq7p8EK5r7f4K/5l/ULME+5z6ccX8Tc5/msGr0GGU56bpANj1OqiZS3eK0bokoyQ/ULcpK6+9/m12p/nRDvPmAFV+hBSuMwTn6YI3mr2j0M4Hqr6i1or2gJLc4fQzF4aRiUOnMGby7Jbm5J7m5Y/31XpB8vGX8+Y7xp2+Mv3zHyd5Tqug99O4Is5cIjO4Io5fQ9MaY3hjdjemNzgkWr3HTDf58K7CjC4EeZGj+AsVNqdkhpVrTp5++IlrkDLOCcJETLgvibEu0zAlmG9KLN8RZQTC5JF7mJOst4fya4bLAiVYYXook2/s7rBoeqjtCacfUnaFAae9ptIeonRjFiVCcIY1OLNjtVUyfujVAbQ+R7QHln22zcxjOrvBnBe3JllayoTvJGcx2DnLhIloWYr5zPb18S7S4pqr3kJQWkuJQVpxDV5RqViBEnDSnGa7QvQl6f3qI2mE9pRkssMNMxJrZf7TVRMmaN0Xvz1HdBNk+Q26Ff2KfifJNLxUfraJ3H31TfgDT12T1HtvWmgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;message-arrived&quot;
+        title=&quot;message-arrived&quot;
+        src=&quot;/static/29c9a7c4ccbbf3b8b224eb1f96ef3356/44c61/700-message-arrived.png&quot;
+        srcset=&quot;/static/29c9a7c4ccbbf3b8b224eb1f96ef3356/c26ae/700-message-arrived.png 158w,
+/static/29c9a7c4ccbbf3b8b224eb1f96ef3356/6bdcf/700-message-arrived.png 315w,
+/static/29c9a7c4ccbbf3b8b224eb1f96ef3356/44c61/700-message-arrived.png 485w&quot;
+        sizes=&quot;(max-width: 485px) 100vw, 485px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 CI/CD]]></title><description><![CDATA[0. 서론 지금 온라인중인 서비스는  로만 만들어져 있다. 그리고 서버에서 환경설정 후 깃허브 저장소에서 소스코드를 수동으로 가져와 제공하고 있다. 이것을 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</guid><pubDate>Mon, 02 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;지금 온라인중인 서비스는 &lt;code class=&quot;language-text&quot;&gt;django&lt;/code&gt; 로만 만들어져 있다.&lt;br&gt;
 그리고 서버에서 환경설정 후 깃허브 저장소에서 소스코드를 수동으로 가져와 제공하고 있다.&lt;/p&gt;
 &lt;p&gt;이것을 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, CI/CD 를 위해 젠킨스를 사용하기로 결정했다.&lt;br&gt;
@@ -124,24 +554,241 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;h2&gt;3. jenkins 설정하기&lt;/h2&gt;
 &lt;p&gt;처음 보는 화면에서 젠킨스는 비밀번호부터 물어본다. 비밀번호는 이미 생성된 상태인데, 다음 명령어에서 확인 가능하다&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; logs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/abc7a1efdcf29a734e35a5a1cc5dcf1b/300-generated-password.png&quot; alt=&quot;generated-password&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/fbf08/300-generated-password.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 32.278481012658226%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA4klEQVQY03WRS27DMAxEGYu1Y/1tyfksEjfHCHqKopvm/geZgEzcGkG7eBiBFMghSTTPoP0emxgxDAPGcUQpBeMwotaKWipyzkpK6SdvrUXbtui6TiGiJ1LwcACFAGsdvPfw7oFzTgk+aFzVeYQQwMyrImvmdy0oDqdpUpeCuFtU3ElOVNyVWhBj1GbSSN/+0YjofNaRKUZ8OIdvY/BpDL6YcWPGdduDmPHGDGOMOhOapvnH4eUCOh6xSUk7pKeuHSz7E13+aCxG9P32peDpBNrtdIc5ZT3GMvafZDlceTnEL3cv8IkI6O0SEQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;generated-password&quot;
+        title=&quot;generated-password&quot;
+        src=&quot;/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/f058b/300-generated-password.png&quot;
+        srcset=&quot;/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/c26ae/300-generated-password.png 158w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/6bdcf/300-generated-password.png 315w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/f058b/300-generated-password.png 630w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/40601/300-generated-password.png 945w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/fbf08/300-generated-password.png 962w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이 비밀번호를 입력하고 들어가면 기본적인 설정을 해야한다. 실제로 할것은 크게 없고 다음으로 넘어가기만 하면 된다.&lt;/p&gt;
 &lt;h3&gt;3.1 플러그인 설치&lt;/h3&gt;
 &lt;p&gt;Install suggested plugins 을 눌러 필요한 플러그인이 자동으로 설치되도록 한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/503df7ed390aed938564519afee80fd2/310-customize-jenkins.png&quot; alt=&quot;customize-jenkins&quot;&gt;&lt;br&gt;
-&lt;img src=&quot;/795ff61a4a332d4cdddb3eb79ad62136/310-getting-started.png&quot; alt=&quot;getting-started&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/503df7ed390aed938564519afee80fd2/84f4d/310-customize-jenkins.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABoUlEQVQ4y6VTa4+iQBDc//+j9uspxmiUQ9EYwBWUh/KYGRhAqE33LXurq8k9OqnMhMnUVFc1L4ZhYLFYwPNcOK6LOI6RJMlfge7M53MQ18t4PMZ6vUbfdWjbFs+q73vGs1oulyCu34R9D8/zsFqtGJZlwXU9/LQsbDYbfux6vTK6rrsB3f0kHI1GsG2bXymVhBICpRRQUkBKAVEUkFIyIaGua1RVxetXxTeEpIDqrDQOmYKfKZyKEqlukesWhRC4XC5I0xRlWULXNeqmubHhTuEvQjvM8GofYJ5S2HEBr9Dwiwr7/R6O43AAQggopVBp/djDrwp3Z4F5kMIMM5hhjkWYw7lIJHGMKIo4zTAMeT+oJQ+/K/wgtMIMP/YxjLczjMMZo7cE1inF8XjEwfcRBEf4QQDf9xFFMfI8Z3+fKizrFvIO9K1pGvaMVmo3yzIUHJZgCyh50zS/E/5JUbqUfKkUtzzM7kOF3Udqz6C1ZkU0NoN3D0MZ5vDR0A6gM/KMWiXy+/Mbwu12i/+tTw/ph57NZtjtdgyat3/BdDrFZDLBO4qiHqSik9guAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;customize-jenkins&quot;
+        title=&quot;customize-jenkins&quot;
+        src=&quot;/static/503df7ed390aed938564519afee80fd2/f058b/310-customize-jenkins.png&quot;
+        srcset=&quot;/static/503df7ed390aed938564519afee80fd2/c26ae/310-customize-jenkins.png 158w,
+/static/503df7ed390aed938564519afee80fd2/6bdcf/310-customize-jenkins.png 315w,
+/static/503df7ed390aed938564519afee80fd2/f058b/310-customize-jenkins.png 630w,
+/static/503df7ed390aed938564519afee80fd2/40601/310-customize-jenkins.png 945w,
+/static/503df7ed390aed938564519afee80fd2/84f4d/310-customize-jenkins.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;br&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/795ff61a4a332d4cdddb3eb79ad62136/84f4d/310-getting-started.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABkklEQVQ4y5WUCY+CMBCF9///Mo+oRWOWNZFDFKTKId4Hvs0bLYHs5ZJ8ttXp65uZ4lun08FwOITve3BdF1qvsF6v/0WSJLAsC9R6a7fbsG0bZVmiLO/47rnf7xU/PaPRCNSqBBms4xiLxQJxHCOKIiyXS5lfLhfcbreKx+FNKsFWq4XJZCKnfDgBPM/DdDrFbDaD57mYz+dfxOpr47rh8N22cb1ecbpc5UduMoHcdDwecT6fhfr8dDoJnLMPIshCDgYKQRAgCkPEWkvaWmtkWYYgmCOKQujVCuskQZqmKIpCRrLdbmWtlHo0hR9KWSLCmiXPTSTPNyJo6prlOYrNBofDoXJmaDpUCss4xqpykSHPMhTFFlPHgeM4j8PSVITzPJfU6/DaNARNV5kqhemUKbM5ptthGAqM3e124pJiHJuCg4GkxTqyq4Tz+roOY38VVE+HDHwFujSChoZgv98XN77vvwTLwM7u93uBTWq8euPxWL7kqSboL3hv2V2OjYttUuYfA3nVJd8oA/f1ej10u118AlmqEKttuSTJAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;getting-started&quot;
+        title=&quot;getting-started&quot;
+        src=&quot;/static/795ff61a4a332d4cdddb3eb79ad62136/f058b/310-getting-started.png&quot;
+        srcset=&quot;/static/795ff61a4a332d4cdddb3eb79ad62136/c26ae/310-getting-started.png 158w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/6bdcf/310-getting-started.png 315w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/f058b/310-getting-started.png 630w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/40601/310-getting-started.png 945w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/84f4d/310-getting-started.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.2 계정 생성&lt;/h3&gt;
 &lt;p&gt;설치가 완료되면 계정을 생성해야 한다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/3f458c76c88f9fed54913ac4e797f2a8/320-create-first-admin-user.png&quot; alt=&quot;create-first-admin-user&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3f458c76c88f9fed54913ac4e797f2a8/84f4d/320-create-first-admin-user.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABGklEQVQ4y62TW2qEMBiF3f8C+twd9K0bKAOaWqyXgpcYHfrUUYsV8a6nJMXijDNxhvbAhxHjx/khUQghsCwL+32MKIqRJAnSNL2JLMtgmia4S1FVFb7v469xHAeaph0LD4cPBEEAxkJQShHHMVzXFe98HVCKYRgwTdMK27bXwqIokOe5oK5rVFUlaJpGwNf8Z56ljOeskEu6rhPIciq9KJwblWX5Kz833tUN53Zt2wph3/erJqdNpULZeJe+SYVb4/2L8Bqkwq3wLcvmwzhhPD2HnueJDfzQjuO4yTT9PI9vykLIb8ctmedIyx5a+Anz/QsvrxYI0aDwC20YBsIwFERRJIWGDF5AwRjDk/6Gu4cd7h9V7FQCXX/GN2FUKayEGaYGAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;create-first-admin-user&quot;
+        title=&quot;create-first-admin-user&quot;
+        src=&quot;/static/3f458c76c88f9fed54913ac4e797f2a8/f058b/320-create-first-admin-user.png&quot;
+        srcset=&quot;/static/3f458c76c88f9fed54913ac4e797f2a8/c26ae/320-create-first-admin-user.png 158w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/6bdcf/320-create-first-admin-user.png 315w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/f058b/320-create-first-admin-user.png 630w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/40601/320-create-first-admin-user.png 945w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/84f4d/320-create-first-admin-user.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.3 URL 설정&lt;/h3&gt;
 &lt;p&gt;젠킨스 url 설정하는 부분. 잘 모르는 부분이라 default 대로 설정하고 넘겼다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/85fc839db59157227125bc8ac77c9b3d/330-instance-configuration.png&quot; alt=&quot;instance-configuration&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/85fc839db59157227125bc8ac77c9b3d/84f4d/330-instance-configuration.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABK0lEQVQ4y72Ta2uDMBSG+/8/9+vYn9j6EzbNypyXQaMVa7VQb9C1FY1pfEcEpVY7ug524CEckjw5uU0IITAMA76/guetEMcJ0jTtSJJ+PkaWZdB1HdI1URQFtm3jr2FZFlRV7QtlNTa1EQQhNpsN1mGIxXKJIAjgOA6iKGrG1XU9wDTNoXC/32O73eJ4OCDa7eDOZrCnUywoRRzHyPMcQogebYwKq6pq4FUFJslzVMcjGGNdX1mWDUVRNK2s7qpQTmwHNpNky1iXSzjnHXKBtspR4el0GsJ5Lx87v6vCtvPWuEl4D/8r/O2WhaghLt8hpbS7lMt39hPnBVjWmVD+gnuCC0Dzd9DXX3j/MECIion80JqmwXXdBs/zbuZz4eDh6RWPzwpeFIL5/A3fQZcnIh3FjjAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;instance-configuration&quot;
+        title=&quot;instance-configuration&quot;
+        src=&quot;/static/85fc839db59157227125bc8ac77c9b3d/f058b/330-instance-configuration.png&quot;
+        srcset=&quot;/static/85fc839db59157227125bc8ac77c9b3d/c26ae/330-instance-configuration.png 158w,
+/static/85fc839db59157227125bc8ac77c9b3d/6bdcf/330-instance-configuration.png 315w,
+/static/85fc839db59157227125bc8ac77c9b3d/f058b/330-instance-configuration.png 630w,
+/static/85fc839db59157227125bc8ac77c9b3d/40601/330-instance-configuration.png 945w,
+/static/85fc839db59157227125bc8ac77c9b3d/84f4d/330-instance-configuration.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.4 완료&lt;/h3&gt;
 &lt;p&gt;완료되었다!!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/6f752f66da458bdfe62dd9fd7e3af2a9/340-jenkins-is-ready.png&quot; alt=&quot;jenkins-is-ready&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6f752f66da458bdfe62dd9fd7e3af2a9/84f4d/340-jenkins-is-ready.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA9UlEQVQ4y62UXQuCMBSG+/9/or/SpR+I+JHozHRFETivNG+avrElYlMrqxdexjbOcw7b2VaGYcB1XVCaIU1T5HkOxtgiF0UBx3EgWCtd1xGGIZqmwY1ztC0m1c5tdPI8D4LVA4VORwoSbnGgKTJKEUURgiBAVVUyIee8t5gP3QM1TZOBQvszgx2fkJ0Z6muFsixR17UETFU5nCtAIhc32wvWmwTGjnUB42Axqh4BCSGzZzYMmoK9BMrzUAAqVE36EqhmfXezHwGXaFGFS/zXCmfa5tGHUw37qZ+AcRzjV/m+/wCKB23bNpIkkRYfxDe2LAumaeIOViQrm9BLrXQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;jenkins-is-ready&quot;
+        title=&quot;jenkins-is-ready&quot;
+        src=&quot;/static/6f752f66da458bdfe62dd9fd7e3af2a9/f058b/340-jenkins-is-ready.png&quot;
+        srcset=&quot;/static/6f752f66da458bdfe62dd9fd7e3af2a9/c26ae/340-jenkins-is-ready.png 158w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/6bdcf/340-jenkins-is-ready.png 315w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/f058b/340-jenkins-is-ready.png 630w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/40601/340-jenkins-is-ready.png 945w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/84f4d/340-jenkins-is-ready.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.5 메인화면 확인&lt;/h3&gt;
 &lt;p&gt;내가 확인한 젠킨스 메인화면&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/d6d5c2b6bb85d7b53636520930cbb99e/350-welcome-to-jenkins.png&quot; alt=&quot;welcome-to-jenkins&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d6d5c2b6bb85d7b53636520930cbb99e/84f4d/350-welcome-to-jenkins.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABqUlEQVQ4y5VT22rCQBTcLxEEfVao0FKoQouf2n6DL/rkTyjYvLRqUpPsJlGTbOKUWbvbKC2lB4YkZ/fMmXOJeBoOMR6PMXx4QLvdRqfTceh2u2i1WhiNRphMJpjNZphOp5jP53h+ecHj7R3uBwP0+n0Mbm7Q7/UgoiiEVApVVRlorR2s7xp1XX/frTSKskSelyhLDXHMIhRFgd/sdDq5BGVZGhyPRxPDM1qhT0gPGnUNCBl/E/ICQQW0/X6P5XIJ79XDZrOB53lYrVbGt1gsoJR0yYBzrIijCGmaXhDazFSTJAnSJDV30iwzvmZr+K115eJF9EV4zoILwjzP8f72hvV6jd1uhyDwsd1ukWWZqcL2uRkrQpkaFdZpD2j0SSnNOUkI9o+JLOy3I4xjCaWU6SMPD4eDKcMq9H3f9C8IAoRh+OM2XChMEoU4jg0ZiUjMAKsw8ANTLhMRppdfoGL77gip4ONj5+RzslYhiZmMYBUsnQmbsHGOkA42uDlh28PmDjLYJrre02a8aBJcD+Uv++meuFb2X1Cd/RX5FM0V+C/YBg6VQ1HyvC2fSjAgJT50I4oAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;welcome-to-jenkins&quot;
+        title=&quot;welcome-to-jenkins&quot;
+        src=&quot;/static/d6d5c2b6bb85d7b53636520930cbb99e/f058b/350-welcome-to-jenkins.png&quot;
+        srcset=&quot;/static/d6d5c2b6bb85d7b53636520930cbb99e/c26ae/350-welcome-to-jenkins.png 158w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/6bdcf/350-welcome-to-jenkins.png 315w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/f058b/350-welcome-to-jenkins.png 630w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/40601/350-welcome-to-jenkins.png 945w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/84f4d/350-welcome-to-jenkins.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h2&gt;4. github 와 jenkins 연동하기&lt;/h2&gt;
 &lt;p&gt;github 저장소가 업데이트 되면 jenkins 로 알리고 빌드하도록 연동한다.&lt;/p&gt;
 &lt;h3&gt;4.1 jenkins ssh key 설정&lt;/h3&gt;
@@ -159,14 +806,76 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;p&gt;[EIP]:8080/credentials/store/system/domain/_/newCredentials&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 선택하고 개인 키를 붙여넣는다&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/3a2778565e353fb18d2f61127bc6932a/412-new-credentials.png&quot; alt=&quot;new-credentials&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3a2778565e353fb18d2f61127bc6932a/84f4d/412-new-credentials.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABuklEQVQ4y32USW4bMRBFdTfvvDAMGD6LL5UjOMg2qyyzsuVFDAiSwqGb81D8QTW7ESWtVgEPJEjUR03kTmoBqSSUUhM+BHjnMB6PGIWAERJGCMRxRHEOxdoVeT6PxmD367fE+XyEEBLee8QYkVNCOJ0QlUKUEmUYAOfRrAWZ/zEga9HGEe50wo6oobW/UGtAa/CHA8bDAUkqJCknstZd4JKxr01rWBbEhbHgYhx+0BrJGiTT4dRajCsoRiAEOK2xu4xugS2lhJILiAhU60RlSllRSgFVgnVuHeEi6LyHGgZkFmkNlWbaFaiB2OeaINePJUuMKD6ghE69Ad9z2pa7vIpw3nOBeWyQM1pKk8MWlWvpPZwQ1yLs+2wMvJRTY+IwoDqH6vwm5FxvylYNQ4wYuMvzXIJozTIV88pzvCk42oDzMKKiB01b8BQQTZp+symtTaOQPz9R9nvkjw/k/R7p/b3D+7c3JKVgvYfWGsYYGGNvCVaUlxf4uzuEhwfkx0fQ01Pn+Rl0fw96fZ0yoHkW+S/YTLnkDM8N4TrOH8M/LyQEtFqncix+OedtwS9fv+Pbj5/9HDfswodf0h/epIsVw5CoAQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;new-credentials&quot;
+        title=&quot;new-credentials&quot;
+        src=&quot;/static/3a2778565e353fb18d2f61127bc6932a/f058b/412-new-credentials.png&quot;
+        srcset=&quot;/static/3a2778565e353fb18d2f61127bc6932a/c26ae/412-new-credentials.png 158w,
+/static/3a2778565e353fb18d2f61127bc6932a/6bdcf/412-new-credentials.png 315w,
+/static/3a2778565e353fb18d2f61127bc6932a/f058b/412-new-credentials.png 630w,
+/static/3a2778565e353fb18d2f61127bc6932a/40601/412-new-credentials.png 945w,
+/static/3a2778565e353fb18d2f61127bc6932a/84f4d/412-new-credentials.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h4&gt;4.1.3 github 에 공개 키 등록&lt;/h4&gt;
 &lt;p&gt;이번엔 &lt;code class=&quot;language-text&quot;&gt;/var/jenkins_home/.ssh/jenkins_ci.pub&lt;/code&gt; 파일(공개 키)의 내용을 깃허브에 등록해야 한다.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/%5Busername%5D/%5Breponame%5D/settings/keys/new&quot;&gt;https://github.com/[username]/[reponame]/settings/keys/new&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 공개 키를 붙여넣는다&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/9dd797929232ca097daadfbe85b2bad3/413-add-new-deploy-key.png&quot; alt=&quot;add-new-deploy-key&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9dd797929232ca097daadfbe85b2bad3/9239a/413-add-new-deploy-key.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67.08860759493672%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACFElEQVQ4y4WTy3LTMBSG1ZJLE8e27rIlxbLjtElLuO6YYXhJHoYtA3SGF2FaljzBz0hxbguGxTc6sqxfR+c/Iv32NXx3D+N7yLoDVR7SrhDWOyxXW4T+AWH9EjbcQVQNtOugbAftVkdsc4uw2WGzew9SCAvhtxB+A9nsoMIryLCDrAOotChFfYQqB9feoekfkoisApRtUfkeqm4RVhuQgldgyh3h2oMpD24CRBUgqwbCLId1D2U8rA3ImcGC6kSM54XEsr0FiVnETVmp0mJWSlAdIJYP4PUadtlD1wGLUiGPmyOlQsHMBReCvt3AuC6dlFOTrsfrgIxXGGUMk5xjkguMFxzTQmLOK8yjyED87ygYrxzrEIlxzJJLi4oq8IxCZGyADjCIxSVswS8zrJt1yqqgGiNm8CHn+H11jWdC8DTwfMZh/osQ/CEEX65fYHYQjMV24e4oOOUV3uYcX8cTPE5u8GNyg8dpHKcpPsy/Tab4fjPDz9EYn69HJ8Hoaujvk5PRmFjHWaFAco0rVoEUckCcIUFyDlIqkIyBzIrLK6s67PtMWmSFAvce24/v4JoeUnkI5dIolUsxZQYl1XuYATs3RdQt+vs36VUY34FLD9Z6uE8b5MpgUerBfX0iztnZ99Q2Ci70sYY+mRIdjgsx07zUmM/laTM1g8i/ieXSttmbEvtQ2/ai83Nujq/hf2IHQeMC/gLaPlMp16GD2QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;add-new-deploy-key&quot;
+        title=&quot;add-new-deploy-key&quot;
+        src=&quot;/static/9dd797929232ca097daadfbe85b2bad3/f058b/413-add-new-deploy-key.png&quot;
+        srcset=&quot;/static/9dd797929232ca097daadfbe85b2bad3/c26ae/413-add-new-deploy-key.png 158w,
+/static/9dd797929232ca097daadfbe85b2bad3/6bdcf/413-add-new-deploy-key.png 315w,
+/static/9dd797929232ca097daadfbe85b2bad3/f058b/413-add-new-deploy-key.png 630w,
+/static/9dd797929232ca097daadfbe85b2bad3/40601/413-add-new-deploy-key.png 945w,
+/static/9dd797929232ca097daadfbe85b2bad3/9239a/413-add-new-deploy-key.png 1246w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;4.2 github webhook 설정&lt;a id=&apos;4.2-github-webhook-설정&apos;&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;이제 깃허브에서 이벤트 발생 시 젠킨스에게 알리도록 할것이다.&lt;br&gt;
 젠킨스에는 깃허브 플러그인이 설치되어 있어서 깃허브에서만 설정해주면 바로 사용 가능하고 한다.&lt;/p&gt;
@@ -175,10 +884,70 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;/blockquote&gt;
 &lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 Payload URL 에 &lt;code class=&quot;language-text&quot;&gt;[EIP]:8080/github-webhook/&lt;/code&gt; 을 입력후 추가한다.&lt;br&gt;
 기본 옵션이 push 이벤트만 알리도록 하는것인데 지금 당장은 다른 이벤트 알림은 필요 없기 때문에 따로 설정할건 없다.
-&lt;img src=&quot;/356e1e4d811bdab3fe2d23e48c51dad3/421-add-webhook.png&quot; alt=&quot;add-webhook&quot;&gt;&lt;/p&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/356e1e4d811bdab3fe2d23e48c51dad3/9239a/421-add-webhook.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 74.68354430379746%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACF0lEQVQ4y31Ty47bMAzMqdg8/JZky9bDsp3YibspChTbaz+gx/7/r0xBul4k2XQPBAWJGs5Qo83l2xtqN0DbDkVpkAqNyvToxitsd0Z3uiKMr2jaE4RuIesAWa95CW0HmONXzN/fsMnKFoU5ozATCntBbi+cpW6RihqpaDjHecVr7Y4w7YjaH6HqgLLp0PgT52GcsaHivPQoKs8MRB2WdWVRlBa5MsjLZV1UDrUJcH7gBmskhcY2FgjDhE0mGy4+pApRpnBIJbLSQfkZrr+wnEwRoENeOs7L2t412kbFAkgMpPbcKcpKBswrBztcGdCGCSaMLIuk2m7ibNoTmjCh8hOI1MstoOvOqGzPgFGqmJEOM/LKc/Eqm/NNpMoilpbJvAMSZW173mTZicReNvipHX7vE+Sy5kfZRQW+bBO87DPsqSaRrIaC7r5LVqZnGTTYRGjOxMr3Z1RNgCKL/BvJOpbbOGTlPaB2J/TjK18iIIpULlbZJYIZ7GPBzLaHHLtY3AOm6h5wncfyykvBypJA1xmS6ckFj4DRI0OhPVw3sTFp8DQb8iH9lI6Y1y1bQ1SOG90yW+OBoeU5rYdUTMxk1aKsAwPRPjFbzz9lSCbVbkBS1EvnRCLXHn6aIRrH7DJlWPozsA+AVEy/gR7lQD8lVkhdg/HPD7hfM18gqfGN3KePEgu49ogNbSyeUh8K/yfxGUMaiW0H/AXW3nzcRhEeTgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;add-webhook&quot;
+        title=&quot;add-webhook&quot;
+        src=&quot;/static/356e1e4d811bdab3fe2d23e48c51dad3/f058b/421-add-webhook.png&quot;
+        srcset=&quot;/static/356e1e4d811bdab3fe2d23e48c51dad3/c26ae/421-add-webhook.png 158w,
+/static/356e1e4d811bdab3fe2d23e48c51dad3/6bdcf/421-add-webhook.png 315w,
+/static/356e1e4d811bdab3fe2d23e48c51dad3/f058b/421-add-webhook.png 630w,
+/static/356e1e4d811bdab3fe2d23e48c51dad3/40601/421-add-webhook.png 945w,
+/static/356e1e4d811bdab3fe2d23e48c51dad3/9239a/421-add-webhook.png 1246w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;그 다음엔 정상적으로 연결되었는지 확인한다. 만약 초록섹 체크 표시가 아니라면 젠킨스 서버 EC2 인스턴스의 SG를 확인해봐야 한다.&lt;br&gt;
 만약 SG 인바운드 규칙을 수정했는데도 커넥션이 정상적이지 않다면 새로고침만 계속 누르지 말고 삭제 후 다시 등록하자.&lt;br&gt;
-&lt;img src=&quot;/bf5d254e6ec726496239dc21195e3c26/422-connection-check.png&quot; alt=&quot;connection-check&quot;&gt;&lt;/p&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 320px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/bf5d254e6ec726496239dc21195e3c26/72799/422-connection-check.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 58.22784810126582%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7DAAAOwwHHb6hkAAACEUlEQVQoz42TTXLaQBCFVUnKsUFI6F9IAhkQ6A8JIYFi/JfgpGIvnE02uVGukcPkAlnkPl9KMhCnKgsvXnXPzKueed1vhNOuwtsGYhNVTsU9ugpd2aCnWIh9s40vgZBV12RFTZrXpMs1/jRmGi8JszWq4dKVX16sLbi5uuP+8SsfPj5yeXvH9vYTV7sH3n/+wvB8xllPO77yJRAauSedJ8lHuXs0BEm1/4ve87x53T4XVNOjrztI6qCFrA3adUM6khX7KOnQz79nVsuXNRuxkZxXW+rLO4pqS1ZtCeOCor4lTArS4oK8vGBRXJAsK5Km18WGeboizmpmUU6U15TlJcXmijhdIfhByrLakmQbpmFGtqqJFyVRUhKEeTuwaZSTLDcEUUG2ai55hx8kzNOSWZQRLtYsioqovEGwvAm2N8Z0xjijGX6cY44jtNEM/XyOM4kZDKc4owDHn+/jjOE4YjSJGU3mDCdNHmL7IcLzCXYkjaGoMuupBJLGvKfhSBpdddCed5tc1p+ipNPZo/FrRzYQZQNBGbjI7gBjeo2ePfDjTObXq9f8fHPCb0Hgu+ohrb/hLu6xsx1mssMMb1C8GNcP2nbotn/8BMLThG1kzUU2fWzVxlUsHMXCUyzMxg6ag2yM6JsjZN1F1r12TzEc+obbOuNgIeFgAam1gElXtY/oqDZiSzz8BHPPs57tWf948g/vQT30Kg6DfwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;connection-check&quot;
+        title=&quot;connection-check&quot;
+        src=&quot;/static/bf5d254e6ec726496239dc21195e3c26/72799/422-connection-check.png&quot;
+        srcset=&quot;/static/bf5d254e6ec726496239dc21195e3c26/c26ae/422-connection-check.png 158w,
+/static/bf5d254e6ec726496239dc21195e3c26/6bdcf/422-connection-check.png 315w,
+/static/bf5d254e6ec726496239dc21195e3c26/72799/422-connection-check.png 320w&quot;
+        sizes=&quot;(max-width: 320px) 100vw, 320px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Let me select individual events.&lt;/code&gt; 를 선택하면 거의 모든 이벤트(포크, Key 추가 등)에서 웹훅 트리거를 작동 시킬 수 있는것같다.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -189,15 +958,108 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;p&gt;[EIP]:8080/view/all/newJob&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;위의 경로에서 이름을 정하고 Freestyle project 를 선택한 뒤 다음으로 넘어간다.
-&lt;img src=&quot;/8065485c04845e3f229876f4caa19d94/510-new-item.png&quot; alt=&quot;connection-check&quot;&gt;&lt;/p&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8065485c04845e3f229876f4caa19d94/84f4d/510-new-item.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACRklEQVQ4y22Tu24TQRSG/RopI1tpUplLEwQFhEcIb5AnIR0SL0FDRUNDEZdGQog2SJDYeO3dnd2Zvcxlb7HXPzpnHccmjPTpP17P/nvmnDm9ly+e4/T0NZ6dnODw8BCDwQD9fh+Dfh9HR0c4ODjA+fk5xuMxLkcjjEYjjt9eXODVk6d4PHyE4XCI4+NjvDk7Qy/XBs4VqOoaq7bdslytcLtc3nN7+1+Wm//atoW1Fj1sVhYECCcTBJMJqxYCRZKgUAqFlHBpCuscnLWw1sG5fWhVVYVeu17zDzKZTqfwgwC+7yOOJZI07YhjZGEIbS1yraG1Zt2FfMqyRG+9Mcz9AOL3NbLZDGaxgAsCWN+H9QOY+QI2iuDynDN1WbaHTVOs2xYlZbg1nP2CmF4hnC8QkxFv7DaXWqOyFoXWzF1MH6icQ5PnQNOgrOt7Qx1LCM/joxVULylhlWItswyNNqjzHLXWTHOnpnuO1Wo/Q+NKLIIQ/mIBqRRkHENKCbWJoyhCopKufnnOaiimk9iuKXs1JHcy8jwPc89jpRfpKhhjYI3tTIxhtDHc3aZpuLsPDD2R4ufNHGmi+MUsyxgy3dVdaF9RFMwDQ5kZTLwQQgg+ZpIkzF2sEnUfK4qTLnutWbf3kAzJktKvbI5UxpjNZpwRPbN8kS3HxnRa1/UeZESTQlOznZQ/IsD7j59x+f0HlIyQJCmb7kKTUlU11+1faJFpj+vgLK5urvHuwyd8+foNaaoQhoKPL6KoUyF4eqRU3P1dYin5g9Ssv0dPCCnJkWypAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;connection-check&quot;
+        title=&quot;connection-check&quot;
+        src=&quot;/static/8065485c04845e3f229876f4caa19d94/f058b/510-new-item.png&quot;
+        srcset=&quot;/static/8065485c04845e3f229876f4caa19d94/c26ae/510-new-item.png 158w,
+/static/8065485c04845e3f229876f4caa19d94/6bdcf/510-new-item.png 315w,
+/static/8065485c04845e3f229876f4caa19d94/f058b/510-new-item.png 630w,
+/static/8065485c04845e3f229876f4caa19d94/40601/510-new-item.png 945w,
+/static/8065485c04845e3f229876f4caa19d94/84f4d/510-new-item.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;5.2 소스코드 관리 탭 설정하기&lt;a id=&apos;5.2-소스코드-관리-탭-설정하기&apos;&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/1ee1e709abc4d784f40de5a75a3efcd7/520-source-code-manage.png&quot; alt=&quot;source-code-manage&quot;&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1ee1e709abc4d784f40de5a75a3efcd7/84f4d/520-source-code-manage.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABsUlEQVQ4y4WTW5LTQAxFs05WwxrYCWvghx8WECoMTDJjEsdxd0vqZ2JfSj1OcEh5cNUttVXWab28MtaCReB9gIiAiEDEcESwzsE5B2td9avVd/2OWcX1XErB+XxGSgkrzB5ij95YxBQh3oM0SC9hfrMKEo8QY5WPETFGjONY4xW60perg8Tj+ccTzPGI4j3OIaCEMFlffXkuEeQQbvGXy+UemJnR7XY4Nr9BpxPEGEhvwH2P4BwSMRLRZCd1JwzDUONryXNgYob99Qy328E3DWS/h/Q9uOsQrUUhRia6U3LuBgwhPAJPLy/oDy3soUXqTW14yRk5pZrBXOrLOWMYxgVgjLVPqlpiCEg5vwEUquerTbkOS7fjGv8ITAmOpSqV8he2oDjZxZJ1FdpDi7Zt4b2vGVctQXXKCrwONed7YCRCs9mgefqJdruF2e8RjKmNv5O1dSN4vUZ4fcU47fHj2ohAuq4Op+jtzO9LPJIxt5IfFlsbbfsepFlpyf/TVPLin+KYsNlu0bQHsGfEnJBLeVeaxPAv8DKl/G39HR8+fsLnL18RAoGEkHOpzV6SbsIc+AdRHz4U39dkTgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;source-code-manage&quot;
+        title=&quot;source-code-manage&quot;
+        src=&quot;/static/1ee1e709abc4d784f40de5a75a3efcd7/f058b/520-source-code-manage.png&quot;
+        srcset=&quot;/static/1ee1e709abc4d784f40de5a75a3efcd7/c26ae/520-source-code-manage.png 158w,
+/static/1ee1e709abc4d784f40de5a75a3efcd7/6bdcf/520-source-code-manage.png 315w,
+/static/1ee1e709abc4d784f40de5a75a3efcd7/f058b/520-source-code-manage.png 630w,
+/static/1ee1e709abc4d784f40de5a75a3efcd7/40601/520-source-code-manage.png 945w,
+/static/1ee1e709abc4d784f40de5a75a3efcd7/84f4d/520-source-code-manage.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
 깃허브를 통해 소스코드를 관리할것이기 때문에 당연히 Git 을 선택한다.&lt;br&gt;
 Repository URL 에는 본인의 깃허브 저장소 주소를 적어주고, Credentials 에는 아까 추가한 키를 선택한다.&lt;/p&gt;
 &lt;p&gt;그리고 빌드할 브랜치를 설정하는데, ? 를 눌러 설명을 보면 알겠지만 하나의 job 에서는 하나의 브랜치만 빌드 할 때 효과적이라고 한다.&lt;br&gt;
 게다가 나는 기능 개발시 새로운 브랜치를 생성하고 완료되면 master 브랜치에 반영하고 있기 때문에 master 브랜치만 빌드하도록 설정하는것이 개발 완료된 기능만을 빌드하는것이라고 볼 수 있다.&lt;/p&gt;
 &lt;h3&gt;5.3 빌드 설정&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/48438c67be2cc6959ad4847dcb822f08/530-build-configuration.png&quot; alt=&quot;source-code-manage&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/48438c67be2cc6959ad4847dcb822f08/84f4d/530-build-configuration.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB40lEQVQ4y42T246bMBRF88/9kf5Bf6DPfa7Ul5H6WrVR04iEJGAPBt8AXwDv6jiXaarMaJCWjC3tzTn7mJVUCrbvMYwjemvRaw0jJXTXwUoFoxQUnRmTV60N+r7PkK4fBsQYMU0TvPdY4Z+nOx1RrNeQnEM3DYwQMHWdTUlMprSO45gZhgHOOaSUsn6eZ6xocz1QvMGfYod9WeJUVaifG1jRIjqHECNiCAgPuOqpyntD1qBY/wbb7aA5h2kaDJwjjA4+hNzS/7xpqKXEsSwxUlsXgnMPjd5laK3FdrvFZrNBURRohMgZhUfVXc7eNKSJ7Xc7HI9HsJqBMYa2bfMAcl4Xg9t7jJlXh6LrGrKqELVGuOCVgpfyvF6hvdYYqwr++fmmpw/dGbquQ1mW0Frnu3Vu6Yz3L21TDD5G2MMBjrGbnjo5G9IupVwR5Ub3jUyt7eFchHMe7tIu5XQjJURjsMzzY0NqpapqlOUBdc1QnQyqSoEzjq5tc9VpWV5ICZPWDwxTwkJYQ5NB32p0rM1ILnJuOVOl77IcaGBCYFmWc2TO3f96JyHw+esTfu1LxMnDBYdpnhGn6SGDc3A+3PRkvKK8pJRw44DvP37iw8dP+PLtCZzXqHkNIcSr0JUilFI5c/L6CyuzOHdcB76dAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;source-code-manage&quot;
+        title=&quot;source-code-manage&quot;
+        src=&quot;/static/48438c67be2cc6959ad4847dcb822f08/f058b/530-build-configuration.png&quot;
+        srcset=&quot;/static/48438c67be2cc6959ad4847dcb822f08/c26ae/530-build-configuration.png 158w,
+/static/48438c67be2cc6959ad4847dcb822f08/6bdcf/530-build-configuration.png 315w,
+/static/48438c67be2cc6959ad4847dcb822f08/f058b/530-build-configuration.png 630w,
+/static/48438c67be2cc6959ad4847dcb822f08/40601/530-build-configuration.png 945w,
+/static/48438c67be2cc6959ad4847dcb822f08/84f4d/530-build-configuration.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;h4&gt;5.3.1 빌드 유발&lt;/h4&gt;
 &lt;p&gt;빌드 유발 옵션에서 &lt;code class=&quot;language-text&quot;&gt;GitHub hook trigger for GITScm polling&lt;/code&gt; 를 선택했다.&lt;br&gt;
 이 옵션이 선택되어 있다면 깃허브에서 훅을 수신 했을 때, 이 훅의 저장소가 &lt;a href=&quot;#5.2-%EC%86%8C%EC%8A%A4%EC%BD%94%EB%93%9C-%EA%B4%80%EB%A6%AC-%ED%83%AD-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0&quot;&gt;4.3.2&lt;/a&gt; 에서 설정한 저장소와 일치하는지 확인한다.&lt;/p&gt;
@@ -239,9 +1101,69 @@ pip &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span c
 &lt;p&gt;우선 개발 PC 에서 master 브랜치로 push 한다.&lt;br&gt;
 그러면 다음 사진과 같이 해당 젠킨스 프로젝트의 build history 에 빌드가 하나 추가 된 것을 볼 수 있다.&lt;br&gt;
 지금까지 한 작업이 모두 정상적이였다는것이다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/d41ef3ef9ae19cab86dafb648473fb57/600-0-build-history.png&quot; alt=&quot;build-history&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d41ef3ef9ae19cab86dafb648473fb57/84f4d/600-0-build-history.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 62.0253164556962%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABdUlEQVQoz5WSzW6bQBSFeTLvLO+CIjddNIta6davk26SV2geITt71bxBrdrFxgZCmMGeAQzDFzESkiFJ5VzpaKS5R9898+N8HY+ZTCZcX39jOBx2NBqNGAwGTKdT5vO51Ww24+n3E3f393z/csX48pIL18V1XX7c3OBUdUlxPGJMzblV1+97q6rC8eMYkbyQpilaaZRS5HnOer3mz2KBv/VtrwWdyhhjVRto8mitcOIXQSqlbTQTWp2m+UhNqSzn58Mjt78eWXg+TiKlTdAa2nW1jfgXCCpjdzv9U2BVGVa7CC+ISYTEEVKite6Ym9rufFbehkNm3gz76C6zLMPJkgSZJBRF0TFFYcjy7xLTS9aHtXfZVBPMUXuBOhwoy/LTr9rvW6BMJXEco7OMY3lEaW2/UT/V/6AdoHiOed4F7IUgV4p9ktj1vWOeBYwWS9JgxyEI2QcBKgwpoqhxUZ9x3DdAJQSh77P1PKtgs0H1PvK5wOYdXgGMhYsT93ysfgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;build-history&quot;
+        title=&quot;build-history&quot;
+        src=&quot;/static/d41ef3ef9ae19cab86dafb648473fb57/f058b/600-0-build-history.png&quot;
+        srcset=&quot;/static/d41ef3ef9ae19cab86dafb648473fb57/c26ae/600-0-build-history.png 158w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/6bdcf/600-0-build-history.png 315w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/f058b/600-0-build-history.png 630w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/40601/600-0-build-history.png 945w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/84f4d/600-0-build-history.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;시간이 지나면 이렇게 빌드가 완료된다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/038b9f02f4063a1f4b65da193bddaf3a/600-1-build-complete.png&quot; alt=&quot;build-complete&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 343px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/038b9f02f4063a1f4b65da193bddaf3a/41431/600-1-build-complete.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 34.177215189873415%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABIklEQVQoz42Qy27CMBBF/f/fxIYNUVkGO0RigWgeEGJKsPOwHVu3GpMiIbVSF0czGs/cuWOmdI9hHKG0Rj+MMdf9AOfmf2EpzjOMtbDOgbWtxL2743K54Hb7Qitb1OdzbPAhwHsP78OT8As+IIQQxWiG6Wlxs2wx1i35s8Fa92IyFpMxf0JzbPspwAWHbCXmeYZSCsfjMTpumgZlWeJ0OsX4eDxgrcU0TRFDGPMG67SClDI2j+MYi5T3fY9hGOLf0hKqkYhz7g0br7Cxl+aZXgYokqPVaoV8v4cQHFwI7LMMyWaDlAus12ukaQrOOXa7HUSWYbv9QJIkuHdd1GCk+nKjFPI8R13XKIoCRVmiripUVYXmesXhcIin/1AtbwRpkMNvaMoUUOZt7EAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;build-complete&quot;
+        title=&quot;build-complete&quot;
+        src=&quot;/static/038b9f02f4063a1f4b65da193bddaf3a/41431/600-1-build-complete.png&quot;
+        srcset=&quot;/static/038b9f02f4063a1f4b65da193bddaf3a/c26ae/600-1-build-complete.png 158w,
+/static/038b9f02f4063a1f4b65da193bddaf3a/6bdcf/600-1-build-complete.png 315w,
+/static/038b9f02f4063a1f4b65da193bddaf3a/41431/600-1-build-complete.png 343w&quot;
+        sizes=&quot;(max-width: 343px) 100vw, 343px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;만약 빌드가 실패했다면 Console Output 탭에서 로그를 확인할 수 있다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[github pages 를 사용하여 블로그 만들기]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/git/github-page-make-blog/</link><guid isPermaLink="false">https://ohyunkyo.github.io/git/github-page-make-blog/</guid><pubDate>Tue, 08 Mar 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;요즘 공부한것들 정리할 겸 포트폴리오 제작을 위해 블로그에 글을 쓰고 있었다.&lt;br&gt;
 그러던중 이직을 위해서, 그리고 나를 위해서 처음부터 형식을 잘 갖춰놓는게 좋겠다는 생각이 들어 다른 개발자들의 포트폴리오를 찾아봤다.&lt;/p&gt;
@@ -303,320 +1225,4 @@ gatsby new blog https://github.com/gatsbyjs/gatsby-starter-blog&lt;/code&gt;&lt;
 &lt;p&gt;아무것도 모르고 블로그를 만들 생각만 할 때에는 안되던 것들이 있었다.&lt;br&gt;
 그러다 귀찮음을 감수하고 여러번 반복했을때, 그리고 공부하기로 마음먹었을때 신기하게도 문제가 해결됐다.&lt;/p&gt;
 &lt;p&gt;뭐든지 시작하는게 제일 힘들다고 한다.&lt;br&gt;
-그래서 시작이 반이라는 말도 있겠지만, 나머지 절반을 채우기 위해선 시작하는것보다 더 큰 노력이 필요하다는 생각을 했다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[New Beginnings]]></title><description><![CDATA[Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts. Separated they live in…]]></description><link>https://ohyunkyo.github.io/new-beginnings/</link><guid isPermaLink="false">https://ohyunkyo.github.io/new-beginnings/</guid><pubDate>Thu, 28 May 2015 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-right at the coast of the Semantics, a large language ocean. A small river named
-Duden flows by their place and supplies it with the necessary regelialia.&lt;/p&gt;
-&lt;h2&gt;On deer horse aboard tritely yikes and much&lt;/h2&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad
-Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
-didn’t listen. She packed her seven versalia, put her initial into the belt and
-made herself on the way.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;This however showed weasel&lt;/li&gt;
-&lt;li&gt;Well uncritical so misled
-&lt;ul&gt;
-&lt;li&gt;this is very interesting&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Goodness much until that fluid owl&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;When she reached the first hills of the &lt;strong&gt;Italic Mountains&lt;/strong&gt;, she had a last
-view back on the skyline of her hometown &lt;em&gt;Bookmarksgrove&lt;/em&gt;, the headline of
-&lt;a href=&quot;http://google.com&quot;&gt;Alphabet Village&lt;/a&gt; and the subline of her own road, the Line
-Lane. Pityful a rhetoric question ran over her cheek, then she continued her
-way. On her way she met a copy.&lt;/p&gt;
-&lt;h3&gt;Overlaid the jeepers uselessly much excluding&lt;/h3&gt;
-&lt;p&gt;But nothing the copy said could convince her and so it didn’t take long until a
-few insidious Copy Writers ambushed her, made her drunk with
-&lt;a href=&quot;http://google.com&quot;&gt;Longe and Parole&lt;/a&gt; and dragged her into their agency, where
-they abused her for their projects again and again. And if she hasn’t been
-rewritten, then they are still using her.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;It is a paradisematic country, in which roasted parts of sentences fly into your
-mouth. Even the all-powerful Pointing has no control about the blind texts it is
-an almost unorthographic life One day however a small line of blind text by the
-name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-&lt;h3&gt;According a funnily until pre-set or arrogant well cheerful&lt;/h3&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad
-Commas, wild Question Marks and devious Semikoli, but the Little Blind Text
-didn’t listen. She packed her seven versalia, put her initial into the belt and
-made herself on the way.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;So baboon this&lt;/li&gt;
-&lt;li&gt;Mounted militant weasel gregariously admonishingly straightly hey&lt;/li&gt;
-&lt;li&gt;Dear foresaw hungry and much some overhung&lt;/li&gt;
-&lt;li&gt;Rash opossum less because less some amid besides yikes jeepers frenetic
-impassive fruitlessly shut&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view
-back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet
-Village and the subline of her own road, the Line Lane. Pityful a rhetoric
-question ran over her cheek, then she continued her way. On her way she met a
-copy.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;The copy warned the Little Blind Text, that where it came from it would have
-been rewritten a thousand times and everything that was left from its origin
-would be the word “and” and the Little Blind Text should turn around and
-return to its own, safe country.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;But nothing the copy said could convince her and so it didn’t take long until a
-few insidious Copy Writers ambushed her, made her drunk with Longe and Parole
-and dragged her into their agency, where they abused her for their projects
-again and again. And if she hasn’t been rewritten, then they are still using
-her. Far far away, behind the word mountains, far from the countries Vokalia and
-Consonantia, there live the blind texts.&lt;/p&gt;
-&lt;h4&gt;Silent delightfully including because before one up barring chameleon&lt;/h4&gt;
-&lt;p&gt;Separated they live in Bookmarksgrove right at the coast of the Semantics, a
-large language ocean. A small river named Duden flows by their place and
-supplies it with the necessary regelialia. It is a paradisematic country, in
-which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an
-almost unorthographic life One day however a small line of blind text by the
-name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox
-advised her not to do so, because there were thousands of bad Commas, wild
-Question Marks and devious Semikoli, but the Little Blind Text didn’t listen.&lt;/p&gt;
-&lt;h5&gt;Wherever far wow thus a squirrel raccoon jeez jaguar this from along&lt;/h5&gt;
-&lt;p&gt;She packed her seven versalia, put her initial into the belt and made herself on
-the way. When she reached the first hills of the Italic Mountains, she had a
-last view back on the skyline of her hometown Bookmarksgrove, the headline of
-Alphabet Village and the subline of her own road, the Line Lane. Pityful a
-rhetoric question ran over her cheek, then she continued her way. On her way she
-met a copy.&lt;/p&gt;
-&lt;h6&gt;Slapped cozy a that lightheartedly and far&lt;/h6&gt;
-&lt;p&gt;The copy warned the Little Blind Text, that where it came from it would have
-been rewritten a thousand times and everything that was left from its origin
-would be the word “and” and the Little Blind Text should turn around and return
-to its own, safe country. But nothing the copy said could convince her and so it
-didn’t take long until a few insidious Copy Writers ambushed her, made her drunk
-with Longe and Parole and dragged her into their agency, where they abused her
-for their projects again and again.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[My Second Post!]]></title><description><![CDATA[Wow! I love blogging so much already. Did you know that “despite its name, salted duck eggs can also be made from
-chicken eggs, though the…]]></description><link>https://ohyunkyo.github.io/my-second-post/</link><guid isPermaLink="false">https://ohyunkyo.github.io/my-second-post/</guid><pubDate>Wed, 06 May 2015 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Wow! I love blogging so much already.&lt;/p&gt;
-&lt;p&gt;Did you know that “despite its name, salted duck eggs can also be made from
-chicken eggs, though the taste and texture will be somewhat different, and the
-egg yolk will be less rich.”?
-(&lt;a href=&quot;https://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;Wikipedia Link&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;Yeah, I didn’t either.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Hello World]]></title><description><![CDATA[This is my first post on my new fake blog! How exciting! I’m sure I’ll write a lot more interesting things in the future. Oh, and here’s a…]]></description><link>https://ohyunkyo.github.io/hello-world/</link><guid isPermaLink="false">https://ohyunkyo.github.io/hello-world/</guid><pubDate>Fri, 01 May 2015 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;This is my first post on my new fake blog! How exciting!&lt;/p&gt;
-&lt;p&gt;I’m sure I’ll write a lot more interesting things in the future.&lt;/p&gt;
-&lt;p&gt;Oh, and here’s a great quote from this Wikipedia on
-&lt;a href=&quot;https://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;salted duck eggs&lt;/a&gt;.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;A salted duck egg is a Chinese preserved food product made by soaking duck
-eggs in brine, or packing each egg in damp, salted charcoal. In Asian
-supermarkets, these eggs are sometimes sold covered in a thick layer of salted
-charcoal paste. The eggs may also be sold with the salted paste removed,
-wrapped in plastic, and vacuum packed. From the salt curing process, the
-salted duck eggs have a briny aroma, a gelatin-like egg white and a
-firm-textured, round yolk that is bright orange-red in color.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/e1596/salty_egg.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 75.31645569620254%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMB/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEEBf/aAAwDAQACEAMQAAABgik0dWC//8QAGRABAAMBAQAAAAAAAAAAAAAAAQACERJC/9oACAEBAAEFAkqW7B5Zovtvk//EABcRAQADAAAAAAAAAAAAAAAAAAAREkH/2gAIAQMBAT8B1WX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAESL/2gAIAQIBAT8BjT//xAAbEAABBAMAAAAAAAAAAAAAAAAAAQIRISIxMv/aAAgBAQAGPwK9GNocyS8hCj//xAAaEAADAQEBAQAAAAAAAAAAAAAAAREhQYGx/9oACAEBAAE/IXOrA43oOyg9wgU86OZMfwZKypT/2gAMAwEAAgADAAAAEMjv/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQARIf/aAAgBAwEBPxARwyusv//EABcRAQEBAQAAAAAAAAAAAAAAAAEAIVH/2gAIAQIBAT8QOoVoX//EAB0QAQEAAgIDAQAAAAAAAAAAAAERADFhgSFB0eH/2gAIAQEAAT8QSpwaGjrBSrtHyF9iY8RpUnGRBGqtOcsiDE6fM3AgiXf5M//Z&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Chinese Salty Egg&quot;
-        title=&quot;Chinese Salty Egg&quot;
-        src=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/828fb/salty_egg.jpg&quot;
-        srcset=&quot;/static/8058f3f26913fea3b6a89a73344fe94a/ff44c/salty_egg.jpg 158w,
-/static/8058f3f26913fea3b6a89a73344fe94a/a6688/salty_egg.jpg 315w,
-/static/8058f3f26913fea3b6a89a73344fe94a/828fb/salty_egg.jpg 630w,
-/static/8058f3f26913fea3b6a89a73344fe94a/0ede0/salty_egg.jpg 945w,
-/static/8058f3f26913fea3b6a89a73344fe94a/3ac88/salty_egg.jpg 1260w,
-/static/8058f3f26913fea3b6a89a73344fe94a/e1596/salty_egg.jpg 2048w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;You can also write code blocks here!&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; saltyDuckEgg &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;chinese preserved food product&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&quot;left&quot;&gt;Number&lt;/th&gt;
-&lt;th align=&quot;left&quot;&gt;Title&lt;/th&gt;
-&lt;th align=&quot;right&quot;&gt;Year&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;1&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Harry Potter and the Philosopher’s Stone&lt;/td&gt;
-&lt;td align=&quot;right&quot;&gt;2001&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;2&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Harry Potter and the Chamber of Secrets&lt;/td&gt;
-&lt;td align=&quot;right&quot;&gt;2002&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;3&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Harry Potter and the Prisoner of Azkaban&lt;/td&gt;
-&lt;td align=&quot;right&quot;&gt;2004&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;a href=&quot;https://raw.github.com/adamschwartz/github-markdown-kitchen-sink/master/README.md&quot;&gt;View raw (TEST.md)&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This is a paragraph.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;This is a paragraph.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h1&gt;Header 1&lt;/h1&gt;
-&lt;h2&gt;Header 2&lt;/h2&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Header 1
-========
-
-Header 2
---------&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h1&gt;Header 1&lt;/h1&gt;
-&lt;h2&gt;Header 2&lt;/h2&gt;
-&lt;h3&gt;Header 3&lt;/h3&gt;
-&lt;h4&gt;Header 4&lt;/h4&gt;
-&lt;h5&gt;Header 5&lt;/h5&gt;
-&lt;h6&gt;Header 6&lt;/h6&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-###### Header 6&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h1&gt;Header 1&lt;/h1&gt;
-&lt;h2&gt;Header 2&lt;/h2&gt;
-&lt;h3&gt;Header 3&lt;/h3&gt;
-&lt;h4&gt;Header 4&lt;/h4&gt;
-&lt;h5&gt;Header 5&lt;/h5&gt;
-&lt;h6&gt;Header 6&lt;/h6&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# Header 1 #
-## Header 2 ##
-### Header 3 ###
-#### Header 4 ####
-##### Header 5 #####
-###### Header 6 ######&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&gt; Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;h2&gt;This is a header.&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;This is the first list item.&lt;/li&gt;
-&lt;li&gt;This is the second list item.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Here’s some example code:&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Markdown.generate();&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;/blockquote&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&gt; ## This is a header.
-&gt; 1. This is the first list item.
-&gt; 2. This is the second list item.
-&gt;
-&gt; Here&apos;s some example code:
-&gt;
-&gt;     Markdown.generate();&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;Red&lt;/li&gt;
-&lt;li&gt;Green&lt;/li&gt;
-&lt;li&gt;Blue&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;Red&lt;/li&gt;
-&lt;li&gt;Green&lt;/li&gt;
-&lt;li&gt;Blue&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;Red&lt;/li&gt;
-&lt;li&gt;Green&lt;/li&gt;
-&lt;li&gt;Blue&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Red
-&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Green
-&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Blue
-
-&lt;span class=&quot;token list punctuation&quot;&gt;*&lt;/span&gt; Red
-&lt;span class=&quot;token list punctuation&quot;&gt;*&lt;/span&gt; Green
-&lt;span class=&quot;token list punctuation&quot;&gt;*&lt;/span&gt; Blue
-
-&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Red
-&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Green
-&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; Blue&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;code goes&lt;/code&gt; here in this line&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;bold&lt;/strong&gt; goes here&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token code-snippet code keyword&quot;&gt;`code goes`&lt;/span&gt; here in this line
-&lt;span class=&quot;token list punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token bold&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;token content&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;/span&gt; goes here&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;Buy flour and salt&lt;/li&gt;
-&lt;li&gt;Mix together with water&lt;/li&gt;
-&lt;li&gt;Bake&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; Buy flour and salt
-&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; Mix together with water
-&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; Bake&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;code goes&lt;/code&gt; here in this line&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;bold&lt;/strong&gt; goes here&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;markdown&quot;&gt;&lt;pre class=&quot;language-markdown&quot;&gt;&lt;code class=&quot;language-markdown&quot;&gt;&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; &lt;span class=&quot;token code-snippet code keyword&quot;&gt;`code goes`&lt;/span&gt; here in this line
-&lt;span class=&quot;token list punctuation&quot;&gt;1.&lt;/span&gt; &lt;span class=&quot;token bold&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;token content&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;**&lt;/span&gt;&lt;/span&gt; goes here&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Paragraph:&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Code&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;!-- --&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Paragraph:
-
-    Code&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;hr&gt;
-&lt;hr&gt;
-&lt;hr&gt;
-&lt;hr&gt;
-&lt;hr&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;* * *
-
-***
-
-*****
-
-- - -
-
----------------------------------------&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This is &lt;a href=&quot;http://example.com&quot; title=&quot;Example&quot;&gt;an example&lt;/a&gt; link.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://example.com&quot;&gt;This link&lt;/a&gt; has no title attr.&lt;/p&gt;
-&lt;p&gt;This is &lt;a href=&quot;http://example.com&quot; title=&quot;Optional Title&quot;&gt;an example&lt;/a&gt; reference-style link.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;This is [an example](http://example.com &quot;Example&quot;) link.
-
-[This link](http://example.com) has no title attr.
-
-This is [an example] [id] reference-style link.
-
-[id]: http://example.com &quot;Optional Title&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;em&gt;single asterisks&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;single underscores&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;double asterisks&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;double underscores&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;*single asterisks*
-
-_single underscores_
-
-**double asterisks**
-
-__double underscores__&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This paragraph has some &lt;code class=&quot;language-text&quot;&gt;code&lt;/code&gt; in it.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;This paragraph has some `code` in it.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;https://placehold.it/200x50&quot; alt=&quot;Alt Text&quot; title=&quot;Image Title&quot;&gt;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;![Alt Text](https://placehold.it/200x50 &quot;Image Title&quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item></channel></rss>
+그래서 시작이 반이라는 말도 있겠지만, 나머지 절반을 채우기 위해선 시작하는것보다 더 큰 노력이 필요하다는 생각을 했다.&lt;/p&gt;</content:encoded></item></channel></rss>
