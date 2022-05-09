@@ -34,24 +34,24 @@ Notify.Events 는 회원가입이 필요하다.
 
 다음 사진과 같이 `Channel` 의 `Title(제목)` 만 설정하고 생성한다.  
 
-![channel-list](/images/jenkins-notice-to-telegram-with-notify-events/200-0-channel-list.png)
-![create-channel](/images/jenkins-notice-to-telegram-with-notify-events/200-1-create-channel.png)
+![channel-list](./200-0-channel-list.PNG)
+![create-channel](./200-1-create-channel.PNG)
 
 > 여기에서 subscription 이라는것은 `Recipients` 를 추가하는 방법을 의미한다. `Channel` 의 소유자가 아닌 다른 유저들이 `Channel` 의 `Recipients` 에 자신을 등록 할 수 있다.
 
 ## 3. Source 추가하기
 `Channel `생성을 완료했다면 상세페이지에서 Add Source 버튼을 눌러 `Source` 를 추가한다.  
 
-![detail-channel](/images/jenkins-notice-to-telegram-with-notify-events/300-0-detail-channel.png)
+![detail-channel](./300-0-detail-channel.PNG)
 
 CI/CD and Version control 탭에서 Jenkins 를 클릭하고 기본 설정 그대로 추가한다.
 
-![select-jenkins](/images/jenkins-notice-to-telegram-with-notify-events/300-1-select-jenkins.png)
-![source-option](/images/jenkins-notice-to-telegram-with-notify-events/300-2-source-option.png)
+![select-jenkins](./300-1-select-jenkins.PNG)
+![source-option](./300-2-source-option.PNG)
 
 이렇게 `Source` 를 추가하면 토큰 값이 생성된다. 이 토큰은 바로 사용해야 하기 때문에 복사해주자. 
 
-![jenkins-token](/images/jenkins-notice-to-telegram-with-notify-events/300-3-jenkins-token.png)
+![jenkins-token](./300-3-jenkins-token.PNG)
 
 ## 4. 젠킨스에서 notify.event 설정하기
 이제 젠킨스에서 빌드시 notify.event 로 전달하도록 해야한다.
@@ -61,40 +61,40 @@ CI/CD and Version control 탭에서 Jenkins 를 클릭하고 기본 설정 그�
 다음 사진처럼 `jenkins 관리` - `플러그인 관리` 로 들어가 플러그인을 추가한다.
 > 사진은 플러그인이 이미 설치된 상태인데 설치 가능 탭에서 검색하여 다운로드 한다.
 
-![plugin-list](/images/jenkins-notice-to-telegram-with-notify-events/410-0-plugin-list.png)
+![plugin-list](./410-0-plugin-list.PNG)
 
 ### 4.2 빌드 후 조치(post build) 설정하기
 아래와 같이 프로젝트의 빌드 후 조치 탭을 수정한다.  
 복사한 토큰만 붙여넣고 나머지 부분은 기본값을 사용해도 충분하다.
 
-![post-build](/images/jenkins-notice-to-telegram-with-notify-events/400-1-post-build.png)
+![post-build](./420-0-post-build.PNG)
 
 ## 5. Recipients 추가하기
 이제 실제로 메시지를 수신 할 사용자를 추가한다.  
 `Channel` 상세 페이지에서 Subscribe 버튼을 클릭한다.
 
-![detail-channel](/images/jenkins-notice-to-telegram-with-notify-events/500-0-detail-channel.png)
+![detail-channel](./500-0-detail-channel.PNG)
 
 여러 서비스 중에서 텔레그램을 선택한다
 
-![select-telegram](/images/jenkins-notice-to-telegram-with-notify-events/500-1-select-telegram.png)
+![select-telegram](./500-1-select-telegram.PNG)
 
 텔레그램을 선택하면 나오는 설명인데, 요약하자면 NotifyEventsBot 을 텔레그램 채팅 리스트에 추가하고 명령어를 입력하라는것이다.  
 Notify.Events bot 링크를 클릭하여 텔레그램 봇과 채팅을 시작한 뒤 명령어를 입력하면 된다.
 
-![how-to-subscribe](/images/jenkins-notice-to-telegram-with-notify-events/500-2-how-to-subscribe.png)
+![how-to-subscribe](./500-2-how-to-subscribe.PNG)
 
-![channel-subscribed](/images/jenkins-notice-to-telegram-with-notify-events/500-3-channel-subscribed.png)
+![channel-subscribed](./500-3-channel-subscribed.PNG)
 
 이렇게 하면 해당 `Channel` 을 구독 완료했다는 메시지를 받을 수 있다.
 
 ## 6. 채널 상태 확인하기
 다음과 같이 채널에서 `Sources` 와 `Recipients` 가 설정되어 있다면 준비가 완료된것이다.
 
-![channel-check](/images/jenkins-notice-to-telegram-with-notify-events/600-channel-check.png)
+![channel-check](./600-channel-check.PNG)
 
 ## 7. 빌드해보기
 젠킨스로 돌아가서 해당 프로젝트를 빌드하면 다음과 같이 결과에 대한 메시지를 수신 할 수 있다.  
 
-![message-arrived](/images/jenkins-notice-to-telegram-with-notify-events/700-message-arrived.png)
+![message-arrived](./700-message-arrived.PNG)
 
