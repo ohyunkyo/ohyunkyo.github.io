@@ -91,35 +91,35 @@ services:
 $ docker-compose logs
 ```
 
-![generated-password](./300-generated-password.PNG)
+![generated-password](./300-generated-password.png)
 
 이 비밀번호를 입력하고 들어가면 기본적인 설정을 해야한다. 실제로 할것은 크게 없고 다음으로 넘어가기만 하면 된다.
 
 ### 3.1 플러그인 설치
 Install suggested plugins 을 눌러 필요한 플러그인이 자동으로 설치되도록 한다.  
 
-![customize-jenkins](./310-customize-jenkins.PNG)  
-![getting-started](./310-getting-started.PNG)
+![customize-jenkins](./310-customize-jenkins.png)  
+![getting-started](./310-getting-started.png)
 
 ### 3.2 계정 생성
 설치가 완료되면 계정을 생성해야 한다.  
 
-![create-first-admin-user](./320-create-first-admin-user.PNG)  
+![create-first-admin-user](./320-create-first-admin-user.png)  
 
 ### 3.3 URL 설정
 젠킨스 url 설정하는 부분. 잘 모르는 부분이라 default 대로 설정하고 넘겼다.  
 
-![instance-configuration](./330-instance-configuration.PNG)
+![instance-configuration](./330-instance-configuration.png)
 
 ### 3.4 완료
 완료되었다!!  
 
-![jenkins-is-ready](./340-jenkins-is-ready.PNG)
+![jenkins-is-ready](./340-jenkins-is-ready.png)
 
 ### 3.5 메인화면 확인
 내가 확인한 젠킨스 메인화면
 
-![welcome-to-jenkins](./350-welcome-to-jenkins.PNG)
+![welcome-to-jenkins](./350-welcome-to-jenkins.png)
 
 ## 4. github 와 jenkins 연동하기
 github 저장소가 업데이트 되면 jenkins 로 알리고 빌드하도록 연동한다.
@@ -145,7 +145,7 @@ $ sudo docker exec -it jenkins_cicd /bin/bash
 
 위의 경로로 들어가서 다음 사진과 같이 선택하고 개인 키를 붙여넣는다
 
-![new-credentials](./412-new-credentials.PNG) 
+![new-credentials](./412-new-credentials.png) 
 
 #### 4.1.3 github 에 공개 키 등록
 이번엔 `/var/jenkins_home/.ssh/jenkins_ci.pub` 파일(공개 키)의 내용을 깃허브에 등록해야 한다.
@@ -154,7 +154,7 @@ $ sudo docker exec -it jenkins_cicd /bin/bash
 
 위의 경로로 들어가서 다음 사진과 같이 공개 키를 붙여넣는다
 
-![add-new-deploy-key](./413-add-new-deploy-key.PNG)
+![add-new-deploy-key](./413-add-new-deploy-key.png)
 
 ### 4.2 github webhook 설정<a id='4.2-github-webhook-설정'></a>
 이제 깃허브에서 이벤트 발생 시 젠킨스에게 알리도록 할것이다.  
@@ -164,11 +164,11 @@ $ sudo docker exec -it jenkins_cicd /bin/bash
 
 위의 경로로 들어가서 다음 사진과 같이 Payload URL 에 `[EIP]:8080/github-webhook/` 을 입력후 추가한다.  
 기본 옵션이 push 이벤트만 알리도록 하는것인데 지금 당장은 다른 이벤트 알림은 필요 없기 때문에 따로 설정할건 없다.
-![add-webhook](./421-add-webhook.PNG)
+![add-webhook](./421-add-webhook.png)
 
 그 다음엔 정상적으로 연결되었는지 확인한다. 만약 초록섹 체크 표시가 아니라면 젠킨스 서버 EC2 인스턴스의 SG를 확인해봐야 한다.  
 만약 SG 인바운드 규칙을 수정했는데도 커넥션이 정상적이지 않다면 새로고침만 계속 누르지 말고 삭제 후 다시 등록하자.  
-![connection-check](./422-connection-check.PNG)
+![connection-check](./422-connection-check.png)
 
 > `Let me select individual events.` 를 선택하면 거의 모든 이벤트(포크, Key 추가 등)에서 웹훅 트리거를 작동 시킬 수 있는것같다.
 
@@ -179,10 +179,10 @@ job 이란 젠킨스에서 실행되는 작업의 단위라고 한다. 이 job �
 > \[EIP]:8080/view/all/newJob
 
 위의 경로에서 이름을 정하고 Freestyle project 를 선택한 뒤 다음으로 넘어간다.
-![connection-check](./510-new-item.PNG)
+![connection-check](./510-new-item.png)
 
 ### 5.2 소스코드 관리 탭 설정하기<a id='5.2-소스코드-관리-탭-설정하기'></a>
-![source-code-manage](./520-source-code-manage.PNG)
+![source-code-manage](./520-source-code-manage.png)
 깃허브를 통해 소스코드를 관리할것이기 때문에 당연히 Git 을 선택한다.  
 Repository URL 에는 본인의 깃허브 저장소 주소를 적어주고, Credentials 에는 아까 추가한 키를 선택한다.  
 
@@ -190,7 +190,7 @@ Repository URL 에는 본인의 깃허브 저장소 주소를 적어주고, Cred
 게다가 나는 기능 개발시 새로운 브랜치를 생성하고 완료되면 master 브랜치에 반영하고 있기 때문에 master 브랜치만 빌드하도록 설정하는것이 개발 완료된 기능만을 빌드하는것이라고 볼 수 있다.
 
 ### 5.3 빌드 설정
-![source-code-manage](./530-build-configuration.PNG)
+![source-code-manage](./530-build-configuration.png)
 
 #### 5.3.1 빌드 유발
 빌드 유발 옵션에서 `GitHub hook trigger for GITScm polling` 를 선택했다.  
@@ -247,10 +247,10 @@ apt-get install python3-dev default-libmysqlclient-dev build-essential -y
 그러면 다음 사진과 같이 해당 젠킨스 프로젝트의 build history 에 빌드가 하나 추가 된 것을 볼 수 있다.  
 지금까지 한 작업이 모두 정상적이였다는것이다.  
 
-![build-history](./600-0-build-history.PNG)
+![build-history](./600-0-build-history.png)
 
 시간이 지나면 이렇게 빌드가 완료된다.  
 
-![build-complete](./600-1-build-complete.PNG)
+![build-complete](./600-1-build-complete.png)
 
 만약 빌드가 실패했다면 Console Output 탭에서 로그를 확인할 수 있다.
