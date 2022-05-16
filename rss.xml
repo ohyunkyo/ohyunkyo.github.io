@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 May 2022 05:54:39 GMT</lastBuildDate><item><title><![CDATA[notify.events 를 통해 텔레그램으로 젠킨스 알림 받기]]></title><description><![CDATA[0. 서론 블로그를 보고 젠킨스를 사용한 CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</guid><pubDate>Wed, 04 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 16 May 2022 01:41:03 GMT</lastBuildDate><item><title><![CDATA[notify.events 를 통해 텔레그램으로 젠킨스 알림 받기]]></title><description><![CDATA[0. 서론 블로그를 보고 젠킨스를 사용한 CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/jenkins-notice-to-telegram-with-notify-events/</guid><pubDate>Wed, 04 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;블로그를 보고 젠킨스를 사용한 CI/CD 를 구성하는 방법을 따라하고 있었다.&lt;br&gt;
 그 블로그에선 슬랙을 통해 젠킨스 빌드 알림 메시지를 받는 방법을 안내했는데,&lt;br&gt;
 나는 회사에서 텔레그램을 사용하기 때문에 텔레그램을 사용하여 알림 메시지를 받는 방법을 찾아봤다.&lt;/p&gt;
@@ -491,30 +491,42 @@ Notify.Events bot 링크를 클릭하여 텔레그램 봇과 채팅을 시작한
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 CI/CD]]></title><description><![CDATA[0. 서론 지금 온라인중인 서비스는  로만 만들어져 있다. 그리고 서버에서 환경설정 후 깃허브 저장소에서 소스코드를 수동으로 가져와 제공하고 있다. 이것을 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, CI/CD…]]></description><link>https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</guid><pubDate>Mon, 02 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
-&lt;p&gt;지금 온라인중인 서비스는 &lt;code class=&quot;language-text&quot;&gt;django&lt;/code&gt; 로만 만들어져 있다.&lt;br&gt;
-그리고 서버에서 환경설정 후 깃허브 저장소에서 소스코드를 수동으로 가져와 제공하고 있다.&lt;/p&gt;
-&lt;p&gt;이것을 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, CI/CD 를 위해 젠킨스를 사용하기로 결정했다.&lt;br&gt;
-그리고 back-end 는 도커 컨테이너를 통해 제공하고, front-end 는 S3 를 통해 배포하기로 결정했다.&lt;/p&gt;
+    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 CI/CD]]></title><description><![CDATA[0. 서론 지금 온라인중인 서비스는  로만 만들어져 있다.
+개발 수정사항을 깃허브에 푸쉬 하면 EC2에서 저장소의 소스코드를 수동으로 가져와야 한다. 소스코드를 리팩토링 하는 과정에서 프론트와 백엔드 구분을 위해 vue.js - drf…]]></description><link>https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/ci-cd-with-jenkins/</guid><pubDate>Mon, 02 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+&lt;p&gt;지금 온라인중인 서비스는 &lt;code class=&quot;language-text&quot;&gt;django&lt;/code&gt; 로만 만들어져 있다.
+개발 수정사항을 깃허브에 푸쉬 하면 EC2에서 저장소의 소스코드를 수동으로 가져와야 한다.&lt;/p&gt;
+&lt;p&gt;소스코드를 리팩토링 하는 과정에서 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, 수동으로 소스코드를 가져오는 불편함을 해소하기 위해 젠킨스를 사용한 CI/CD 를 도입하기로 결정했다. 또한 백엔드는 도커 컨테이너를 통해 제공하고, 프론트는 S3 를 통해 배포하기로 결정했다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# 최종 목표 기술 스택 
  
 front-end : vue.js / S3
 back-end : django / docker on EC2
 db : rds(mysql)
 CI/CD : jenkins&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;가장먼저 back-end 배포를 하고 있는데, 그 작업을 정리한다.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044&quot;&gt;전체 출처&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;프론트와 백엔드 구분은 이미 완료했고 이후 젠킨스를 통해 백엔드를 배포 하는 과정을 정리했다.&lt;br&gt;
+AWS 나 도커에 대한 기본 지식은 보유했다고 가정하고 최대한 생략할 예정이다.&lt;/p&gt;
+&lt;p&gt;목표하는 전체적인 배포 프로세스는 다음과 같다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;개발 수정사항 github master branch 에 push&lt;/li&gt;
+&lt;li&gt;젠킨스를 사용하여 해당 수정사항 테스트&lt;/li&gt;
+&lt;li&gt;결과를 텔레그램으로 전달&lt;/li&gt;
+&lt;li&gt;테스트 성공시 docker image build&lt;/li&gt;
+&lt;li&gt;build 된 이미지를 docker hub 에 업로드&lt;/li&gt;
+&lt;li&gt;docker hub 의 이미지를 사용하여 컨테이너 실행&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;다음 링크의 내용을 참고하여 작성한 글입니다.&lt;br&gt;
+&lt;a href=&quot;https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044&quot;&gt;https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2&gt;1. CI/CD 서버 구성&lt;/h2&gt;
-&lt;p&gt;EC2 인스턴스를 하나 생성했다. t3.small 타입이였고, 나머지 구성 요소들은 현재 온라인중인 서버에서 사용중이던것을 그대로 사용했다.&lt;br&gt;
-하나 주의해야 할 점은 젠킨스에서 사용할 포트를 허용하도록 설정해야 한다는것이다.&lt;/p&gt;
-&lt;p&gt;인스턴스 생성 방법에 대해선 생략한다.&lt;/p&gt;
-&lt;h2&gt;2. CI/CD 서버에 jenkins 설치&lt;/h2&gt;
-&lt;p&gt;방금전 생성한 서버에 jenkins 서비스를 올릴것이다. 이것 또한 도커의 컨테이너를 사용한다면 설치나 관리하기 편할것이다.&lt;/p&gt;
-&lt;p&gt;일단 EC2 인스턴스에 docker 와 docker-compose 를 설치한다.&lt;/p&gt;
+&lt;p&gt;EC2 인스턴스를 하나 생성했다. 주의해야 할 점은 젠킨스에서 사용할 포트를 허용하도록 설정해야 한다는것이다.&lt;/p&gt;
+&lt;p&gt;방금 만든 인스턴스를 젠킨스 서버라고 부르기로 하자&lt;/p&gt;
+&lt;h2&gt;2. CI/CD 서버에 jenkins 설치&lt;a id=&apos;2.-CI/CD-서버에-jenkins-설치&apos;&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;젠킨스 서버에 jenkins 서비스를 올릴것이다. 젠킨스에서 제공하는 도커 이미지를 사용하면 좀 더 편하다.&lt;/p&gt;
+&lt;p&gt;일단 docker 와 docker-compose 를 설치한다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# docker 설치&lt;/span&gt;
 
-$ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; yum update
-$ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; amazon-linux-extras &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -y &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; yum update -y
+$ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; amazon-linux-extras &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -y &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; -y
 $ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl start &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt;
 $ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;인스턴스 재시작시 도커가 실행되도록 했다.&lt;/p&gt;
@@ -527,7 +539,7 @@ $ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=
 &lt;p&gt;그 다음에 젠킨스 컨테이너 생성을 위한 yml 파일을 생성한다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;mkdir&lt;/span&gt; jenkins
 $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-compose.yml&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;docker-compose 에 대해 잘 모르기 때문에 일단 전체를 그대로 사용하고 넘어갔다.&lt;/p&gt;
+&lt;p&gt;docker-compose 에 대해 잘 모르기 때문에 일단 그대로 사용하고 넘어갔다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# jenkins/docker-compose.yml&lt;/span&gt;
 
 &lt;span class=&quot;token key atrule&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;3&apos;&lt;/span&gt;
@@ -545,15 +557,18 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
         &lt;span class=&quot;token key atrule&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; root&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;docker-compose up -d&lt;/code&gt; 명령어로 컨테이너를 생성하고 실행한다. 이렇게 하면 젠킨스 서비스가 실행된다.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;docker-compose.yml 파일이 있는곳에서 명령어를 실행해야 한다. 해당 파일의 볼륨에 있는 로그를 가져오는듯&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;docker-compose&lt;/code&gt; 명령어는 &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; 파일이 있는곳에서 실행해야 한다.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;다음과 같이 브라우저에 URL 을 입력하여 젠킨스 서비스 화면을 확인해 볼 수 있다.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;[EIP]:8080 (ex: 10.0.0.0:8080)&lt;/p&gt;
+&lt;p&gt;[젠킨스 서버 IP]:8080 (ex: 10.0.0.0:8080)&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;3. jenkins 설정하기&lt;/h2&gt;
 &lt;p&gt;처음 보는 화면에서 젠킨스는 비밀번호부터 물어본다. 비밀번호는 이미 생성된 상태인데, 다음 명령어에서 확인 가능하다&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; logs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;이것도 &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; 파일이 있는곳에서 명령어를 실행해야 한다. 해당 파일의 볼륨에 있는 로그를 가져오는듯&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
@@ -588,7 +603,7 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;이 비밀번호를 입력하고 들어가면 기본적인 설정을 해야한다. 실제로 할것은 크게 없고 다음으로 넘어가기만 하면 된다.&lt;/p&gt;
 &lt;h3&gt;3.1 플러그인 설치&lt;/h3&gt;
-&lt;p&gt;Install suggested plugins 을 눌러 필요한 플러그인이 자동으로 설치되도록 한다.&lt;/p&gt;
+&lt;p&gt;Install suggested plugins 을 눌러 많이 사용하는 플러그인을 자동으로 설치하도록 한다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
@@ -688,7 +703,7 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.3 URL 설정&lt;/h3&gt;
-&lt;p&gt;젠킨스 url 설정하는 부분. 잘 모르는 부분이라 default 대로 설정하고 넘겼다.&lt;/p&gt;
+&lt;p&gt;젠킨스 url 설정하는 부분. 잘 모르는 부분이라 건들지 않고 넘겼다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
@@ -803,7 +818,7 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;h4&gt;4.1.2 jenkins 에 개인 키 등록&lt;/h4&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;/var/jenkins_home/.ssh/jenkins_ci&lt;/code&gt; 파일(개인 키)의 내용을 젠킨스에 등록해야 한다.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;[EIP]:8080/credentials/store/system/domain/_/newCredentials&lt;/p&gt;
+&lt;p&gt;[젠킨스 서버 IP]:8080/credentials/store/system/domain/_/newCredentials&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 선택하고 개인 키를 붙여넣는다&lt;/p&gt;
 &lt;p&gt;&lt;span
@@ -882,7 +897,7 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/%5Busername%5D/%5Breponame%5D/settings/hooks/new&quot;&gt;https://github.com/[username]/[reponame]/settings/hooks/new&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 Payload URL 에 &lt;code class=&quot;language-text&quot;&gt;[EIP]:8080/github-webhook/&lt;/code&gt; 을 입력후 추가한다.&lt;br&gt;
+&lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 Payload URL 에 &lt;code class=&quot;language-text&quot;&gt;[젠킨스 서버 IP]:8080/github-webhook/&lt;/code&gt; 을 입력후 추가한다.&lt;br&gt;
 기본 옵션이 push 이벤트만 알리도록 하는것인데 지금 당장은 다른 이벤트 알림은 필요 없기 때문에 따로 설정할건 없다.
 &lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -955,7 +970,7 @@ $ &lt;span class=&quot;token function&quot;&gt;vi&lt;/span&gt; jenkins/docker-co
 &lt;p&gt;job 이란 젠킨스에서 실행되는 작업의 단위라고 한다. 이 job 을 생성하고 어떤 작업이 수행될지 정의한다.&lt;/p&gt;
 &lt;h3&gt;5.1 job 생성하기&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;[EIP]:8080/view/all/newJob&lt;/p&gt;
+&lt;p&gt;[젠킨스 서버 IP]:8080/view/all/newJob&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;위의 경로에서 이름을 정하고 Freestyle project 를 선택한 뒤 다음으로 넘어간다.
 &lt;span
@@ -1080,7 +1095,7 @@ pip &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -r require
 python3 manage.py makemigrations --settings&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;config.settings.prod
 python3 manage.py migrate --settings&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;config.settings.prod
 python3 manage.py &lt;span class=&quot;token builtin class-name&quot;&gt;test&lt;/span&gt; --settings&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;config.settings.prod&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h4&gt;5.4 테스트를 위한 도구 설치&lt;/h4&gt;
+&lt;h3&gt;5.4 테스트를 위한 도구 설치&lt;/h3&gt;
 &lt;p&gt;실제로 job 이 실행되는지 보기 전에, 빌드할때 테스트가 잘 실행되도록 테스트에 사용할 도구를 먼저 설치해야 한다.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;물론 깃허브에 push 할 때 테스트 완료된 코드를 올리겠지만 실제 운영환경에서 테스트 해보는것이다.(라고 이해했음)&lt;/p&gt;
@@ -1095,11 +1110,11 @@ python3 manage.py &lt;span class=&quot;token builtin class-name&quot;&gt;test&lt
 pip &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;django&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;3.2&lt;/span&gt;.6&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;그리고 mysqlclient 의 원활한 설치를 위해 관련된 패키지도 설치했다. &lt;a href=&quot;https://pypi.org/project/mysqlclient/&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; python3-dev default-libmysqlclient-dev build-essential -y&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;6. 연결 테스트 하기&lt;/h3&gt;
+&lt;h2&gt;6. 연결 테스트 하기&lt;/h2&gt;
 &lt;p&gt;젠킨스와 깃허브 연동도 했고 깃허브 저장소에 push 했을 때 실행 될 job 도 만들어줬다.&lt;br&gt;
 이제 master 브랜치에 push 했을 때 젠킨스로 전달되어 빌드되는지 확인해볼 시간이다.&lt;/p&gt;
 &lt;p&gt;우선 개발 PC 에서 master 브랜치로 push 한다.&lt;br&gt;
-그러면 다음 사진과 같이 해당 젠킨스 프로젝트의 build history 에 빌드가 하나 추가 된 것을 볼 수 있다.&lt;br&gt;
+그러면 다음 사진과 같이 해당 젠킨스 Job 의 build history 에 빌드가 하나 추가 된 것을 볼 수 있다.&lt;br&gt;
 지금까지 한 작업이 모두 정상적이였다는것이다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -1164,7 +1179,515 @@ pip &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span c
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;만약 빌드가 실패했다면 Console Output 탭에서 로그를 확인할 수 있다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[github pages 를 사용하여 블로그 만들기]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/git/github-page-make-blog/</link><guid isPermaLink="false">https://ohyunkyo.github.io/git/github-page-make-blog/</guid><pubDate>Tue, 08 Mar 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+&lt;p&gt;만약 빌드가 실패했다면 Console Output 탭에서 로그를 확인할 수 있다.&lt;/p&gt;
+&lt;h2&gt;7. docker image 배포하기&lt;/h2&gt;
+&lt;h3&gt;7.1 docker image 설정&lt;/h3&gt;
+&lt;p&gt;일단 장고 프로젝트에 빌드를 위한 Dockerfile 이 있어야 한다고 한다. 이 도커파일을 기준으로 도커 허브에 업로드 될 이미지가 생성된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;FROM&lt;/span&gt; python:3.8&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;WORKDIR&lt;/span&gt; /usr/src/app&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; requirements.txt ./&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; pip install --upgrade pip&lt;/span&gt;
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; pip install -r requirements.txt&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; . .&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;EXPOSE&lt;/span&gt; 8000&lt;/span&gt;
+
+&lt;span class=&quot;token instruction&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;CMD&lt;/span&gt; [&lt;span class=&quot;token string&quot;&gt;&quot;./manage.py&quot;&lt;/span&gt;,&lt;span class=&quot;token string&quot;&gt;&quot;runserver&quot;&lt;/span&gt;,&lt;span class=&quot;token string&quot;&gt;&quot;8000&quot;&lt;/span&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;7.2 docker hub repository 생성&lt;a id=&apos;7.2-docker-hub-repository-생성&apos;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://hub.docker.com&quot;&gt;https://hub.docker.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;위의 링크로 들어가 회원가입 후 저장소를 생성한다. 차후 운영서버에서 이 저장소의 최신 이미지를 사용하여 컨테이너를 만들게 된다.&lt;br&gt;
+나는 private 저장소를 생성했다.&lt;/p&gt;
+&lt;h3&gt;7.3 빌드 및 업로드 자동화 쉘 스크립트 작성&lt;/h3&gt;
+&lt;p&gt;dockerhub 에 자동으로 버전을 관리하며 업로드 하는 스크립트이다. 이 스크립트를 젠킨스 디렉토리에 생성해준다.&lt;br&gt;
+이후 ID, PW 를 도커 허브의 계정으로 변경한다. 만약 계정 비밀번호에 특수문자가 들어있다면 작은따옴표로 감싸준다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;지금은 다른 사람이 만든 스크립트를 그대로 사용했지만 도커에 대한 이해도가 높아진다면 원하는대로 커스텀 할 수 있을것이다&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://coding-chobo.tistory.com/54&quot;&gt;쉘 스크립트 특수문자&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# 경로 : /var/jenkins_home/CICD/Docker_CD.sh&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token assign-left variable&quot;&gt;DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$1&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;ID&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;ohyunkyo
+&lt;span class=&quot;token assign-left variable&quot;&gt;PW&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;test!@#$&apos;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;#docker image의 첫 tag를 확인 후, 다음 버전의 image를 생성&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;#만약 처음 생성되는 이름이라면 0.01 이름으로 생성해준다.&lt;/span&gt;
+
+&lt;span class=&quot;token assign-left variable&quot;&gt;TAG&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; images &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;awk&lt;/span&gt; -v &lt;span class=&quot;token assign-left variable&quot;&gt;DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;$DOCKER_REPOSITORY_NAME &lt;span class=&quot;token string&quot;&gt;&apos;{if ($1 == DOCKER_REPOSITORY_NAME) print $2;}&apos;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 만약 [0-9]\.[0-9]{1,2} 으로 버전이 관리된 기존의 이미지 일 경우&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$TAG&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;-9&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;.&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;-9&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1,2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;token assign-left variable&quot;&gt;NEW_TAG_VER&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; $TAG &lt;span class=&quot;token number&quot;&gt;0.01&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;{print $1+$2}&apos;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;현재 버전은 &lt;span class=&quot;token variable&quot;&gt;$TAG&lt;/span&gt; 입니다.&quot;&lt;/span&gt;
+    &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;새로운 버전은 &lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt; 입니다&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 그 외 새롭게 만들거나, lastest or lts 등 tag 일 때&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# echo &quot;새롭게 만들어진 이미지 입니다.&quot;&lt;/span&gt;
+    &lt;span class=&quot;token assign-left variable&quot;&gt;NEW_TAG_VER&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0.01&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# 현재 위치에 존재하는 DOCKER FILE을 사용하여 빌드&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; build -t &lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# docker hub에 push 하기위해 login&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; login -u &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt; -p &lt;span class=&quot;token variable&quot;&gt;$PW&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;0.01&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; rmi &lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$TAG&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 새로운 태그를 설정한 image를 생성&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; tag &lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# docker hub에 push&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; push &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# tag가 &quot;latest&quot;인 image를 최신 버전을 통해 생성&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; tag &lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;:latest
+
+&lt;span class=&quot;token comment&quot;&gt;# latest를 docker hub에 push&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; push &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;:latest
+
+&lt;span class=&quot;token comment&quot;&gt;# 버전 관리에 문제가 있어 latest를 삭제&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; rmi &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;:latest
+&lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; rmi &lt;span class=&quot;token variable&quot;&gt;$ID&lt;/span&gt;/&lt;span class=&quot;token variable&quot;&gt;$DOCKER_REPOSITORY_NAME&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$NEW_TAG_VER&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;7.4 젠킨스 빌드할 때 쉘 스크립트가 실행되도록 설정&lt;/h3&gt;
+&lt;p&gt;다시 Job 설정으로 돌아가서 방금 전에 생성한 스크립트가 젠킨스 빌드시에 실행되도록 설정해준다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5df995eca7f5ad84f98f0807bfe833be/84f4d/740-exec-shell.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABbUlEQVQoz3WSu24cMQxF97v9ISlT+QvSpEidIq6D1C5ia0cT6zF6c6S5AWnPwN71CjiQKOheUpROKWfknNFaQ4gRz0ph0hrTpPH36Qnn84QXY+C8h3UO1jqEEBFCQFiCrNd1Re9dPE54N4gISp0xzzOstYIxBt4vkjSlJJRShEqE0hq2bRM9m5442Df4sNb6qPgWtVY0IqRpQlkWbG8FXRly6UopGGNFtFfyGVxdVArZuY+GvHhvuPiIFBPK2xVZTCmhE2FsG8YYr/QhRrR2iXf9lWEuFbmuSJmQCyEVwtq7ZL9k9C59H+NVz626MowxYQkZPuRjLqVKCy7hX8Hndz3f5oMhrSus91hCQGsV1JrwmRmTcxFuvrJkdRYpBNR62+iS3eN4lH2EFPH95y88/P6DmBbEHKVHl/DXoTEQHx9RjDn0bHriRsYYUUvBs55w9+UeX7/9wDxP0P80nHfwzsM5B+/9wR7zzPr90/8H181WUdYumgAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;exec-shell&quot;
+        title=&quot;exec-shell&quot;
+        src=&quot;/static/5df995eca7f5ad84f98f0807bfe833be/f058b/740-exec-shell.png&quot;
+        srcset=&quot;/static/5df995eca7f5ad84f98f0807bfe833be/c26ae/740-exec-shell.png 158w,
+/static/5df995eca7f5ad84f98f0807bfe833be/6bdcf/740-exec-shell.png 315w,
+/static/5df995eca7f5ad84f98f0807bfe833be/f058b/740-exec-shell.png 630w,
+/static/5df995eca7f5ad84f98f0807bfe833be/40601/740-exec-shell.png 945w,
+/static/5df995eca7f5ad84f98f0807bfe833be/84f4d/740-exec-shell.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;bash /var/jenkins_home/CICD/Docker_CD.sh &quot;docker_repository_name&quot;&lt;/code&gt;&lt;br&gt;
+이 쉘 스크립트는 첫번째 인자로 도커 레포지토리의 이름을 입력받는다.&lt;br&gt;
+&lt;a href=&quot;#7.2-docker-hub-repository-%EC%83%9D%EC%84%B1&quot;&gt;7.2&lt;/a&gt; 에서 생성한 이름을 사용하면 된다.&lt;/p&gt;
+&lt;h3&gt;7.5 업로드 된 도커 이미지 확인&lt;/h3&gt;
+&lt;p&gt;젠킨스 빌드가 성공했다면 다음과 같이 도커 저장소에 이미지가 업로드 되었을것이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/280337045f286628fabbd9ea92b3b958/9cea8/750-docker-images.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.16455696202532%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABc0lEQVQoz4WSS0vDQBSF8/8XLlwILhQXgqAoguLKjUp9FItYRF25UKIimknTTOZ558gdM6m1LV44kJkM37mvrFEKtZQY1zXK0QjWWoQQQEQz8t7BOwcij3lhnUM2qipI2UApjaZR8EQzD9mA4+k5x3Gvj5PLAU6vbnBxcxfVGwzRv72H0gaZsRbamEjnoDY7hiRRa3I9fMDq1j42do+wtn0QxeeVzT2s7xxiLBtkXLIxpi2JYob8zXdaGxhjo7PSFv9FLFmIEtW4htIa3k96w0CGOeciUFsP2TR4yXO8vr3jqxAQ5QiFEChEGWcQgaYtlUtzzndlMij1TrdmDP4sBIqyihCGMZhh/D8CpdEIFDpg6l+abCBCLRsgWDx+EJbOCMvnhLwkGEtdf7uSIzBl5f3UIKg14rUy7TrNi3QfgcqaLqvZDH+ASilY6+IZCFMbkDTJUKvO5e+6JPGAfvd0UXBCGVN9WpkFYiN+zJr/xkcGt+UbiqBViTnZHW0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;docker-images&quot;
+        title=&quot;docker-images&quot;
+        src=&quot;/static/280337045f286628fabbd9ea92b3b958/f058b/750-docker-images.png&quot;
+        srcset=&quot;/static/280337045f286628fabbd9ea92b3b958/c26ae/750-docker-images.png 158w,
+/static/280337045f286628fabbd9ea92b3b958/6bdcf/750-docker-images.png 315w,
+/static/280337045f286628fabbd9ea92b3b958/f058b/750-docker-images.png 630w,
+/static/280337045f286628fabbd9ea92b3b958/40601/750-docker-images.png 945w,
+/static/280337045f286628fabbd9ea92b3b958/78612/750-docker-images.png 1260w,
+/static/280337045f286628fabbd9ea92b3b958/9cea8/750-docker-images.png 1278w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;8. 운영서버에서 자동으로 서비스하기&lt;/h2&gt;
+&lt;p&gt;이제 생성된 이미지로 컨테이너를 시작하면 된다. 나는 이 과정이 빌드 후 자동으로 실행되도록 할것이다.&lt;/p&gt;
+&lt;h3&gt;8.1 운영서버 EC2 생성하기&lt;/h3&gt;
+&lt;p&gt;운영서버를 위한 EC2 를 생성하고 &lt;a href=&quot;#2.-CI/CD-%EC%84%9C%EB%B2%84%EC%97%90-jenkins-%EC%84%A4%EC%B9%98&quot;&gt;2.&lt;/a&gt; 과 동일하게 도커 패키지를 설치한다.
+이후 서비스를 위한 웹 서비스를 위한 80, 443 포트를 열어준다.&lt;/p&gt;
+&lt;p&gt;추가로 22포트로 접근 가능하도록 열어줘야 한다. 이유는 다음과 같다.&lt;/p&gt;
+&lt;h3&gt;8.2 젠킨스에서 플러그인 설치&lt;/h3&gt;
+&lt;p&gt;젠킨스 서버에서 SSH 로 운영서버에 접속해 서비스를 실행하기 때문에 관련 플러그인을 설치해야 한다.&lt;br&gt;
+아래 사진처럼 Publish Over SSH 를 설치한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/356b39bbd5387308395237bcb4efa62b/84f4d/820-publish-over-ssh.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABdElEQVQoz3VTXY/cIAzc///j+nQv7UOl6k7ZbPhYwIAhCZkKc7vaay+WRsYET2w8XLwPcM4j5wyiCC4F+75L7JxDCAEpJRARMheEVJC4yt66rnL2gR5fcGLcCe8WwXvEGOG9R8qMEAtirrLXCVprT2zbhstxHPgX3ZwPsD4OgpRRS0EpRXwHM0sXWmvpose9i1PCQBF/3id8TDdc55skGmOwLApKKam8risSl5FzHHINX1oehGNNxuH6sUBfFby2yPc72Dnx2Vq0nAV2MeKRM5Jz3xDKooEWjWnSWGaN6AnY9/9QUsKPt19oXIA+PGO+q/CzZUeYJiNQNw2nFMjewd6DQ0AJATkQ3n7+xs4MpIwUwjkh5YrZRMw2wnoCxSSSGqjD1xXvi0XrOa2NOzwbCkXGtHjMOkCZocfHt9cCOvnpUF6tEypLInrTW2V+SqUn1lqxtwZHSTT4rPBVmK+otciBB0HOSXxHF3Unf7yObRsvpf/kL1OIWJhi4IHEAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;publish-over-ssh&quot;
+        title=&quot;publish-over-ssh&quot;
+        src=&quot;/static/356b39bbd5387308395237bcb4efa62b/f058b/820-publish-over-ssh.png&quot;
+        srcset=&quot;/static/356b39bbd5387308395237bcb4efa62b/c26ae/820-publish-over-ssh.png 158w,
+/static/356b39bbd5387308395237bcb4efa62b/6bdcf/820-publish-over-ssh.png 315w,
+/static/356b39bbd5387308395237bcb4efa62b/f058b/820-publish-over-ssh.png 630w,
+/static/356b39bbd5387308395237bcb4efa62b/40601/820-publish-over-ssh.png 945w,
+/static/356b39bbd5387308395237bcb4efa62b/84f4d/820-publish-over-ssh.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Publish Over SSH 은 젠킨스에서 원격서버에 접속할 수 있는 플러그인이다.&lt;br&gt;
+공식 문서(&lt;a href=&quot;https://plugins.jenkins.io/publish-over-ssh/&quot;&gt;https://plugins.jenkins.io/publish-over-ssh/&lt;/a&gt;) 를 대충 번역하자면&lt;br&gt;
+SSH 를 통한 파일 전송, 원격 서버에서 명령 실행, username/password 와 공용 키를 사용한 인증 등 여러 기능을 제공한다.&lt;/p&gt;
+&lt;h3&gt;8.3 운영서버 SSH 접속정보 등록&lt;a id=&apos;8.3-운영서버-SSH-접속정보-등록&apos;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;이 플러그인을 사용하기 위해 운영서버의 SSH 접속정보를 젠킨스에 등록해야 한다.
+젠킨스 관리 - 시스템 설정(&lt;code class=&quot;language-text&quot;&gt;[젠킨스 서버 IP]:8080/configure&lt;/code&gt;) 으로 이동해서 Publish over SSH 부분을 채워준다.&lt;/p&gt;
+&lt;p&gt;각 항목을 설명하자면 다음과 같다&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Passphrase&lt;/code&gt; : 개인 키가 암호화 되어 있을 경우 암호를 적는다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Path to key&lt;/code&gt; : 개인 키가 젠킨스 서버에 있을 경우 경로를 적는다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Key&lt;/code&gt; : 개인키 파일의 내용을 입력한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;SSH Servers&lt;/code&gt; : 원격서버의 정보를 입력한다.
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Name&lt;/code&gt; : 원격서버 설정에 대한 이름이다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Hostname&lt;/code&gt; : 원격서버의 호스트명이다. hostname 또는 IP 를 입력한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Username&lt;/code&gt; : 원격서버에 접속하기 위한 유저 이름이다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Remote Directory&lt;/code&gt; : 이 설정의 기본 디렉토리. 반드시 존재하는 디렉토리여야 하며, 이 디렉토리 내에만 파일을 전송할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;나는 아래 사진처럼 등록했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9306686b0ebfc7381b70ddc51b125698/84f4d/830-0-private-key.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABZklEQVQoz32RPUsDQRBAD4RoYycIirX/xtYfoH/NxsZCEXvBD1BJSGGwsNOLMSbh9rzPnXkydzkT5XTgMcfu7LuZ3eAzSUiShDRNSdMM732FiyImkwl5ntdrZfm9t0zpPU1YTcAfMXofM53NEFVEDFlC8V4qoapy9/jM2VWXaRQT2EIbk+mM8fgD5xxR5OrsFrmZKssybvpPnF7e8zGL2oUWVujmgjZMWNfERC4jzz3i/c+RG5nlOHKkcQwireh8XMOLUHqh/H2Hy8JUlRL+x0Rl/TAVrUL7K5AMBiTXV3ze3lI8PKC9HtLQ7SL9PlIU80eTutPWkW3Tvvf30SBA1tbQTgc6nSrr6iq6soJubKDDYV1r1wDkRfGPcG8PguAb/Y2Jw/CHMM2yv4X+4BBdX4edHXRra8H2Nmxuoru76GhU1VZnlPaRm4c5Oj7n4uQCfX1BXsO6m+EQbMwwhLc3M9Qdzs+Y8Aue/ipsMRWrmwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;private-key&quot;
+        title=&quot;private-key&quot;
+        src=&quot;/static/9306686b0ebfc7381b70ddc51b125698/f058b/830-0-private-key.png&quot;
+        srcset=&quot;/static/9306686b0ebfc7381b70ddc51b125698/c26ae/830-0-private-key.png 158w,
+/static/9306686b0ebfc7381b70ddc51b125698/6bdcf/830-0-private-key.png 315w,
+/static/9306686b0ebfc7381b70ddc51b125698/f058b/830-0-private-key.png 630w,
+/static/9306686b0ebfc7381b70ddc51b125698/40601/830-0-private-key.png 945w,
+/static/9306686b0ebfc7381b70ddc51b125698/84f4d/830-0-private-key.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f0e3d787c1b02ea8208af35e3c9f0cba/84f4d/830-1-remote-server.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA8klEQVQoz42SzWrFIBBG8/6v0Xdon+DexV11202hUGhX0RjU6KinmB+40Jhk4GNwlON8w3TWOZxzeO/xfiKlhIhgjJnr27nmptb7EAIdjRjHkUFrKIVySczQbu+yRhBhiIIPceki51NVJ22gUpjHA9EDGU6hueba4bPNZ2Dse+z9jihF2oCHWjtsAavlsf56CXYFGAJaKZx15/NbxyGHlmOkVwprLTmXuYP92ZVFpSCyA9xykvpgWYejdclZmCaLMQMSQwsIWnuU8qylf7HV9dDz8fXL5/cPZujbll/ebrze3ikpzZZa65WS4KeJEANh8vwBs5FiZsWI3ukAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;remote-server&quot;
+        title=&quot;remote-server&quot;
+        src=&quot;/static/f0e3d787c1b02ea8208af35e3c9f0cba/f058b/830-1-remote-server.png&quot;
+        srcset=&quot;/static/f0e3d787c1b02ea8208af35e3c9f0cba/c26ae/830-1-remote-server.png 158w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/6bdcf/830-1-remote-server.png 315w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/f058b/830-1-remote-server.png 630w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/40601/830-1-remote-server.png 945w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/84f4d/830-1-remote-server.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;정보 입력 후 Test Configuration 버튼(주황색 상자)을 누르면 현재 SSH 정보로 원격서버에 연결하여 테스트 할 수 있다.&lt;br&gt;
+정상적이라면 파란색 상자 안에 보이는 것처럼 &lt;code class=&quot;language-text&quot;&gt;Success&lt;/code&gt; 라는 문자열을 출력한다.&lt;/p&gt;
+&lt;h3&gt;8.4 서비스 컨테이너 시작을 위한 설정파일 생성&lt;/h3&gt;
+&lt;p&gt;젠킨스에서 빌드가 끝나면 &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; 파일을 기반으로 &lt;code class=&quot;language-text&quot;&gt;docker-compose&lt;/code&gt; 명령어를 실행하여 컨테이너를 시작하게 된다.&lt;br&gt;
+이를 위한 설정파일들을 Job 의 홈 디렉토리에 생성해야 한다.&lt;br&gt;
+젠킨스 서버에서 직접 볼륨에 생성해도 되고, 컨테이너 쉘을 열어 생성해도 된다.
+나는 컨테이너 쉘을 열어 작업했다. 그리고 설정파일들을 위한 디렉토리를 추가로 만들어줬다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;exec&lt;/span&gt; -it jenkins_cicd /bin/bash
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; /var/jenkins_home/workspace/django-ci-cd
+&lt;span class=&quot;token function&quot;&gt;mkdir&lt;/span&gt; deploy&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;8.4.1 docker-compose.yml&lt;/h4&gt;
+&lt;p&gt;이 파일은 실제 서비스를 가지고 있는 컨테이너를 생성하기 위한 설정파일이다. 아래의 경로에 생성한다.
+&lt;code class=&quot;language-text&quot;&gt;/var/jenkins_home/workspace/django-ci-cd/deploy/&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# docker-compose.yml&lt;/span&gt;
+
+version: &quot;2&quot;
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - &quot;80:80/tcp&quot;
+    volumes:
+      &lt;span class=&quot;token comment&quot;&gt;# nginx 설정파일&lt;/span&gt;
+      - ./nginx:/etc/nginx/conf.d
+
+      &lt;span class=&quot;token comment&quot;&gt;# static 디렉토리. 장고 프로젝트 소스의 static 디렉토리를 사용한다&lt;/span&gt;
+      - ../static:/static
+    depends_on:
+      - django_web
+  
+  django_web:
+    &lt;span class=&quot;token comment&quot;&gt;# docker hub 의 최신 이미지&lt;/span&gt;
+    image: ohyunkyo/inventory:latest
+    container_name: django_web
+
+    &lt;span class=&quot;token comment&quot;&gt;# gunicorn를 사용. 8000 포트. 특정 설정 파일로 실행&lt;/span&gt;
+    command: gunicorn --bind 0.0.0.0:8000 --env DJANGO_SETTINGS_MODULE=config.settings.prod config.wsgi:application
+    volumes:
+      &lt;span class=&quot;token comment&quot;&gt;# static 디렉토리&lt;/span&gt;
+      - ../static:/usr/src/app/static
+    expose: 
+      - &quot;8000&quot;
+    secrets:
+      &lt;span class=&quot;token comment&quot;&gt;# 보안파일&lt;/span&gt;
+      - django_secret
+
+secrets:
+    django_secret:
+        file: django_secret.json&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;여기서 config 는 내 프로젝트 이름이다. 처음 장고를 배운 책에서 나온 과정을 그대로 따라해서 생긴 프로젝트 이름인데 나중에 프로젝트 이름을 변경할 생각이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4&gt;8.4.2 nginx.conf&lt;/h4&gt;
+&lt;p&gt;장고 프로젝트로 연결하기 위한 설정파일이다. 아래의 경로에 생성한다.
+&lt;code class=&quot;language-text&quot;&gt;/var/jenkins_home/workspace/django-ci-cd/deploy/nginx/&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# nginx.conf
+
+upstream django_web {
+    ip_hash;
+    server django_web:8000;
+}
+server {
+    location / {
+        proxy_pass http://django_web/;
+        proxy_redirect     off;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;          
+    }
+    location /static {
+        alias /static/;
+    }
+    listen 80;
+    server_name localhost;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;8.4.3 디렉토리 구조 확인&lt;/h4&gt;
+&lt;p&gt;마지막으로 젠킨스 컨테이너의 디렉토리 구조를 살펴보자면 다음과 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;/
+├── var
+    ├── jenkins_home
+        ├── workspace
+            ├── django-ci-cd
+                ├── .git
+                ├── .gitignore
+                ├── Dockerfile
+                ├── README.md
+                ├── common
+                ├── config
+                ├── deploy
+                    ├── docker-compose.yml
+                    ├── django_secret.json
+                    ├── nginx
+                        ├── nginx.conf                
+                ├── inventory
+                ├── manage.py
+                ├── requirements.txt
+                ├── static
+                ├── utils&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;8.5 젠킨스 빌드 설정&lt;/h3&gt;
+&lt;p&gt;이제 실제로 설정파일을 운영서버로 전송한 후 컨테이너를 생성, 시작하여 서비스를 실행해야 한다.&lt;/p&gt;
+&lt;p&gt;젠킨스 Job 설정 - 빌드 후 조치 탭에서 &lt;code class=&quot;language-text&quot;&gt;Send build artifacts over SSH&lt;/code&gt; 를 선택하여 빌드 후 조치 프로세스를 하나 추가한다.&lt;/p&gt;
+&lt;p&gt;난 아래 사진처럼 설정했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c3287188cc1b3804fd91b6f2bfdcba74/38af3/850-ssh-publish.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 108.22784810126582%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACJklEQVQ4y6WVzY7TMBSF+3qIx4GXgNeZPSxmOVQCViPEhmljN7ETJ7ETO07ag+7NTwulkBkqfWqTWsf351x787TbQ+ucyfMCP552SIREURhY5+AmrB1pmuYaN74PIWCTphm01siUYkGlNLJMoSgKfmeMYcqyRFlVsNZe4bzn72EYsEmSBIT3HjFGdF3HO/0Ovf/Tf75t0UiJ4D2OxyM2QiQQQjAHeUCe5zdFr+g6eGthHh5YeBIU2O12nBbv6P06sQvR7niED2EU1FpBSnkzpVV4z4GwIBWbGlHVNdp2rmNEF1fQxWV9O6dMIdMDWeKyMWugtd4HOLbPJEgiJBjj81Om9c41KEx5jpCakabpy2p3YaelhmRIkSQgg7+4KZM7WJBGJs0U+49qwQ3hXeMKxnUhdOeUSZDmllKn2eUFFOlK5qwWQecslFI8t44Fn5v2LDilTA6noaaH2Pfr/HcBWWe23tSUGkkisN/vobT+/6bQD1NWo+svIowhILJ5e47iNj1H2Jyb4vjs03nOTYmToAdGaE45gr/hL33o+HBIhGDrGDpItcZwf4/h8REDgL7vbzMMHOVSQ5wGlLnGQUquo5ASJs3g7+4QtlsW/NeHhBbBj9uv+PDpM6TOUNYGlS3h2gb2dILte74r5pSaNqD1AQ3RBvgwHhC/+PDVm3d4/fY9vnz7jqoyLGpMgYrukek+me+ULLdQhYMqLNLcorItamtR1Xap4U907KVBrT48wAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ssh-publish&quot;
+        title=&quot;ssh-publish&quot;
+        src=&quot;/static/c3287188cc1b3804fd91b6f2bfdcba74/f058b/850-ssh-publish.png&quot;
+        srcset=&quot;/static/c3287188cc1b3804fd91b6f2bfdcba74/c26ae/850-ssh-publish.png 158w,
+/static/c3287188cc1b3804fd91b6f2bfdcba74/6bdcf/850-ssh-publish.png 315w,
+/static/c3287188cc1b3804fd91b6f2bfdcba74/f058b/850-ssh-publish.png 630w,
+/static/c3287188cc1b3804fd91b6f2bfdcba74/38af3/850-ssh-publish.png 894w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;해당 프로세스의 각 항목을 설명하자면 다음과 같다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Name&lt;/code&gt; :  &lt;a href=&quot;#8.3-%EC%9A%B4%EC%98%81%EC%84%9C%EB%B2%84-SSH-%EC%A0%91%EC%86%8D%EC%A0%95%EB%B3%B4-%EB%93%B1%EB%A1%9D&quot;&gt;8.3&lt;/a&gt; 에서 등록한 원격서버를 선택한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Transfer Set&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Source files&lt;/code&gt; : 원격서버로 전송할 파일 또는 디렉토리를 입력한다. 배포설정이 있는 디렉토리와 &lt;code class=&quot;language-text&quot;&gt;python manage.py collectstatic&lt;/code&gt; 명령어로 생성된 &lt;code class=&quot;language-text&quot;&gt;static&lt;/code&gt; 디렉토리를 포함시켰다.
+&lt;ul&gt;
+&lt;li&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;deploy/**, static/**&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Remove prefix&lt;/code&gt; : 전송시 생략될 디렉토리 이름을 입력한다. 그대로 보낼것이기 때문에 비워둔다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Remote directory&lt;/code&gt; : 원격디렉토리. 원격서버의 이 디렉토리에 파일이 전송된다.
+&lt;ul&gt;
+&lt;li&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;deploys&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Exec command&lt;/code&gt; : 원격서버에서 실행될 명령어. 파일이 전송된 디렉토리로 들어가서 도커 이미지를 가져오고 빌드한다. 내가 사용할 저장소는 private 저장소이기 때문에 로그인 하는 과정이 꼭 필요한다.
+&lt;ul&gt;
+&lt;li&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; /home/ec2-user/deploys/deploy
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; login -u ohyunkyo -p &lt;span class=&quot;token string&quot;&gt;&apos;test!@#$&apos;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; pull
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; up --force-recreate --build -d&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;8.6 빌드하기&lt;/h3&gt;
+&lt;p&gt;이제 빌드하면 운영서버에 &lt;code class=&quot;language-text&quot;&gt;nginx&lt;/code&gt; 와 &lt;code class=&quot;language-text&quot;&gt;django_web&lt;/code&gt; 라는 이름을 가진 컨테이너가 생성된다. 또한 서비스도 정상적으로 실행되었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b6c699a7fdcfaffa5ed3385d973763a1/18539/860-0-containers-list.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 5.69620253164557%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAR0lEQVQI1x3KMQrAIAxA0UiKRtA4OOhSIb3/HX9p5/ckImitISLMOYkn6L0zhuPufK6qSErc51DN/rv3Zq1FKQXVi5wzVo0XphkXRaCwErIAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;containers-list&quot;
+        title=&quot;containers-list&quot;
+        src=&quot;/static/b6c699a7fdcfaffa5ed3385d973763a1/f058b/860-0-containers-list.png&quot;
+        srcset=&quot;/static/b6c699a7fdcfaffa5ed3385d973763a1/c26ae/860-0-containers-list.png 158w,
+/static/b6c699a7fdcfaffa5ed3385d973763a1/6bdcf/860-0-containers-list.png 315w,
+/static/b6c699a7fdcfaffa5ed3385d973763a1/f058b/860-0-containers-list.png 630w,
+/static/b6c699a7fdcfaffa5ed3385d973763a1/40601/860-0-containers-list.png 945w,
+/static/b6c699a7fdcfaffa5ed3385d973763a1/18539/860-0-containers-list.png 1074w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7e52be5d08d005bc2cfcd55a7af6cfc5/9a86a/860-1-django-web.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 105.0632911392405%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAC2UlEQVQ4y52UW4scRRSAG0ISyEt+wLJCJJBNQCUIguZfCb7l1Rd1d72A70Zf3Z0rwQcRkbyIeMVNdsIkxtnJ9Fy3u6enqrqquj6p6pll3U2y0YaPU8NUfXU43edEb165wq0bN3hnY4O3r13j1sZ13rp6ldfW1nh9bS3Es3hj/RVevXyZ92/fJmq02+zu7FCr1/m6Vjtit9Gg1myy22yGeJJGu0Wz3aLRqmK91eSHe/eI8I82/NfH+WOuWuuyimmaEsWDAfv7HbrdbuDx40d0Oh3u339Ar/eEXq+HMRZrDMYYrK3ip3f3eO+rn7jz/UPe/eJHttp7xHFMJIRgNBwzmUwZjydkWU6SpCRJRppm4XdR6FM8nc75K04ZHuZVTASj0YioKAqms4TZLEEIRVGYgFL6CCnVMYoQTaGx2qALHdaUrhIuFgs6D7v8/eSAwWDMQX9Evz9ikc6RWY7IcuQ8R4qVrMJfvhCqiguJ1rYSKqmIhxNGFjJfWGAOiJMUJkjFMelx+ZHQ2BKZC8ydLzEffIjZ/hiztY3e3EJvbqM/2kRvf4J8GiO0PZXpaWFZIg5TyvV1iKLnon7+JWQqF/JsYe6FN2+Gg+7iRdz58xUXLuDOncNduoT67Q+Eq4RiWTuxzPaE0CGSjHLj+osz/PX3I+GzMvTfahBqY8nnC9S336F2aqh6E1VvLGmiag1Uo4UYTxFKI05keOotl2UZ7L75XoR1Dus7xpZYu4yrs8aG1gtC35XOOfBYizPm2ZRl2BcioNIMeTjDN0aWZRhrGI/HRFr7TpDMZrPQckqpl0PKgD+b5zneU9VQ63BDv99nOp2GG18aXSCVIpvnqKKohL4ewzgOU+UwScIk8XWt6vR8VnuqQQbOGobDZYa+n/3U8amv1mfh95lCsX8w4fNv9ugOEmYT/x0aE/5ciVbrs8iDUPKgN+Gzu3/yKE6YZwlReHP/k7J0/5riQkr+AWZX4mZj+XW4AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;django-web&quot;
+        title=&quot;django-web&quot;
+        src=&quot;/static/7e52be5d08d005bc2cfcd55a7af6cfc5/f058b/860-1-django-web.png&quot;
+        srcset=&quot;/static/7e52be5d08d005bc2cfcd55a7af6cfc5/c26ae/860-1-django-web.png 158w,
+/static/7e52be5d08d005bc2cfcd55a7af6cfc5/6bdcf/860-1-django-web.png 315w,
+/static/7e52be5d08d005bc2cfcd55a7af6cfc5/f058b/860-1-django-web.png 630w,
+/static/7e52be5d08d005bc2cfcd55a7af6cfc5/9a86a/860-1-django-web.png 792w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[github pages 를 사용하여 블로그 만들기]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/git/github-page-make-blog/</link><guid isPermaLink="false">https://ohyunkyo.github.io/git/github-page-make-blog/</guid><pubDate>Tue, 08 Mar 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;요즘 공부한것들 정리할 겸 포트폴리오 제작을 위해 블로그에 글을 쓰고 있었다.&lt;br&gt;
 그러던중 이직을 위해서, 그리고 나를 위해서 처음부터 형식을 잘 갖춰놓는게 좋겠다는 생각이 들어 다른 개발자들의 포트폴리오를 찾아봤다.&lt;/p&gt;
 &lt;p&gt;다른 개발자들은 각자의 방법으로 포트폴리오를 제작하고, 블로그를 운영하고 있었는데 나는 그중에서 github pages 를 선택했다.&lt;br&gt;
