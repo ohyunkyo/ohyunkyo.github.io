@@ -1,5 +1,5 @@
 ---
-title: "젠킨스를 사용한 CI/CD"
+title: "젠킨스를 사용한 장고 배포"
 date: "2022-05-02"
 last_modified_at: "2022-05-13"
 ---
