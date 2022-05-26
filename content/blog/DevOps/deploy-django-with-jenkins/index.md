@@ -1,8 +1,11 @@
 ---
 title: "젠킨스를 사용한 장고 배포"
 date: "2022-05-02"
-last_modified_at: "2022-05-13"
+last_modified_at: "2022-05-24"
 ---
+
+> 다음 링크의 내용을 참고하여 작성한 글입니다.  
+> https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044
 
 ## 0. 서론
 지금 온라인중인 서비스는 `django` 로만 만들어져 있다.
@@ -29,49 +32,52 @@ AWS 나 도커에 대한 기본 지식은 보유했다고 가정하고 최대한
 5. build 된 이미지를 docker hub 에 업로드
 6. docker hub 의 이미지를 사용하여 컨테이너 실행
 
-> 다음 링크의 내용을 참고하여 작성한 글입니다.  
-> https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044
-
-## 1. CI/CD 서버 구성
-EC2 인스턴스를 하나 생성했다. 주의해야 할 점은 젠킨스에서 사용할 포트를 허용하도록 설정해야 한다는것이다. 
-
-방금 만든 인스턴스를 젠킨스 서버라고 부르기로 하자
-
-## 2. CI/CD 서버에 jenkins 설치<a id='2.-CI/CD-서버에-jenkins-설치'></a>
-젠킨스 서버에 jenkins 서비스를 올릴것이다. 젠킨스에서 제공하는 도커 이미지를 사용하면 좀 더 편하다.
-
-일단 docker 와 docker-compose 를 설치한다.
-```shell
-# docker 설치
-
-$ sudo yum update -y
-$ sudo amazon-linux-extras install -y docker -y
-$ sudo systemctl start docker
-$ sudo systemctl enable docker
+## 1. 젠킨스 서버 구성
 ```
-인스턴스 재시작시 도커가 실행되도록 했다.
+# EC2 스펙
 
-```shell
-# docker-compose 설치
-
-$ sudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
-$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+AMI : amzn2-ami-kernel-5.10-hvm-2.0.20220426.0-x86_64-gp2
+인스턴스 유형 : t3.small
 ```
+EC2 인스턴스를 하나 생성했다. 젠킨스에서 사용할 포트(여기에선 80 을 사용)를 열어주기만 하면 크게 신경 쓸 것은 없다.
 
-[docker-compose 설치](https://docs.docker.com/compose/install/)
+방금 만든 것을 젠킨스 서버라고 부르기로 하자.
 
-그 다음에 젠킨스 컨테이너 생성을 위한 yml 파일을 생성한다. 
+## 2. 젠킨스 서버에서 jenkins 서비스 실행<a id='2.-젠킨스-서버에서-jenkins-서비스-실행'></a>
+젠킨스 서버에 jenkins 서비스를 올릴것이다. 편의를 위해 도커를 사용해 컨테이너 형태로 제공한다. 
+
+도커 사용을 위해 개별적으로 설치 하던것들을 간단한 쉘 스크립트를 작성하여 간편하게 만들어봤다.  
+일단 `/home/ec2-user/jenkins_server_settings.sh` 파일에 아래의 내용을 붙여넣는다.
 ```shell
-$ mkdir jenkins
-$ vi jenkins/docker-compose.yml
-```
+# jenkins_server_settings.sh
 
-docker-compose 에 대해 잘 모르기 때문에 일단 그대로 사용하고 넘어갔다.
-```yml
-# jenkins/docker-compose.yml
+# docker install
+sudo yum update -y
+sudo amazon-linux-extras install -y docker -y
+sudo systemctl start docker
+sudo systemctl enable docker
 
-version: '3'
+# docker compose install
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+# directory for jenkins service
+mkdir -p jenkins_config
+
+# creating django test module
+echo "apt-get update -y
+apt-get install -y
+apt-get install docker.io -y
+apt-get install python3 pip -y
+pip install django==3.2.6
+
+apt-get install python3-dev default-libmysqlclient-dev build-essential -y" > /home/ec2-user/jenkins_config/django_module_installer.sh
+
+sudo chmod +x ./jenkins_config/django_module_installer.sh
+
+# creating docker-compose.yml file
+echo "version: '3'
 
 services:
     jenkins:
@@ -79,41 +85,60 @@ services:
         container_name: jenkins_cicd
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - /jenkins:/var/jenkins_home
+            - /home/ec2-user/jenkins_home:/var/jenkins_home
+            - /home/ec2-user/jenkins_config/django_module_installer.sh:/var/jenkins_home/scripts/django_module_installer.sh
         ports:
-            - "8080:8080"
+            - \"80:8080\"
         privileged: true
         user: root
+        secrets:
+            - django_secret
+        command: sh -c \"/var/jenkins_home/scripts/django_module_installer.sh && /sbin/tini -- /usr/local/bin/jenkins.sh\"
+	
+secrets:
+    django_secret:
+        file: /home/ec2-user/secrets/django_secret.json" > /home/ec2-user/jenkins_config/docker-compose.yml
+
+# container up
+sudo docker-compose -f /home/ec2-user/jenkins_config/docker-compose.yml up -d
 ```
 
-이제 `docker-compose up -d` 명령어로 컨테이너를 생성하고 실행한다. 이렇게 하면 젠킨스 서비스가 실행된다.
+먼저 각각의 주석을 상세히 설명하자면 다음과 같다
+1. `docker install` : 도커 패키지를 설치하고 인스턴스 재시작시 도커가 실행되도록 했다.
+2. `docker compose install` : `docker-compose` 명령어 사용을 위해 패키지를 설치하고 심볼릭 링크를 걸어줬다.
+3. `directory for jenkins service` : 젠킨스 서비스를 위한 설정파일이 위치할 디렉토리를 생성했다.
+4. `creating django test module` : 이후 파이프라인 빌드시 프로젝트 테스트를 위한 패키지를 설치하는 쉘을 작성했다.
+5. `creating docker-compose.yml file` : 실제로 컨테이너가 생성될 때 사용될 설정파일을 생성한다.
+6. `container up` : `docker-compose.yml` 파일을 사용하여 컨테이너를 생성한다.
 
-> `docker-compose` 명령어는 `docker-compose.yml` 파일이 있는곳에서 실행해야 한다. 
+이제 이 `jenkins_server_settings.sh` 파일을 실행한다.
 
-다음과 같이 브라우저에 URL 을 입력하여 젠킨스 서비스 화면을 확인해 볼 수 있다.
+```shell
+$ sh jenkins_server_settings.sh
+```
 
-> \[젠킨스 서버 IP]:8080 (ex: 10.0.0.0:8080)
+이제 브라우저에 젠킨스 서버 IP 를 입력하면 젠킨스 서비스 화면을 확인해 볼 수 있다.
 
 ## 3. jenkins 설정하기 
-처음 보는 화면에서 젠킨스는 비밀번호부터 물어본다. 비밀번호는 이미 생성된 상태인데, 다음 명령어에서 확인 가능하다
+![unlock-jenkins](./300-0-unlock-jenkins.png)
+
+젠킨스를 시작하기 위해서는 암호가 필요하다. 이 암호는 이미 생성된 상태인데, 아래의 명령어를 사용하여 확인 가능하다
 ```shell
-$ docker-compose logs
+$ sudo docker-compose -f /home/ec2-user/jenkins_container_config/docker-compose.yml logs
 ```
 
-> 이것도 `docker-compose.yml` 파일이 있는곳에서 명령어를 실행해야 한다. 해당 파일의 볼륨에 있는 로그를 가져오는듯
-
-![generated-password](./300-generated-password.png)
+![generated-password](./300-1-generated-password.png)
 
 이 비밀번호를 입력하고 들어가면 기본적인 설정을 해야한다. 실제로 할것은 크게 없고 다음으로 넘어가기만 하면 된다.
 
 ### 3.1 플러그인 설치
-Install suggested plugins 을 눌러 많이 사용하는 플러그인을 자동으로 설치하도록 한다.  
+`Install suggested plugins` 은 가장 유용한 플러그인을 알아서 설치해준다. 젠킨스가 익숙하지 않다면 이 옵션을 사용하자.
 
 ![customize-jenkins](./310-customize-jenkins.png)  
 ![getting-started](./310-getting-started.png)
 
 ### 3.2 계정 생성
-설치가 완료되면 계정을 생성해야 한다.  
+설치가 완료되면 계정을 생성해야 한다. 이후 젠킨스에 로그인 할 때에는 이 계정을 사용한다. 
 
 ![create-first-admin-user](./320-create-first-admin-user.png)  
 
@@ -371,7 +396,7 @@ docker rmi $ID/$DOCKER_REPOSITORY_NAME:$NEW_TAG_VER
 이제 생성된 이미지로 컨테이너를 시작하면 된다. 나는 이 과정이 빌드 후 자동으로 실행되도록 할것이다.  
 
 ### 8.1 운영서버 EC2 생성하기
-운영서버를 위한 EC2 를 생성하고 [2.](#2.-CI/CD-서버에-jenkins-설치) 과 동일하게 도커 패키지를 설치한다. 
+운영서버를 위한 EC2 를 생성하고 [2.](#2.-젠킨스-서버에서-jenkins-서비스-실행) 과 동일하게 도커 패키지를 설치한다. 
 이후 서비스를 위한 웹 서비스를 위한 80, 443 포트를 열어준다.
 
 추가로 22포트로 접근 가능하도록 열어줘야 한다. 이유는 다음과 같다.
