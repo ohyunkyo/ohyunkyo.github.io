@@ -1,8 +1,971 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 19 May 2022 09:39:04 GMT</lastBuildDate><item><title><![CDATA[젠킨스를 사용한 뷰 배포]]></title><description><![CDATA[0. 서론 백엔드 배포가 끝났으니 프론트엔드를 배포하여 서비스를 시작 해야 한다. 젠킨스를 통해 S3 에 vue.js 를 배포하는 방법을 정리한다. 1. pipeline 생성 백엔드를 배포 할 때에는 free project…]]></description><link>https://ohyunkyo.github.io/DevOps/deploy-vue-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/deploy-vue-with-jenkins/</guid><pubDate>Mon, 16 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 15 Jun 2022 09:30:50 GMT</lastBuildDate><item><title><![CDATA[젠킨스를 사용한 장고 배포]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/DevOps/deploy-django-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/deploy-django-with-jenkins/</guid><pubDate>Tue, 24 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+&lt;p&gt;지금 온라인중인 서비스는 &lt;code class=&quot;language-text&quot;&gt;django&lt;/code&gt; 로만 만들어져 있다.
+개발 수정사항을 깃허브에 푸쉬 하면 운영서버에서 저장소의 소스코드를 수동으로 가져와야 한다.&lt;/p&gt;
+&lt;p&gt;소스코드를 리팩토링 하는 과정에서 프론트와 백엔드 구분을 위해 &lt;code class=&quot;language-text&quot;&gt;vue.js&lt;/code&gt; / &lt;code class=&quot;language-text&quot;&gt;django&lt;/code&gt; 구조로 변경했고, 수동으로 소스코드를 가져오는 불편함을 해소하기 위해 젠킨스를 사용한 CI/CD 를 도입하기로 결정했다. 또한 백엔드는 도커 컨테이너를 통해 제공하고, 프론트는 S3 를 통해 배포하기로 결정했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# 최종 목표 기술 스택 
+ 
+front-end : vue.js / S3
+back-end : django / docker on EC2
+db : rds(mysql)
+CI/CD : jenkins&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;프론트와 백엔드 구분은 이미 완료했고 이후 젠킨스를 통해 백엔드를 배포 하는 과정을 정리했다. 이 과정에서 사용한 배포 프로세스는 다음 사진과 같다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d0b4005a7d04a65ece2b6b14a8078378/c7dcc/000-current-structure.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 62.65822784810127%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABkUlEQVQ4y42TZ6oDMQyEff/z5Ab5FVhCCrukN5JN771O+AQKS3iEJxCWx+OxLMthPp+rXq9rPB6LeDabaTQaqdVqmddqNTWbTTUaDXU6HbXbbaVparzFYqF+v29r2+1W+Xxe4Xa7ablc6nw+63Q6ab/f63A42AYOuFwuOh6P5giAsb7b7QxDCO7r9VIURQqAEBBCkDnizIkR9Ni5JAH+eDyUtUqlorDZbLRarbRer23k6mCUYTgcWsxVyWw6ndrIwfj9fjchFy6XywrP59MWABmv16vAyAInJhtiDuBA5vBcEM5HMJsyBMjfRgkQHAwG9mCI/RSkoN+CYO4IsjaZTOzKiGVr6Pt/ZuikrCCvSa3JFlFw+L7HBCF6vdyzghgb4FFDMiRTrk//dbtd9Xo9a71SqaRAANF7jBZBAIyMyIReo2X8UbxnwehHXh8zQfqK1mABR9Az9eIjiAAj7jiCHEq28E1Q/zB/xb9waoogliSJAv+VWvBf+bdxHCuL4dVq9fOfHWcz3GKxqEKhYHgul9Mbxd3fQndGUwcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;current-structure&quot;
+        title=&quot;current-structure&quot;
+        src=&quot;/static/d0b4005a7d04a65ece2b6b14a8078378/f058b/000-current-structure.png&quot;
+        srcset=&quot;/static/d0b4005a7d04a65ece2b6b14a8078378/c26ae/000-current-structure.png 158w,
+/static/d0b4005a7d04a65ece2b6b14a8078378/6bdcf/000-current-structure.png 315w,
+/static/d0b4005a7d04a65ece2b6b14a8078378/f058b/000-current-structure.png 630w,
+/static/d0b4005a7d04a65ece2b6b14a8078378/c7dcc/000-current-structure.png 641w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;1. 젠킨스 서버 구성&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# EC2 스펙
+
+AMI : amzn2-ami-kernel-5.10-hvm-2.0.20220426.0-x86_64-gp2
+인스턴스 유형 : t3.small&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;EC2 인스턴스를 하나 생성했다. 젠킨스에서 사용할 포트(여기에선 80 을 사용)를 열어주기만 하면 크게 신경 쓸 것은 없다.&lt;/p&gt;
+&lt;p&gt;방금 만든 것을 젠킨스 서버라고 부르기로 하자.&lt;/p&gt;
+&lt;h2&gt;2. 젠킨스 서버에서 jenkins 서비스 실행&lt;a id=&apos;2.-젠킨스-서버에서-jenkins-서비스-실행&apos;&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;젠킨스 서버에 jenkins 서비스를 올릴것이다. 도커를 사용하면 좀더 편하게 서비스를 제공할 수 있다.&lt;/p&gt;
+&lt;p&gt;도커를 처음 사용한다면 개별적으로 설치하고 설정해줘야 할게 많다고 느껴질 수 있다.&lt;br&gt;
+나도 그렇게 생각했기 때문에 젠킨스 서비스를 간편하게 실행할 수 있도록 간단한 쉘 스크립트를 작성했다.&lt;br&gt;
+아래 파일의 내용을 &lt;code class=&quot;language-text&quot;&gt;/home/ec2-user/jenkins_server_settings.sh&lt;/code&gt; 파일에 붙여넣는다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# jenkins_server_settings.sh&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# docker install&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; yum update -y
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; amazon-linux-extras &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -y &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; -y
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl start &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# docker compose install&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; +x /usr/local/bin/docker-compose
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ln&lt;/span&gt; -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+&lt;span class=&quot;token comment&quot;&gt;# directory for jenkins service&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;mkdir&lt;/span&gt; -p jenkins_config
+
+&lt;span class=&quot;token comment&quot;&gt;# creating django module installer&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;apt-get update -y
+apt-get install -y
+apt-get install docker.io -y
+apt-get install python3 pip -y
+pip install django==3.2.6
+
+apt-get install python3-dev default-libmysqlclient-dev build-essential -y&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; /home/ec2-user/jenkins_config/django_module_installer.sh
+
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; +x ./jenkins_config/django_module_installer.sh
+
+&lt;span class=&quot;token comment&quot;&gt;# creating docker-compose.yml file&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;version: &apos;3&apos;
+
+services:
+    jenkins:
+        image: jenkins/jenkins:lts
+        container_name: jenkins_cicd
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /home/ec2-user/jenkins_home:/var/jenkins_home
+            - /home/ec2-user/jenkins_config/django_module_installer.sh:/var/jenkins_home/scripts/django_module_installer.sh
+        ports:
+            - &lt;span class=&quot;token entity&quot; title=&quot;\&amp;quot;&quot;&gt;\&quot;&lt;/span&gt;80:8080&lt;span class=&quot;token entity&quot; title=&quot;\&amp;quot;&quot;&gt;\&quot;&lt;/span&gt;
+        privileged: true
+        user: root
+        secrets:
+            - django_secret
+        command: sh -c &lt;span class=&quot;token entity&quot; title=&quot;\&amp;quot;&quot;&gt;\&quot;&lt;/span&gt;/var/jenkins_home/scripts/django_module_installer.sh &amp;amp;&amp;amp; /sbin/tini -- /usr/local/bin/jenkins.sh&lt;span class=&quot;token entity&quot; title=&quot;\&amp;quot;&quot;&gt;\&quot;&lt;/span&gt;
+	
+secrets:
+    django_secret:
+        file: /home/ec2-user/secrets/django_secret.json&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; /home/ec2-user/jenkins_config/docker-compose.yml
+
+&lt;span class=&quot;token comment&quot;&gt;# container up&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; -f /home/ec2-user/jenkins_config/docker-compose.yml up -d&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;먼저 각각의 주석을 상세히 설명하자면 다음과 같다&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;docker install&lt;/code&gt; : 도커 패키지를 설치하고 인스턴스 재시작시 도커가 실행되도록 했다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;docker compose install&lt;/code&gt; : &lt;code class=&quot;language-text&quot;&gt;docker-compose&lt;/code&gt; 명령어 사용을 위해 패키지를 설치하고 심볼릭 링크를 걸어줬다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;directory for jenkins service&lt;/code&gt; : 젠킨스 서비스를 위한 설정파일이 위치할 디렉토리를 생성했다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;creating django module installer&lt;/code&gt; : 파이프라인 빌드시 장고 프로젝트 테스트를 위한 패키지를 설치하는 쉘을 작성했다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;creating docker-compose.yml file&lt;/code&gt; : 실제로 컨테이너가 생성될 때 사용될 설정파일을 생성한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;container up&lt;/code&gt; : &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; 파일을 사용하여 컨테이너를 생성한다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;이제 이 &lt;code class=&quot;language-text&quot;&gt;jenkins_server_settings.sh&lt;/code&gt; 파일을 실행한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;sh&lt;/span&gt; jenkins_server_settings.sh&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이러면 &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; 파일 내용을 참조한 젠킨스 컨테이너가 생성되었다.&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;command&lt;/code&gt; 옵션에서 &lt;code class=&quot;language-text&quot;&gt;django_module_installer.sh&lt;/code&gt; 를 실행하여 장고를 위한 패키지를 설치했고 그 다음엔 젠킨스 서비스 시작을 위한 쉘스크립트를 실행했다.&lt;br&gt;
+이제 브라우저에 젠킨스 서버 IP 를 입력하면 젠킨스 서비스 화면을 확인해 볼 수 있다.&lt;/p&gt;
+&lt;h2&gt;3. jenkins 설정하기&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d79665d0e16bf5267c4ac3b1809f1605/84f4d/300-0-unlock-jenkins.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.35443037974683%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABcklEQVQ4y42SS2/CMBCE+f8/pMfeK/UOeVSqoBKJBKVQDhxKYsePJIQw1aR1CcGgrjSKZcez3+56FEURVqt3rNcf2O12yPMcWZZdiHs+8UxKie12iyAIEMcxRmEYQimFtm07MU6nE1xwPVT/jEHz8Xh8NtRad5pNp0iSOTbrNd5mU6RJAmttd9ElHIpB0gtDXjoej8iEwF4UyKTCF79CwhgDTWmNsixRVdWf6rr2E9qyJD8qqaClgRKUhhEKZS5RaYPD4dAl9ZV/ZcjMx6aB2GdQuYAtCtTGoCKV0qiM7WhIRdN+b28bti2KooDSGoemQev6dvrpFY1c30hLc379JVuLfvgm68SedomV6p5Mw8qE8BsOn8UwSGd+B0TRmJQ3Ce+ROUOSUbzDsu+W7KNzeyzNkXHdP8uygSHLcAS3CDll9soNov+wrZLXU/5P+Cp43UiE80+EweRsmKYplsslFovFXfn+eXgK8Pg8wUscIYpifANu0SezAS+qQAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;unlock-jenkins&quot;
+        title=&quot;unlock-jenkins&quot;
+        src=&quot;/static/d79665d0e16bf5267c4ac3b1809f1605/f058b/300-0-unlock-jenkins.png&quot;
+        srcset=&quot;/static/d79665d0e16bf5267c4ac3b1809f1605/c26ae/300-0-unlock-jenkins.png 158w,
+/static/d79665d0e16bf5267c4ac3b1809f1605/6bdcf/300-0-unlock-jenkins.png 315w,
+/static/d79665d0e16bf5267c4ac3b1809f1605/f058b/300-0-unlock-jenkins.png 630w,
+/static/d79665d0e16bf5267c4ac3b1809f1605/40601/300-0-unlock-jenkins.png 945w,
+/static/d79665d0e16bf5267c4ac3b1809f1605/84f4d/300-0-unlock-jenkins.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;젠킨스를 시작하기 위해서는 암호가 필요하다. 이 암호는 이미 생성된 상태인데, 아래의 명령어를 사용하여 확인 가능하다&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; -f /home/ec2-user/jenkins_container_config/docker-compose.yml logs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/fbf08/300-1-generated-password.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 32.278481012658226%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA4klEQVQY03WRS27DMAxEGYu1Y/1tyfksEjfHCHqKopvm/geZgEzcGkG7eBiBFMghSTTPoP0emxgxDAPGcUQpBeMwotaKWipyzkpK6SdvrUXbtui6TiGiJ1LwcACFAGsdvPfw7oFzTgk+aFzVeYQQwMyrImvmdy0oDqdpUpeCuFtU3ElOVNyVWhBj1GbSSN/+0YjofNaRKUZ8OIdvY/BpDL6YcWPGdduDmPHGDGOMOhOapvnH4eUCOh6xSUk7pKeuHSz7E13+aCxG9P32peDpBNrtdIc5ZT3GMvafZDlceTnEL3cv8IkI6O0SEQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;generated-password&quot;
+        title=&quot;generated-password&quot;
+        src=&quot;/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/f058b/300-1-generated-password.png&quot;
+        srcset=&quot;/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/c26ae/300-1-generated-password.png 158w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/6bdcf/300-1-generated-password.png 315w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/f058b/300-1-generated-password.png 630w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/40601/300-1-generated-password.png 945w,
+/static/abc7a1efdcf29a734e35a5a1cc5dcf1b/fbf08/300-1-generated-password.png 962w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이 비밀번호를 입력하고 들어가면 기본적인 설정을 해야한다. 실제로 할것은 크게 없고 다음으로 넘어가기만 하면 된다.&lt;/p&gt;
+&lt;h3&gt;3.1 플러그인 설치&lt;a id=&apos;3.1-플러그인-설치&apos;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Install suggested plugins&lt;/code&gt; 은 가장 유용한 플러그인을 알아서 설치해준다. 젠킨스가 익숙하지 않다면 이 옵션을 사용하자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/503df7ed390aed938564519afee80fd2/84f4d/310-customize-jenkins.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABoUlEQVQ4y6VTa4+iQBDc//+j9uspxmiUQ9EYwBWUh/KYGRhAqE33LXurq8k9OqnMhMnUVFc1L4ZhYLFYwPNcOK6LOI6RJMlfge7M53MQ18t4PMZ6vUbfdWjbFs+q73vGs1oulyCu34R9D8/zsFqtGJZlwXU9/LQsbDYbfux6vTK6rrsB3f0kHI1GsG2bXymVhBICpRRQUkBKAVEUkFIyIaGua1RVxetXxTeEpIDqrDQOmYKfKZyKEqlukesWhRC4XC5I0xRlWULXNeqmubHhTuEvQjvM8GofYJ5S2HEBr9Dwiwr7/R6O43AAQggopVBp/djDrwp3Z4F5kMIMM5hhjkWYw7lIJHGMKIo4zTAMeT+oJQ+/K/wgtMIMP/YxjLczjMMZo7cE1inF8XjEwfcRBEf4QQDf9xFFMfI8Z3+fKizrFvIO9K1pGvaMVmo3yzIUHJZgCyh50zS/E/5JUbqUfKkUtzzM7kOF3Udqz6C1ZkU0NoN3D0MZ5vDR0A6gM/KMWiXy+/Mbwu12i/+tTw/ph57NZtjtdgyat3/BdDrFZDLBO4qiHqSik9guAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;customize-jenkins&quot;
+        title=&quot;customize-jenkins&quot;
+        src=&quot;/static/503df7ed390aed938564519afee80fd2/f058b/310-customize-jenkins.png&quot;
+        srcset=&quot;/static/503df7ed390aed938564519afee80fd2/c26ae/310-customize-jenkins.png 158w,
+/static/503df7ed390aed938564519afee80fd2/6bdcf/310-customize-jenkins.png 315w,
+/static/503df7ed390aed938564519afee80fd2/f058b/310-customize-jenkins.png 630w,
+/static/503df7ed390aed938564519afee80fd2/40601/310-customize-jenkins.png 945w,
+/static/503df7ed390aed938564519afee80fd2/84f4d/310-customize-jenkins.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;br&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/795ff61a4a332d4cdddb3eb79ad62136/84f4d/310-getting-started.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABkklEQVQ4y5WUCY+CMBCF9///Mo+oRWOWNZFDFKTKId4Hvs0bLYHs5ZJ8ttXp65uZ4lun08FwOITve3BdF1qvsF6v/0WSJLAsC9R6a7fbsG0bZVmiLO/47rnf7xU/PaPRCNSqBBms4xiLxQJxHCOKIiyXS5lfLhfcbreKx+FNKsFWq4XJZCKnfDgBPM/DdDrFbDaD57mYz+dfxOpr47rh8N22cb1ecbpc5UduMoHcdDwecT6fhfr8dDoJnLMPIshCDgYKQRAgCkPEWkvaWmtkWYYgmCOKQujVCuskQZqmKIpCRrLdbmWtlHo0hR9KWSLCmiXPTSTPNyJo6prlOYrNBofDoXJmaDpUCss4xqpykSHPMhTFFlPHgeM4j8PSVITzPJfU6/DaNARNV5kqhemUKbM5ptthGAqM3e124pJiHJuCg4GkxTqyq4Tz+roOY38VVE+HDHwFujSChoZgv98XN77vvwTLwM7u93uBTWq8euPxWL7kqSboL3hv2V2OjYttUuYfA3nVJd8oA/f1ej10u118AlmqEKttuSTJAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;getting-started&quot;
+        title=&quot;getting-started&quot;
+        src=&quot;/static/795ff61a4a332d4cdddb3eb79ad62136/f058b/310-getting-started.png&quot;
+        srcset=&quot;/static/795ff61a4a332d4cdddb3eb79ad62136/c26ae/310-getting-started.png 158w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/6bdcf/310-getting-started.png 315w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/f058b/310-getting-started.png 630w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/40601/310-getting-started.png 945w,
+/static/795ff61a4a332d4cdddb3eb79ad62136/84f4d/310-getting-started.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;3.2 계정 생성&lt;/h3&gt;
+&lt;p&gt;설치가 완료되면 계정을 생성해야 한다. 이후 젠킨스에 로그인 할 때에는 이 계정을 사용한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3f458c76c88f9fed54913ac4e797f2a8/84f4d/320-create-first-admin-user.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABGklEQVQ4y62TW2qEMBiF3f8C+twd9K0bKAOaWqyXgpcYHfrUUYsV8a6nJMXijDNxhvbAhxHjx/khUQghsCwL+32MKIqRJAnSNL2JLMtgmia4S1FVFb7v469xHAeaph0LD4cPBEEAxkJQShHHMVzXFe98HVCKYRgwTdMK27bXwqIokOe5oK5rVFUlaJpGwNf8Z56ljOeskEu6rhPIciq9KJwblWX5Kz833tUN53Zt2wph3/erJqdNpULZeJe+SYVb4/2L8Bqkwq3wLcvmwzhhPD2HnueJDfzQjuO4yTT9PI9vykLIb8ctmedIyx5a+Anz/QsvrxYI0aDwC20YBsIwFERRJIWGDF5AwRjDk/6Gu4cd7h9V7FQCXX/GN2FUKayEGaYGAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;create-first-admin-user&quot;
+        title=&quot;create-first-admin-user&quot;
+        src=&quot;/static/3f458c76c88f9fed54913ac4e797f2a8/f058b/320-create-first-admin-user.png&quot;
+        srcset=&quot;/static/3f458c76c88f9fed54913ac4e797f2a8/c26ae/320-create-first-admin-user.png 158w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/6bdcf/320-create-first-admin-user.png 315w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/f058b/320-create-first-admin-user.png 630w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/40601/320-create-first-admin-user.png 945w,
+/static/3f458c76c88f9fed54913ac4e797f2a8/84f4d/320-create-first-admin-user.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;3.3 URL 설정&lt;/h3&gt;
+&lt;p&gt;젠킨스 url 설정하는 부분. 잘 모르는 부분이라 건들지 않고 넘겼다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/85fc839db59157227125bc8ac77c9b3d/84f4d/330-instance-configuration.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABK0lEQVQ4y72Ta2uDMBSG+/8/9+vYn9j6EzbNypyXQaMVa7VQb9C1FY1pfEcEpVY7ug524CEckjw5uU0IITAMA76/guetEMcJ0jTtSJJ+PkaWZdB1HdI1URQFtm3jr2FZFlRV7QtlNTa1EQQhNpsN1mGIxXKJIAjgOA6iKGrG1XU9wDTNoXC/32O73eJ4OCDa7eDOZrCnUywoRRzHyPMcQogebYwKq6pq4FUFJslzVMcjGGNdX1mWDUVRNK2s7qpQTmwHNpNky1iXSzjnHXKBtspR4el0GsJ5Lx87v6vCtvPWuEl4D/8r/O2WhaghLt8hpbS7lMt39hPnBVjWmVD+gnuCC0Dzd9DXX3j/MECIion80JqmwXXdBs/zbuZz4eDh6RWPzwpeFIL5/A3fQZcnIh3FjjAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;instance-configuration&quot;
+        title=&quot;instance-configuration&quot;
+        src=&quot;/static/85fc839db59157227125bc8ac77c9b3d/f058b/330-instance-configuration.png&quot;
+        srcset=&quot;/static/85fc839db59157227125bc8ac77c9b3d/c26ae/330-instance-configuration.png 158w,
+/static/85fc839db59157227125bc8ac77c9b3d/6bdcf/330-instance-configuration.png 315w,
+/static/85fc839db59157227125bc8ac77c9b3d/f058b/330-instance-configuration.png 630w,
+/static/85fc839db59157227125bc8ac77c9b3d/40601/330-instance-configuration.png 945w,
+/static/85fc839db59157227125bc8ac77c9b3d/84f4d/330-instance-configuration.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;3.4 완료&lt;/h3&gt;
+&lt;p&gt;완료되었다!!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6f752f66da458bdfe62dd9fd7e3af2a9/84f4d/340-jenkins-is-ready.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA9UlEQVQ4y62UXQuCMBSG+/9/or/SpR+I+JHozHRFETivNG+avrElYlMrqxdexjbOcw7b2VaGYcB1XVCaIU1T5HkOxtgiF0UBx3EgWCtd1xGGIZqmwY1ztC0m1c5tdPI8D4LVA4VORwoSbnGgKTJKEUURgiBAVVUyIee8t5gP3QM1TZOBQvszgx2fkJ0Z6muFsixR17UETFU5nCtAIhc32wvWmwTGjnUB42Axqh4BCSGzZzYMmoK9BMrzUAAqVE36EqhmfXezHwGXaFGFS/zXCmfa5tGHUw37qZ+AcRzjV/m+/wCKB23bNpIkkRYfxDe2LAumaeIOViQrm9BLrXQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;jenkins-is-ready&quot;
+        title=&quot;jenkins-is-ready&quot;
+        src=&quot;/static/6f752f66da458bdfe62dd9fd7e3af2a9/f058b/340-jenkins-is-ready.png&quot;
+        srcset=&quot;/static/6f752f66da458bdfe62dd9fd7e3af2a9/c26ae/340-jenkins-is-ready.png 158w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/6bdcf/340-jenkins-is-ready.png 315w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/f058b/340-jenkins-is-ready.png 630w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/40601/340-jenkins-is-ready.png 945w,
+/static/6f752f66da458bdfe62dd9fd7e3af2a9/84f4d/340-jenkins-is-ready.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;3.5 메인화면 확인&lt;/h3&gt;
+&lt;p&gt;내가 확인한 젠킨스 메인화면&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d6d5c2b6bb85d7b53636520930cbb99e/84f4d/350-welcome-to-jenkins.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABqUlEQVQ4y5VT22rCQBTcLxEEfVao0FKoQouf2n6DL/rkTyjYvLRqUpPsJlGTbOKUWbvbKC2lB4YkZ/fMmXOJeBoOMR6PMXx4QLvdRqfTceh2u2i1WhiNRphMJpjNZphOp5jP53h+ecHj7R3uBwP0+n0Mbm7Q7/UgoiiEVApVVRlorR2s7xp1XX/frTSKskSelyhLDXHMIhRFgd/sdDq5BGVZGhyPRxPDM1qhT0gPGnUNCBl/E/ICQQW0/X6P5XIJ79XDZrOB53lYrVbGt1gsoJR0yYBzrIijCGmaXhDazFSTJAnSJDV30iwzvmZr+K115eJF9EV4zoILwjzP8f72hvV6jd1uhyDwsd1ukWWZqcL2uRkrQpkaFdZpD2j0SSnNOUkI9o+JLOy3I4xjCaWU6SMPD4eDKcMq9H3f9C8IAoRh+OM2XChMEoU4jg0ZiUjMAKsw8ANTLhMRppdfoGL77gip4ONj5+RzslYhiZmMYBUsnQmbsHGOkA42uDlh28PmDjLYJrre02a8aBJcD+Uv++meuFb2X1Cd/RX5FM0V+C/YBg6VQ1HyvC2fSjAgJT50I4oAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;welcome-to-jenkins&quot;
+        title=&quot;welcome-to-jenkins&quot;
+        src=&quot;/static/d6d5c2b6bb85d7b53636520930cbb99e/f058b/350-welcome-to-jenkins.png&quot;
+        srcset=&quot;/static/d6d5c2b6bb85d7b53636520930cbb99e/c26ae/350-welcome-to-jenkins.png 158w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/6bdcf/350-welcome-to-jenkins.png 315w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/f058b/350-welcome-to-jenkins.png 630w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/40601/350-welcome-to-jenkins.png 945w,
+/static/d6d5c2b6bb85d7b53636520930cbb99e/84f4d/350-welcome-to-jenkins.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이제 본격적으로 젠킨스를 활용해보자.&lt;/p&gt;
+&lt;h2&gt;4. pipeline 생성 및 설정&lt;/h2&gt;
+&lt;p&gt;젠킨스의 &lt;code class=&quot;language-text&quot;&gt;pipeline&lt;/code&gt; 은 여러 작업들을 하나로 묶어서 관리할 수 있도록 해준다.&lt;br&gt;
+깃허브 저장소의 소스코드를 가지고와서 빌드와 테스트를 진행한 후 배포하는 과정을 하나로 묶어서 자동화하도록 도와준다는것이다.&lt;/p&gt;
+&lt;p&gt;이 &lt;code class=&quot;language-text&quot;&gt;pipeline&lt;/code&gt; 을 생성하고 기본적인 설정을 해주자.&lt;/p&gt;
+&lt;h3&gt;4.1 pipeline 생성&lt;/h3&gt;
+&lt;p&gt;아래 사진처럼 좌측 메뉴에서 &lt;code class=&quot;language-text&quot;&gt;새로운 Item&lt;/code&gt; 을 클릭 후 여러 종류의 프로젝트 중 &lt;code class=&quot;language-text&quot;&gt;pipeline&lt;/code&gt; 을 선택하여 생성한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 297px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b089880e618b509cce39196590ea14af/9edad/400-0-menu-list.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 112.65822784810126%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACHElEQVQ4y52V3W7TQBCF88o8AI/AHVdIXFRc8ApI3BWahoIQbePEbuzUqR1oHCd2/G+vvR9aJ41Aoq3NSGdGWo3OzswZrwdpmrL2fdZrn1/39wRBiL/Zsg0CiiIniiKKoiDP8zY+h0EYBJx+Gh5wxvnogs9nI4yZRZHnrD3vSNgFAwHUBzRABTycVQ+xaaiqqhMGbDaw2YEfgr+G7Zb2zPf3cbWCOKY1KXnOBnKskRpDhH1BcbckvDGILYvMtilcl3o+B11HUcmmQUr5JAbSWWKPXhMtT/HClOuJxuzWZuE4jA2D3WYL9m13QnU79hJp2mBZsFiAqso091HTkOpMWdN0aBlY21+QZUBZS4IwpFa3qYoO2I/v+fm1hMqdvH3Jt6/nJEmKPp22ah1JDq10FkW5ooG4+HdC18r+ajkKbIrUp6pEi6apSbOMuq57k7aEk6sRrnnF3LIwzTlJFPLj8pog3B0JO89QJWZpQiXEo9X0qlA5bxMRJflhM5ojsjxHVKKfyirxw8fv6IbLT8fm8lpDG49xXJeJPsX3/P6EaSYoy70YQogWD4L8lyhNujq8LY+vTa/FfvfmBdrlOaY152Y2Q5/qGIZOuIv6q6yc44U4XkQtKrIsoyzLNgoh+res1KQuH03o/aVUZcGr96cMp/c4tok20XGdO8bapP3X9BdFNixWEdu4QJEnSdI+DnEcU/75SPRZ7Kesb8u/AeP4ANI/pEXZAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;menu-list&quot;
+        title=&quot;menu-list&quot;
+        src=&quot;/static/b089880e618b509cce39196590ea14af/9edad/400-0-menu-list.png&quot;
+        srcset=&quot;/static/b089880e618b509cce39196590ea14af/c26ae/400-0-menu-list.png 158w,
+/static/b089880e618b509cce39196590ea14af/9edad/400-0-menu-list.png 297w&quot;
+        sizes=&quot;(max-width: 297px) 100vw, 297px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1ce28cac1890b9a76676a3b174ced088/54bf4/400-1-new-item.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 96.20253164556962%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAA7DAAAOwwHHb6hkAAACrUlEQVQ4y3VUy07bQBTNT7Bkxb4RBXXBsqKqxIJ+AP9T8Tv9AxYVUQlqpUiloCSO307i99uxE5/qXntM3FBLR3NnPD5z7zl3PPh4cYFPl5e4urrC+dkZjo+PcXJygqOjI9zc3GA8HuP+/h4PDw8YjUaYTCb4enuLz+cfcPZuiNPT9xgOh4wv19cYaLoBSZJh2zZs20EYhh08z8N6vW7fNaC56zjwfR9BEDBEbJomBmif3W7Hi3EcM1kURcjSDGVZYrPZ9FAQiqIHetI0xYCImkmGp+dnzBcLvEynmM5mMCwLQRjC9X14exm9BeKhJAZ1XTNhlmXwFAWhpiHUdQSqCk+W4SoKXEmCt17zB/uS7IN4qLqOcFOWWJkruIYBW9fhmxZyz0ceBDxmScKHClB5iUCSHBKW5QbyywiyssB0PoeqaVjaNpbrNWNF43LJIPHJHDLNdV0moqdPWFVw/IA3UgkkNJ1M4GwSkU2TEb2vqopRFBvUbxEu3YAzcByHPwqjiHWL4rinXxQ3seiK7XYLoukRVtWWT6Ms8rxAnucMykTEeRv/2zKUzAFhWVawbA+KomA+m2OxkCFJElarFW8Mgja7KIbfNXPII2V/qGFZwgtCmKbFpZCTVDZtSlsnX/Vs1vfXDgip++9+SZBVHY5ts3vCRRETSF+C284JRHpA2LhV8H21LBOGYbJB4p4KQ2gu1kT8n7YpoRoWdF1naHRT6PQ05Y1xFPfKpLi720WBXV2zbD0NNWPJGlLjWqbZCS5aRsSEOI5e3c9zvsvUPj0NVU2H49CNaEgpQ3KSfwBh0JVMJlAzC7KsJSTZXn9fdYXx8x98+/4DM0NFkkRwXa8zpjHAZzOIVJQuIH6BAzot5t7y8Pj0G3ePP/GymMG0DNbSMPR2NBgipv7cRyNDjL9yq4rQK9gOOAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;new-item&quot;
+        title=&quot;new-item&quot;
+        src=&quot;/static/1ce28cac1890b9a76676a3b174ced088/f058b/400-1-new-item.png&quot;
+        srcset=&quot;/static/1ce28cac1890b9a76676a3b174ced088/c26ae/400-1-new-item.png 158w,
+/static/1ce28cac1890b9a76676a3b174ced088/6bdcf/400-1-new-item.png 315w,
+/static/1ce28cac1890b9a76676a3b174ced088/f058b/400-1-new-item.png 630w,
+/static/1ce28cac1890b9a76676a3b174ced088/40601/400-1-new-item.png 945w,
+/static/1ce28cac1890b9a76676a3b174ced088/54bf4/400-1-new-item.png 1007w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;4.2 pipeline 일반 설정&lt;/h3&gt;
+&lt;p&gt;이제 파이프라인을 설정한다.&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;General&lt;/code&gt; 탭에서는 &lt;code class=&quot;language-text&quot;&gt;github project&lt;/code&gt; 옵션을 선택한다. 여기에 깃허브 저장소 주소를 적어주면 된다.&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;Build Triggers&lt;/code&gt; 탭에서 &lt;code class=&quot;language-text&quot;&gt;GitHub hook trigger for GITScm polling&lt;/code&gt; 옵션을 선택하면 깃허브에서 보낸 웹훅을 수신했을 때 자동으로 빌드를 시작한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/50de300218ab2181f1c30b278d86c6ff/1e088/400-2-pipeline-general.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 94.30379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABxUlEQVQ4y61TDXOjIBTk///AzDVpLn5XEQQ1KoJmb3iNNmmTNumcMzsKwrK778HyvEBRcEhZ4e0th6wqlEIgLzjNe1RK01jXNZqmRdM0N9G2LZgQAsYYwjAMF9/v42EZn98/gVnrMM8zpnmm969xOsE6B+YH/+tx0wTmfR+PHWRtMNoJp9OMaZrgnLuCP927uQvn3i03WqHgHFkuIGQFIUoopSm/vu9XmEczDHON7XaLv/s9kiRBkqTI8xxSSPiCLfAHjOP4LYwZwXKhEQQBOC+psmTPWpgvi39W5zuBdd0RWtdQWhMqpQg0pzT1ZdO2lNNo7V04N5EI1p3zuezB5TTqQ4KhxbdUefV+Td00VFzW98PFxg/4hd76avu8+XMMRGgMlK7ResKqqijDKAwRBCGSJEYYhlSYruuuNppPuPy3HE6Eu90O+9dXpGl6dS+9+kcLsraNV1EUBcqyhJQSSikiXFXdsHq/bQxYlqZI0wxRHKEfBlj7nKIvCr3lw+FAuUVRBM45qa3r+mm7RLjPamw2GyJN4oTICLykHJ+xTYQ+t5eXP6TuXp89omwczwq9tTiOkWXZWhghJN1lX5xLwu+ULQr/ATTovrBqdaC7AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;pipeline-general&quot;
+        title=&quot;pipeline-general&quot;
+        src=&quot;/static/50de300218ab2181f1c30b278d86c6ff/f058b/400-2-pipeline-general.png&quot;
+        srcset=&quot;/static/50de300218ab2181f1c30b278d86c6ff/c26ae/400-2-pipeline-general.png 158w,
+/static/50de300218ab2181f1c30b278d86c6ff/6bdcf/400-2-pipeline-general.png 315w,
+/static/50de300218ab2181f1c30b278d86c6ff/f058b/400-2-pipeline-general.png 630w,
+/static/50de300218ab2181f1c30b278d86c6ff/1e088/400-2-pipeline-general.png 840w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;4.3 pipeline script 작성&lt;/h3&gt;
+&lt;p&gt;마지막으로 파이프라인 안에서 어떤 작업을 실행할지를 정해줘야 한다. &lt;code class=&quot;language-text&quot;&gt;Freestyle project&lt;/code&gt; 에서는 이를 GUI 화면에서 입력했는데, &lt;code class=&quot;language-text&quot;&gt;pipeline&lt;/code&gt; 에서는 스크립트를 통해서 정할 수 있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;pipeline script&lt;/code&gt; 가 아닌 &lt;code class=&quot;language-text&quot;&gt;pipeline script from SCM&lt;/code&gt; 을 선택하면 깃허브 저장소에 있는 스크립트를 사용할 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9c58859f31d5d4fb36c36d430c7c5617/97655/700-pipeline-script.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 64.55696202531645%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABYklEQVQ4y62T6Y6cMBCE/f7vFym72iMzgGdYBnwAPto2FXUnWika5Ud20tKnBgOlPgr19vqKfhiQc0ZK6WGU1hrTdPsvYpEFt22D8x4hRpRSQaV8iVIKYkxQxhjc5hkhhIfb5u+VsxYsuiwLnHOotaK19s8cx4F1XaG2dZXqYoyw1qC2jK/GNE1QrMoQEay1sG5GjDtqLWitCrUVuf8jyzVJ5nc49n2H8t5JqwcAoow9bDJcogiihMqLooiYNqS8f5LlbBX4OYfM0DsHniMHt+69QaaAUhNaI2TaQCXetXcc7e7st6CVhXBVIURMtwnd8IQf/Td0+hnn4Ts6/QQ9vqG/vGAYXzDeTljsiBC5UhIhogK2oJrtiss44dx1eD+dcDp36PpB/h5Ba6Hre+FyvWIxBsY6YTEWxlrJ1jmoD5dg/YrN/7IPL4hN2moVC93BRib6K2pePM5XB/3hkVJ+2Nw/AUYF8ZLmPW39AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;remote-server&quot;
+        title=&quot;remote-server&quot;
+        src=&quot;/static/9c58859f31d5d4fb36c36d430c7c5617/f058b/700-pipeline-script.png&quot;
+        srcset=&quot;/static/9c58859f31d5d4fb36c36d430c7c5617/c26ae/700-pipeline-script.png 158w,
+/static/9c58859f31d5d4fb36c36d430c7c5617/6bdcf/700-pipeline-script.png 315w,
+/static/9c58859f31d5d4fb36c36d430c7c5617/f058b/700-pipeline-script.png 630w,
+/static/9c58859f31d5d4fb36c36d430c7c5617/97655/700-pipeline-script.png 819w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;pipeline&lt;/code&gt; 탭을 선택하여 아래의 스크립트를 붙여넣는다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jenkinsfile&quot;&gt;&lt;pre class=&quot;language-jenkinsfile&quot;&gt;&lt;code class=&quot;language-jenkinsfile&quot;&gt;pipeline {
+    agent any
+    tools {
+        git &amp;quot;git&amp;quot;
+    }
+    stages {
+        stage(&amp;#39;prepare&amp;#39;) {
+            steps {
+                git branch: &amp;quot;master&amp;quot;, url: &amp;#39;https://github.com/ohyunkyo/inventory-manage-back.git&amp;#39;
+            }
+        }
+        stage(&amp;#39;test&amp;#39;) {
+            steps {
+                sh &amp;quot;pip install -r requirements.txt&amp;quot;
+                sh &amp;quot;python3 manage.py makemigrations --settings=config.settings.prod&amp;quot;
+                sh &amp;quot;python3 manage.py migrate --settings=config.settings.prod&amp;quot;
+                sh &amp;quot;python3 manage.py test --settings=config.settings.prod&amp;quot;
+            }
+        }
+        stage(&amp;#39;deploy&amp;#39;) {
+            steps([$class: &amp;#39;BapSshPromotionPublisherPlugin&amp;#39;]) {
+                sshPublisher(
+                    continueOnError: false, failOnError: true,
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: &amp;quot;inventory backend&amp;quot;,
+                            verbose: true,
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: &amp;quot;**&amp;quot;,
+                                    removePrefix: &amp;quot;&amp;quot;,
+                                    remoteDirectory: &amp;quot;deploys&amp;quot;,
+                                    execCommand:&amp;quot;cd /home/ec2-user/deploys/; \
+                                    sudo docker-compose up -d; &amp;quot;
+                                )
+                            ]
+                        )
+                    ]
+                )
+            }
+        }
+    }
+    post {
+        always {
+    	    notifyEvents (
+    	        token: &amp;quot;notify.events token&amp;quot;,
+    	        message: &amp;quot;&amp;lt;a href=&amp;#39;${env.JOB_URL}&amp;#39;&amp;gt;${env.JOB_NAME}&amp;lt;/a&amp;gt;: #&amp;lt;a href=&amp;#39;${env.BUILD_URL}&amp;#39;&amp;gt;${env.BUILD_NUMBER}&amp;lt;/a&amp;gt; 에 대한 결과: &amp;lt;b&amp;gt;${currentBuild.result}&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;a href=&amp;#39;${env.BUILD_URL}console&amp;#39;&amp;gt;로그(console)&amp;lt;/a&amp;gt;&amp;quot;
+    	    )
+        }
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;pipeline script 의 전체적 문법은 &lt;a href=&quot;/DevOps/deploy-vue-with-jenkins/&quot;&gt;여기&lt;/a&gt; 에서 간략히 설명했다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;나는 &lt;code class=&quot;language-text&quot;&gt;prepare&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;test&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;deploy&lt;/code&gt; 로 단계를 나눴다. &lt;code class=&quot;language-text&quot;&gt;prepare stage&lt;/code&gt; 에서는 깃허브 저장소에서 소스코드를 가져오고, &lt;code class=&quot;language-text&quot;&gt;test stage&lt;/code&gt; 에서 소스코드를 테스트한다.&lt;br&gt;
+그 다음 &lt;code class=&quot;language-text&quot;&gt;Publish Over SSH&lt;/code&gt; 플러그인을 사용하여 소스코드를 배포서버에 업로드하고 컨테이너를 실행한다.&lt;/p&gt;
+&lt;p&gt;이 작업들이 모두 완료되었다면 내가 지정한대로 &lt;code class=&quot;language-text&quot;&gt;notify.events&lt;/code&gt; 플러그인을 사용하여 알림을 전송한다.&lt;/p&gt;
+&lt;p&gt;이제 파이프라인 스크립트가 정상적으로 작동하도록 따로 설정해줘야 할 것들이 있다.&lt;/p&gt;
+&lt;h2&gt;5. github webhook 설정&lt;a id=&apos;5-github-webhook-설정&apos;&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;웹훅을 받는곳에선 설정이 완료되었지만 보내는곳에선 설정해주지 않았다. github 저장소에서 웹훅을 전달할 주소를 지정해야 한다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;#3.1-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EC%84%A4%EC%B9%98&quot;&gt;3.1&lt;/a&gt; 에서 &lt;code class=&quot;language-text&quot;&gt;Install suggested plugins&lt;/code&gt; 를 선택했다면 이미 플러그인이 설치 되어 있는 상태이기 때문에 웹훅 기능을 바로 사용할 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;https://github.com/[username]/[reponame]/settings/hooks/new&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;위의 경로로 들어가서 다음 사진과 같이 Payload URL 에 &lt;code class=&quot;language-text&quot;&gt;[젠킨스 서버 IP]/github-webhook/&lt;/code&gt; 을 입력후 추가한다.&lt;br&gt;
+기본 옵션이 push 이벤트만 알리도록 하는것인데 지금 당장은 다른 이벤트 알림은 필요 없기 때문에 따로 설정할건 없다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/179b4c020cad646c5f45bebe6312800a/54bf4/500-0-add-webhook.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 96.20253164556962%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAA7DAAAOwwHHb6hkAAACyUlEQVQ4y21UyZbaMBDkOAN4QZIXWbYlL9jGwAyZl5ftlEN+I9f8/x9UXrcRgZkc+nlRd6mqu6TV/PoFw/ETdNXC2D1EWmKXGKi8htuf0I4vGI5v6A8X9IdXJEUDlVso7aC0RWpaFHaPdrpgvnzFKk5KyOoIYSYoe4aszxD1GdJdoMoRIjUIdhmMG1E2I5r9CVV7QEZA9Z4BbX+EsQO68YhVKHKIrIbILHZpxTsnpmWWMiO2BbP2kdC6tkgKh6xwsG5AVlhs4wyunxZAlVWcHEmNWGreQJqRIy17bkVeEqOeWxGJHHFisFMFcl1DJgZPgYTrJqwiVSAtHAh4G6dL7HKIckasRyjTMxCF7zHlBNfcdZRwSzZRAteNWBErAqSdaYGTdykUy9UsmeRvIoXnQHKhz/NB3+tQLQxDobm5pRsZmBaJLTXZdQfYdoLtDqjpvTugaieUbkDdLv9oULafufbGUFc9srJFKHMGpCCJojkial6Q1jNSe+RByKyCzGpW5IOGRCSWHkrNO8aqYDleRlZ2+FFYXEKJSBnESrPk50BcY5Hva569ZJE7NMMZhe254TKvGFxoi5+pwXcGLHj6z1uBp2vQu1fz0EOpHaaXz2iHE+KkYDCiT5Kr+YJAW2ZA//yaj/8CkmTqwT19SqA+bQKJ9VXeTe52+V4H8pb7CMg+bHhKdJxuPmNvKQ5vpeD6XF83eGDIPpywIhl1N7Npia2XUzYT28F2M/Kq4wuA3KDrnvPuwT5IJmYE4k1L3qQpGzcw6KMDkgdT3xu7obNMp4CK6nbiQp9A/kqNQ152zGw5LckHZj5orW6G623Dt4jlImJADMv2iNy0iORy9OgiEInh7/th/ANMocsGK0/7fsKbMIH9dcLbn5+Yf3/Dfp5waQ8Y2hGh1Le8e8lUz4Dvd1pukgxhrhEajbDQfCSJ9Xvv+eD+xymKqsFfJ6LkwQuJa0QAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;add-webhook&quot;
+        title=&quot;add-webhook&quot;
+        src=&quot;/static/179b4c020cad646c5f45bebe6312800a/f058b/500-0-add-webhook.png&quot;
+        srcset=&quot;/static/179b4c020cad646c5f45bebe6312800a/c26ae/500-0-add-webhook.png 158w,
+/static/179b4c020cad646c5f45bebe6312800a/6bdcf/500-0-add-webhook.png 315w,
+/static/179b4c020cad646c5f45bebe6312800a/f058b/500-0-add-webhook.png 630w,
+/static/179b4c020cad646c5f45bebe6312800a/40601/500-0-add-webhook.png 945w,
+/static/179b4c020cad646c5f45bebe6312800a/54bf4/500-0-add-webhook.png 1007w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그 다음엔 정상적으로 연결되었는지 확인한다. 만약 초록섹 체크 표시가 아니라면 젠킨스 서버 EC2 인스턴스의 SG 등 보안 설정을 확인해보자.&lt;br&gt;
+만약 보안 설정이 문제 없는데도 커넥션이 정상적이지 않다면 새로고침만 계속 누르지 말고 삭제 후 다시 등록하자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f3ef88622c2bb0d7d724faedb84f4889/7422e/500-1-connection-check.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 25.316455696202528%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA9ElEQVQY042QSW6EMBRE2XcaaEYPOMYGbGgalOkKuUPuf5EXgSJlk0UWpdKvqs1/SddHpnnHDgui81yymqe8+ZeObV5pwvrGsn8gzUDSdh473DEuIrQnLQRZKUkLefpfSktJXqlzWzSarg+YPlC2huQ43LSixzs6bgzzhg8rbrqf+bS8MMQdFx74cPQ7/tjFnT7smPCK8huVCVyyiqSWFmEjq3K8i2dENyLsjHyOJ4Kjb5Sj1T2tdjS6p1H9mZfSUdsH0u8Yu3CrFElatlzlyGfW8nXJaVQgUzOFiucL11v7w6z95XdrzvxgaFxgjA82H6mF5RtgoYPxyuHEigAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;connection-check&quot;
+        title=&quot;connection-check&quot;
+        src=&quot;/static/f3ef88622c2bb0d7d724faedb84f4889/f058b/500-1-connection-check.png&quot;
+        srcset=&quot;/static/f3ef88622c2bb0d7d724faedb84f4889/c26ae/500-1-connection-check.png 158w,
+/static/f3ef88622c2bb0d7d724faedb84f4889/6bdcf/500-1-connection-check.png 315w,
+/static/f3ef88622c2bb0d7d724faedb84f4889/f058b/500-1-connection-check.png 630w,
+/static/f3ef88622c2bb0d7d724faedb84f4889/7422e/500-1-connection-check.png 697w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Let me select individual events.&lt;/code&gt; 를 선택하면 거의 모든 이벤트(포크, Key 추가 등)에서 웹훅 트리거를 작동 시킬 수 있는것같다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;6. Publish Over SSH&lt;/h2&gt;
+&lt;p&gt;젠킨스 서버에서 SSH 로 배포서버에 접속해 배포를 진행하기 때문에 관련 플러그인을 설치해야 한다.&lt;br&gt;
+아래 사진처럼 Publish Over SSH 를 설치한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/356b39bbd5387308395237bcb4efa62b/84f4d/600-publish-over-ssh.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABdElEQVQoz3VTXY/cIAzc///j+nQv7UOl6k7ZbPhYwIAhCZkKc7vaay+WRsYET2w8XLwPcM4j5wyiCC4F+75L7JxDCAEpJRARMheEVJC4yt66rnL2gR5fcGLcCe8WwXvEGOG9R8qMEAtirrLXCVprT2zbhstxHPgX3ZwPsD4OgpRRS0EpRXwHM0sXWmvpose9i1PCQBF/3id8TDdc55skGmOwLApKKam8risSl5FzHHINX1oehGNNxuH6sUBfFby2yPc72Dnx2Vq0nAV2MeKRM5Jz3xDKooEWjWnSWGaN6AnY9/9QUsKPt19oXIA+PGO+q/CzZUeYJiNQNw2nFMjewd6DQ0AJATkQ3n7+xs4MpIwUwjkh5YrZRMw2wnoCxSSSGqjD1xXvi0XrOa2NOzwbCkXGtHjMOkCZocfHt9cCOvnpUF6tEypLInrTW2V+SqUn1lqxtwZHSTT4rPBVmK+otciBB0HOSXxHF3Unf7yObRsvpf/kL1OIWJhi4IHEAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;publish-over-ssh&quot;
+        title=&quot;publish-over-ssh&quot;
+        src=&quot;/static/356b39bbd5387308395237bcb4efa62b/f058b/600-publish-over-ssh.png&quot;
+        srcset=&quot;/static/356b39bbd5387308395237bcb4efa62b/c26ae/600-publish-over-ssh.png 158w,
+/static/356b39bbd5387308395237bcb4efa62b/6bdcf/600-publish-over-ssh.png 315w,
+/static/356b39bbd5387308395237bcb4efa62b/f058b/600-publish-over-ssh.png 630w,
+/static/356b39bbd5387308395237bcb4efa62b/40601/600-publish-over-ssh.png 945w,
+/static/356b39bbd5387308395237bcb4efa62b/84f4d/600-publish-over-ssh.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Publish Over SSH 은 젠킨스에서 원격서버에 접속할 수 있는 플러그인이다.&lt;br&gt;
+공식 문서(&lt;a href=&quot;https://plugins.jenkins.io/publish-over-ssh/&quot;&gt;https://plugins.jenkins.io/publish-over-ssh/&lt;/a&gt;) 를 대충 번역하자면&lt;br&gt;
+SSH 를 통한 파일 전송, 원격 서버에서 명령 실행, username/password 와 공용 키를 사용한 인증 등 여러 기능을 제공한다.&lt;/p&gt;
+&lt;h3&gt;6.1 배포서버 SSH 접속정보 등록&lt;a id=&apos;6.1-배포서버-SSH-접속정보-등록&apos;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;이 플러그인을 사용하기 위해 배포서버의 SSH 접속정보를 젠킨스에 등록해야 한다.
+젠킨스 관리 - 시스템 설정(&lt;code class=&quot;language-text&quot;&gt;[젠킨스 서버 IP]/configure&lt;/code&gt;) 으로 이동해서 Publish over SSH 부분을 채워준다.&lt;/p&gt;
+&lt;p&gt;각 항목을 설명하자면 다음과 같다&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Passphrase&lt;/code&gt; : 개인 키가 암호화 되어 있을 경우 암호를 적는다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Path to key&lt;/code&gt; : 개인 키가 젠킨스 서버에 있을 경우 경로를 적는다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Key&lt;/code&gt; : 개인키 파일의 내용을 입력한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;SSH Servers&lt;/code&gt; : 원격서버의 정보를 입력한다.
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Name&lt;/code&gt; : 원격서버 설정에 대한 이름이다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Hostname&lt;/code&gt; : 원격서버의 호스트명이다. hostname 또는 IP 를 입력한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Username&lt;/code&gt; : 원격서버에 접속하기 위한 유저 이름이다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Remote Directory&lt;/code&gt; : 이 설정의 기본 디렉토리. 반드시 존재하는 디렉토리여야 하며, 이 디렉토리 내에만 파일을 전송할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;나는 아래 사진처럼 등록했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9306686b0ebfc7381b70ddc51b125698/84f4d/610-0-private-key.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABZklEQVQoz32RPUsDQRBAD4RoYycIirX/xtYfoH/NxsZCEXvBD1BJSGGwsNOLMSbh9rzPnXkydzkT5XTgMcfu7LuZ3eAzSUiShDRNSdMM732FiyImkwl5ntdrZfm9t0zpPU1YTcAfMXofM53NEFVEDFlC8V4qoapy9/jM2VWXaRQT2EIbk+mM8fgD5xxR5OrsFrmZKssybvpPnF7e8zGL2oUWVujmgjZMWNfERC4jzz3i/c+RG5nlOHKkcQwireh8XMOLUHqh/H2Hy8JUlRL+x0Rl/TAVrUL7K5AMBiTXV3ze3lI8PKC9HtLQ7SL9PlIU80eTutPWkW3Tvvf30SBA1tbQTgc6nSrr6iq6soJubKDDYV1r1wDkRfGPcG8PguAb/Y2Jw/CHMM2yv4X+4BBdX4edHXRra8H2Nmxuoru76GhU1VZnlPaRm4c5Oj7n4uQCfX1BXsO6m+EQbMwwhLc3M9Qdzs+Y8Aue/ipsMRWrmwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;private-key&quot;
+        title=&quot;private-key&quot;
+        src=&quot;/static/9306686b0ebfc7381b70ddc51b125698/f058b/610-0-private-key.png&quot;
+        srcset=&quot;/static/9306686b0ebfc7381b70ddc51b125698/c26ae/610-0-private-key.png 158w,
+/static/9306686b0ebfc7381b70ddc51b125698/6bdcf/610-0-private-key.png 315w,
+/static/9306686b0ebfc7381b70ddc51b125698/f058b/610-0-private-key.png 630w,
+/static/9306686b0ebfc7381b70ddc51b125698/40601/610-0-private-key.png 945w,
+/static/9306686b0ebfc7381b70ddc51b125698/84f4d/610-0-private-key.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f0e3d787c1b02ea8208af35e3c9f0cba/84f4d/610-1-remote-server.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA8klEQVQoz42SzWrFIBBG8/6v0Xdon+DexV11202hUGhX0RjU6KinmB+40Jhk4GNwlON8w3TWOZxzeO/xfiKlhIhgjJnr27nmptb7EAIdjRjHkUFrKIVySczQbu+yRhBhiIIPceki51NVJ22gUpjHA9EDGU6hueba4bPNZ2Dse+z9jihF2oCHWjtsAavlsf56CXYFGAJaKZx15/NbxyGHlmOkVwprLTmXuYP92ZVFpSCyA9xykvpgWYejdclZmCaLMQMSQwsIWnuU8qylf7HV9dDz8fXL5/cPZujbll/ebrze3ikpzZZa65WS4KeJEANh8vwBs5FiZsWI3ukAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;remote-server&quot;
+        title=&quot;remote-server&quot;
+        src=&quot;/static/f0e3d787c1b02ea8208af35e3c9f0cba/f058b/610-1-remote-server.png&quot;
+        srcset=&quot;/static/f0e3d787c1b02ea8208af35e3c9f0cba/c26ae/610-1-remote-server.png 158w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/6bdcf/610-1-remote-server.png 315w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/f058b/610-1-remote-server.png 630w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/40601/610-1-remote-server.png 945w,
+/static/f0e3d787c1b02ea8208af35e3c9f0cba/84f4d/610-1-remote-server.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;정보 입력 후 Test Configuration 버튼(주황색 상자)을 누르면 현재 SSH 정보로 원격서버에 연결하여 테스트 할 수 있다.&lt;br&gt;
+정상적이라면 파란색 상자 안에 보이는 것처럼 &lt;code class=&quot;language-text&quot;&gt;Success&lt;/code&gt; 라는 문자열을 출력한다.&lt;/p&gt;
+&lt;h2&gt;7. 결과 확인하기&lt;/h2&gt;
+&lt;p&gt;이제 파이프라인을 빌드하고 배포가 정상적으로 되는지 확인할것이다.&lt;/p&gt;
+&lt;h3&gt;7.1 빌드 확인하기&lt;/h3&gt;
+&lt;p&gt;파이프라인을 빌드하기 위해 로컬 PC 에서 작성한 소스코드 변경 사항을 저장소의 &lt;code class=&quot;language-text&quot;&gt;master branch&lt;/code&gt; 에 &lt;code class=&quot;language-text&quot;&gt;push&lt;/code&gt; 한다.&lt;br&gt;
+그러면 아래 사진처럼 젠킨스에서 새로운 빌드가 시작된다.(이번에 못찍어서 저번에 찍은 사진으로 대체)&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d41ef3ef9ae19cab86dafb648473fb57/84f4d/700-0-build-history.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 62.0253164556962%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABdUlEQVQoz5WSzW6bQBSFeTLvLO+CIjddNIta6davk26SV2geITt71bxBrdrFxgZCmMGeAQzDFzESkiFJ5VzpaKS5R9898+N8HY+ZTCZcX39jOBx2NBqNGAwGTKdT5vO51Ww24+n3E3f393z/csX48pIL18V1XX7c3OBUdUlxPGJMzblV1+97q6rC8eMYkbyQpilaaZRS5HnOer3mz2KBv/VtrwWdyhhjVRto8mitcOIXQSqlbTQTWp2m+UhNqSzn58Mjt78eWXg+TiKlTdAa2nW1jfgXCCpjdzv9U2BVGVa7CC+ISYTEEVKite6Ym9rufFbehkNm3gz76C6zLMPJkgSZJBRF0TFFYcjy7xLTS9aHtXfZVBPMUXuBOhwoy/LTr9rvW6BMJXEco7OMY3lEaW2/UT/V/6AdoHiOed4F7IUgV4p9ktj1vWOeBYwWS9JgxyEI2QcBKgwpoqhxUZ9x3DdAJQSh77P1PKtgs0H1PvK5wOYdXgGMhYsT93ysfgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;remote-server&quot;
+        title=&quot;remote-server&quot;
+        src=&quot;/static/d41ef3ef9ae19cab86dafb648473fb57/f058b/700-0-build-history.png&quot;
+        srcset=&quot;/static/d41ef3ef9ae19cab86dafb648473fb57/c26ae/700-0-build-history.png 158w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/6bdcf/700-0-build-history.png 315w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/f058b/700-0-build-history.png 630w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/40601/700-0-build-history.png 945w,
+/static/d41ef3ef9ae19cab86dafb648473fb57/84f4d/700-0-build-history.png 1208w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이렇게 시작된 빌드는 깃허브의 &lt;code class=&quot;language-text&quot;&gt;push&lt;/code&gt; 로 시작된 빌드라는 로그가 남아있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;이 별것도 아닌걸 위해서 지금까지 그렇게 고생했다니..&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/fe60be838978e7caf390f9dd82c23f6a/d8817/700-1-started-by-github.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67.08860759493672%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABoUlEQVQ4y6VTy27bMBDk//9Fj/2D3nrrJTbkAK6kOk6aIk5tS3xJtMS3piCL2HKQFn0sMFiKHIyWy1myWC5RFCsURYGbxQLFaoX1eo3qc4m6rlFVFcqyRNu26LoOUsqcE+42G9RVifvtBg/bO3ypK5DBGxij8TqeFQVnHH3fQwgByhiUUlkwrdMPQgjotMP7jzd49+ET6qcjyPOxBWcUxhiM45hhrAVXApRSSNllwb7voLXGOA7Q44CWCjSsB5M9luUWt5uvaHgHwlgDKQWcc1cV9qKFHhSCd4ghwPsJ2gZoG2FcxK+CDFKAM5Z7EsNP4hQi7OMtVHME23OIAwX7TjG2DM4H+MybME0JyDnGmDPRgkIKnvuRxTIDcIdv2D/cY/e4w37XYP90AE3CUkENFsZd+C/CuUJFKQTnsNZeCDkDIQbo1FttYJxDzHtTrjDlueD5yofuhF4pOGvPB3PCdVzvv8UjJ3XKVphf+U9x4c8ERa+yLbz3fy34FoiPFsaac4X/GyTG6fzsL0ji8+/fIfl3DpLc/69I05XGMSGNaPLyD8Xa8PG9/PnPAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;started-by-github&quot;
+        title=&quot;started-by-github&quot;
+        src=&quot;/static/fe60be838978e7caf390f9dd82c23f6a/f058b/700-1-started-by-github.png&quot;
+        srcset=&quot;/static/fe60be838978e7caf390f9dd82c23f6a/c26ae/700-1-started-by-github.png 158w,
+/static/fe60be838978e7caf390f9dd82c23f6a/6bdcf/700-1-started-by-github.png 315w,
+/static/fe60be838978e7caf390f9dd82c23f6a/f058b/700-1-started-by-github.png 630w,
+/static/fe60be838978e7caf390f9dd82c23f6a/40601/700-1-started-by-github.png 945w,
+/static/fe60be838978e7caf390f9dd82c23f6a/d8817/700-1-started-by-github.png 1238w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;아래 사진은 젠킨스에서 수동으로 실행한 빌드이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c5741cf2a5a8ab26529b2802175c8236/d8817/700-2-started-by-user.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67.08860759493672%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABhElEQVQ4y62T0Y7TMBBF/f9/wSN/wBtvvNCqXakkpVtAaNWmjTuOnTSJEzc9KIHQdimLQFzpKIl9PRl7PGoynTKbzZnNZkwmE+bzOYvFgvhDxHIZE8cxURShdYpzDmvt8MzznMfVimUc8Wm94vP6kY/LGFUGj/c1z7U5CmIMxbHAOoeIoSiKIeBBhCRJ6LoOV7e8fvueV2/esXzaozZ7jZED3nuqqhro341JMbsEqzVmt8OJUNc1VVVSliX7VEilQGzONFrzsPpCahxKJMXajKZpL+l10H19wOsEpy21CCdrOQPn85mXpEqXYURwLh+2MC5oMs1+88R2k7BNDNtE2GnH/uAwuafyYfD1/p5xrfJak4ngm+bGMCqEMMy1IfwcGz23DDOonfl+6P25jYGujdd6PnZv++pYHslzN6T8+7/f5+K/CmhcQZZlhDbcze5PRfg1w9oNVQ4h/HWG91Dh1ND8KMj/kOq6S9lHTqfTzfdLtG17g+pv/7/S34y+HXv63u57/BvJK/Iig//kCAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;started-by-github&quot;
+        title=&quot;started-by-github&quot;
+        src=&quot;/static/c5741cf2a5a8ab26529b2802175c8236/f058b/700-2-started-by-user.png&quot;
+        srcset=&quot;/static/c5741cf2a5a8ab26529b2802175c8236/c26ae/700-2-started-by-user.png 158w,
+/static/c5741cf2a5a8ab26529b2802175c8236/6bdcf/700-2-started-by-user.png 315w,
+/static/c5741cf2a5a8ab26529b2802175c8236/f058b/700-2-started-by-user.png 630w,
+/static/c5741cf2a5a8ab26529b2802175c8236/40601/700-2-started-by-user.png 945w,
+/static/c5741cf2a5a8ab26529b2802175c8236/d8817/700-2-started-by-user.png 1238w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;7.2 배포서버 확인하기&lt;/h3&gt;
+&lt;p&gt;빌드의 마지막 스테이지인 &lt;code class=&quot;language-text&quot;&gt;deploy&lt;/code&gt; 는 배포서버에서 컨테이너를 실행하는 부분을 포함하고 있다. 이번 빌드가 에러 없이 잘 완료되었기 때문에 배포서버에서 컨테이너가 정상적으로 실행되었고, 서비스가 돌아가고 있다고 기대해 볼 수 있다.&lt;/p&gt;
+&lt;p&gt;배포서버에서 &lt;code class=&quot;language-text&quot;&gt;sudo docker ps -a&lt;/code&gt; 명령어를 실행하여 컨테이너 목록을 확인해보자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8aafe66e1a6b7ad2b556b36e358883ab/e9d87/720-docker-ps-a.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 5.063291139240507%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAR0lEQVQI1x3JMQ7AIAhA0U6muEAKjYNGGLz/FX+TvvVd5xzGGKy1kPsmM/EI3B0RoaqIeHF/mHOiquy9MbP/W2v03lE1KpMP3GAYq9WffVkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;docker-ps-a&quot;
+        title=&quot;docker-ps-a&quot;
+        src=&quot;/static/8aafe66e1a6b7ad2b556b36e358883ab/f058b/720-docker-ps-a.png&quot;
+        srcset=&quot;/static/8aafe66e1a6b7ad2b556b36e358883ab/c26ae/720-docker-ps-a.png 158w,
+/static/8aafe66e1a6b7ad2b556b36e358883ab/6bdcf/720-docker-ps-a.png 315w,
+/static/8aafe66e1a6b7ad2b556b36e358883ab/f058b/720-docker-ps-a.png 630w,
+/static/8aafe66e1a6b7ad2b556b36e358883ab/40601/720-docker-ps-a.png 945w,
+/static/8aafe66e1a6b7ad2b556b36e358883ab/e9d87/720-docker-ps-a.png 1176w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;컨테이너는 잘 실행되었다. 이제 브라우저에서 확인해보자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/42b2b70b918ec0af6c76878568e2319b/7a4b2/720-1-on-browser.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB4UlEQVQ4y63R22oTQRzH8XkVY04bkkYLaaq2nhCp3ovPImQT0zTW+gCK3nig7ZXee6c+gKeLoKiEJBtTQYuxm92d2UO+shsNtm5LEQc+/GZg+POf+YvTZy+wsHiOuVNnuHy8xJVECi2TI5nWSKW1KPeXI6PlmS3NUyqfpFCcRZwoFDlfKFLOF7mYzXI1lWBBy7CYy1LOasxnw8wxk0hROJJkZo/i0TQlLc9crsCxZAZxvVaj2Wiw2mxSbzS4Vq1S1SvUdJ2qrk8zjl6p0KzXuFGvsrpcY6VeQwDsmCaO4/Avq7staX02edkZ8s0KEKZp0u/3GQy2CPchpRS+7x/I83wYB7ztbPOitcXT130+DoYIpVyG338gLRvHtLB2RjgjOzrLMG0HKVUsx1EQ+EAAjCPCtiw6gy8MVMBXHyzA3suW2Lb6lbtZlmRkScyRg+t6CDUeM2q9Rz54hFrfRK1vTGxsou4/RD57ju0FOLaMOtpPWDz8BuEC6vZdECKWv7QUdRl+w6EKKkDeufdXofG04KXJs0079sl/mnYoX73BW2nird3Cu7k2Ee6XG7iPn+AEIG2573B+Dygq6LluNCP/AIHvEwTBoQj+8xLdbhfDMOj1ersYYRoG7z58ot1ux96J8xPR26AMoa2CFgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;on-browser&quot;
+        title=&quot;on-browser&quot;
+        src=&quot;/static/42b2b70b918ec0af6c76878568e2319b/f058b/720-1-on-browser.png&quot;
+        srcset=&quot;/static/42b2b70b918ec0af6c76878568e2319b/c26ae/720-1-on-browser.png 158w,
+/static/42b2b70b918ec0af6c76878568e2319b/6bdcf/720-1-on-browser.png 315w,
+/static/42b2b70b918ec0af6c76878568e2319b/f058b/720-1-on-browser.png 630w,
+/static/42b2b70b918ec0af6c76878568e2319b/40601/720-1-on-browser.png 945w,
+/static/42b2b70b918ec0af6c76878568e2319b/7a4b2/720-1-on-browser.png 1240w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;끝~~!!!!!!!!!!!!&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://velog.io/@soover/CICD-Jenkins-%EA%B0%9C%EB%B0%9C-%EC%84%9C%EB%B2%84%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%B0%B0%ED%8F%AC-%ED%99%98%EA%B2%BD-%EB%A7%8C%EB%93%A4%EA%B8%B0-Pipeline&quot;&gt;파이프라인 스크립트에서 publish over ssh 사용&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://alsyean.tistory.com/57&quot;&gt;깃허브 웹훅&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 뷰 배포]]></title><description><![CDATA[0. 서론 백엔드 배포가 끝났으니 프론트엔드를 배포하여 서비스를 시작 해야 한다. vue.js 를 젠킨스를 통해 S3 에 배포하는 방법을 정리한다. 1. pipeline 생성 백엔드에서는 free project 를 선택했다. 이 방법으론 GUI…]]></description><link>https://ohyunkyo.github.io/DevOps/deploy-vue-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/deploy-vue-with-jenkins/</guid><pubDate>Mon, 16 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;백엔드 배포가 끝났으니 프론트엔드를 배포하여 서비스를 시작 해야 한다.&lt;br&gt;
-젠킨스를 통해 S3 에 vue.js 를 배포하는 방법을 정리한다.&lt;/p&gt;
+vue.js 를 젠킨스를 통해 S3 에 배포하는 방법을 정리한다.&lt;/p&gt;
 &lt;h2&gt;1. pipeline 생성&lt;/h2&gt;
-&lt;p&gt;백엔드를 배포 할 때에는 free project 를 선택했다. 이 방법으론 GUI 를 통해 Job 을 설정하기 때문에 처음 접할땐 편리하지만 프로젝트가 많아지고 자동으로 관리하기엔 좋은 방법은 아닌것 같았다.&lt;br&gt;
+&lt;p&gt;백엔드에서는 free project 를 선택했다. 이 방법으론 GUI 를 통해 Job 을 설정하기 때문에 처음 접할땐 편리하지만 프로젝트가 많아지고 자동으로 관리하기엔 좋은 방법은 아닌것 같았다.&lt;br&gt;
 그래서 아래 사진처럼 파이프라인을 생성했다. 파이프라인은 빌드과정을 코드를 통해 관리할 수 있다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -138,7 +1101,7 @@
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a41ffe2cd13438d79ef0b324eb266c81/baaa6/200-pipeline-script.png&quot;
+    href=&quot;/static/a41ffe2cd13438d79ef0b324eb266c81/baaa6/000-pipeline-script.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -151,11 +1114,11 @@
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;pipeline-script&quot;
         title=&quot;pipeline-script&quot;
-        src=&quot;/static/a41ffe2cd13438d79ef0b324eb266c81/f058b/200-pipeline-script.png&quot;
-        srcset=&quot;/static/a41ffe2cd13438d79ef0b324eb266c81/c26ae/200-pipeline-script.png 158w,
-/static/a41ffe2cd13438d79ef0b324eb266c81/6bdcf/200-pipeline-script.png 315w,
-/static/a41ffe2cd13438d79ef0b324eb266c81/f058b/200-pipeline-script.png 630w,
-/static/a41ffe2cd13438d79ef0b324eb266c81/baaa6/200-pipeline-script.png 813w&quot;
+        src=&quot;/static/a41ffe2cd13438d79ef0b324eb266c81/f058b/000-pipeline-script.png&quot;
+        srcset=&quot;/static/a41ffe2cd13438d79ef0b324eb266c81/c26ae/000-pipeline-script.png 158w,
+/static/a41ffe2cd13438d79ef0b324eb266c81/6bdcf/000-pipeline-script.png 315w,
+/static/a41ffe2cd13438d79ef0b324eb266c81/f058b/000-pipeline-script.png 630w,
+/static/a41ffe2cd13438d79ef0b324eb266c81/baaa6/000-pipeline-script.png 813w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -186,7 +1149,7 @@ pipeline {
         }
         stage(&amp;#39;deploy&amp;#39;) {
             steps{
-                sh &amp;quot;aws s3 sync ./dist s3://{버킷 이름} --delete&amp;quot;
+                sh &amp;quot;aws s3 sync ./dist s3://inventory-front --delete --profile default&amp;quot;
             }
         }
     }
@@ -209,7 +1172,7 @@ pipeline {
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/3cc082f0a8127028150413947906ee46/4971b/310-0-git-plugin-settings.png&quot;
+    href=&quot;/static/3cc082f0a8127028150413947906ee46/4971b/320-git-plugin-settings.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -222,11 +1185,11 @@ pipeline {
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;git-plugin-settings&quot;
         title=&quot;git-plugin-settings&quot;
-        src=&quot;/static/3cc082f0a8127028150413947906ee46/f058b/310-0-git-plugin-settings.png&quot;
-        srcset=&quot;/static/3cc082f0a8127028150413947906ee46/c26ae/310-0-git-plugin-settings.png 158w,
-/static/3cc082f0a8127028150413947906ee46/6bdcf/310-0-git-plugin-settings.png 315w,
-/static/3cc082f0a8127028150413947906ee46/f058b/310-0-git-plugin-settings.png 630w,
-/static/3cc082f0a8127028150413947906ee46/4971b/310-0-git-plugin-settings.png 784w&quot;
+        src=&quot;/static/3cc082f0a8127028150413947906ee46/f058b/320-git-plugin-settings.png&quot;
+        srcset=&quot;/static/3cc082f0a8127028150413947906ee46/c26ae/320-git-plugin-settings.png 158w,
+/static/3cc082f0a8127028150413947906ee46/6bdcf/320-git-plugin-settings.png 315w,
+/static/3cc082f0a8127028150413947906ee46/f058b/320-git-plugin-settings.png 630w,
+/static/3cc082f0a8127028150413947906ee46/4971b/320-git-plugin-settings.png 784w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -246,7 +1209,7 @@ pipeline {
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/a5a7b06c87fec896dc58ada5cd9f0149/73fd0/310-1-git-plugin-name-error.png&quot;
+    href=&quot;/static/a5a7b06c87fec896dc58ada5cd9f0149/73fd0/000-git-plugin-name-error.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -259,11 +1222,11 @@ pipeline {
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;git-plugin-name-error&quot;
         title=&quot;git-plugin-name-error&quot;
-        src=&quot;/static/a5a7b06c87fec896dc58ada5cd9f0149/f058b/310-1-git-plugin-name-error.png&quot;
-        srcset=&quot;/static/a5a7b06c87fec896dc58ada5cd9f0149/c26ae/310-1-git-plugin-name-error.png 158w,
-/static/a5a7b06c87fec896dc58ada5cd9f0149/6bdcf/310-1-git-plugin-name-error.png 315w,
-/static/a5a7b06c87fec896dc58ada5cd9f0149/f058b/310-1-git-plugin-name-error.png 630w,
-/static/a5a7b06c87fec896dc58ada5cd9f0149/73fd0/310-1-git-plugin-name-error.png 793w&quot;
+        src=&quot;/static/a5a7b06c87fec896dc58ada5cd9f0149/f058b/000-git-plugin-name-error.png&quot;
+        srcset=&quot;/static/a5a7b06c87fec896dc58ada5cd9f0149/c26ae/000-git-plugin-name-error.png 158w,
+/static/a5a7b06c87fec896dc58ada5cd9f0149/6bdcf/000-git-plugin-name-error.png 315w,
+/static/a5a7b06c87fec896dc58ada5cd9f0149/f058b/000-git-plugin-name-error.png 630w,
+/static/a5a7b06c87fec896dc58ada5cd9f0149/73fd0/000-git-plugin-name-error.png 793w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -272,14 +1235,14 @@ pipeline {
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.2 NodeJs 플러그인 설치&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 플러그인과는 다르게 &lt;code class=&quot;language-text&quot;&gt;nodejs&lt;/code&gt; 플러그인은 직접 설치해야 한다. 다음 사진처럼 플러그인 관리에서 검색하여 설치한다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 플러그인과는 다르게 &lt;code class=&quot;language-text&quot;&gt;nodejs&lt;/code&gt; 플러그인은 직접 설치해야 한다. 다음 사진처럼 검색하여 설치한다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/08c08343404252b848763c55f9dea139/27b7a/320-nodejs-plugin-install.png&quot;
+    href=&quot;/static/08c08343404252b848763c55f9dea139/27b7a/310-nodejs-plugin-install.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -292,11 +1255,11 @@ pipeline {
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;nodejs-plugin-install&quot;
         title=&quot;nodejs-plugin-install&quot;
-        src=&quot;/static/08c08343404252b848763c55f9dea139/f058b/320-nodejs-plugin-install.png&quot;
-        srcset=&quot;/static/08c08343404252b848763c55f9dea139/c26ae/320-nodejs-plugin-install.png 158w,
-/static/08c08343404252b848763c55f9dea139/6bdcf/320-nodejs-plugin-install.png 315w,
-/static/08c08343404252b848763c55f9dea139/f058b/320-nodejs-plugin-install.png 630w,
-/static/08c08343404252b848763c55f9dea139/27b7a/320-nodejs-plugin-install.png 804w&quot;
+        src=&quot;/static/08c08343404252b848763c55f9dea139/f058b/310-nodejs-plugin-install.png&quot;
+        srcset=&quot;/static/08c08343404252b848763c55f9dea139/c26ae/310-nodejs-plugin-install.png 158w,
+/static/08c08343404252b848763c55f9dea139/6bdcf/310-nodejs-plugin-install.png 315w,
+/static/08c08343404252b848763c55f9dea139/f058b/310-nodejs-plugin-install.png 630w,
+/static/08c08343404252b848763c55f9dea139/27b7a/310-nodejs-plugin-install.png 804w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -305,7 +1268,7 @@ pipeline {
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;3.3 NodeJs 플러그인 설정&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;nodejs&lt;/code&gt; 플러그인도 &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 플러그인과 마찬가지로 여러개의 설정을 생성 할 수 있다. 일단은 개발시에 사용한것과 동일한 버전 하나만 추가하도록 한다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;nodejs&lt;/code&gt; 플러그인도 &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 플러그인과 마찬가지로 여러개의 설정을 생성 할 수 있다. 일단은 개발시에 사용한 버전 하나만 추가하도록 한다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
@@ -356,7 +1319,7 @@ pipeline {
     }
     stage(&amp;#39;deploy&amp;#39;) {
         steps{
-            sh &amp;quot;aws s3 sync ./dist s3://{버킷 이름} --delete&amp;quot;
+            sh &amp;quot;aws s3 sync ./dist s3://inventory-front --delete --profile default&amp;quot;
         }
     }
 }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -368,7 +1331,7 @@ pipeline {
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/de42a34c7917cd44423190ab9e0ac43a/2e237/400-jenkins-stage-view.png&quot;
+    href=&quot;/static/de42a34c7917cd44423190ab9e0ac43a/2e237/000-jenkins-stage-view.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -381,11 +1344,11 @@ pipeline {
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;jenkins-stage-view&quot;
         title=&quot;jenkins-stage-view&quot;
-        src=&quot;/static/de42a34c7917cd44423190ab9e0ac43a/f058b/400-jenkins-stage-view.png&quot;
-        srcset=&quot;/static/de42a34c7917cd44423190ab9e0ac43a/c26ae/400-jenkins-stage-view.png 158w,
-/static/de42a34c7917cd44423190ab9e0ac43a/6bdcf/400-jenkins-stage-view.png 315w,
-/static/de42a34c7917cd44423190ab9e0ac43a/f058b/400-jenkins-stage-view.png 630w,
-/static/de42a34c7917cd44423190ab9e0ac43a/2e237/400-jenkins-stage-view.png 790w&quot;
+        src=&quot;/static/de42a34c7917cd44423190ab9e0ac43a/f058b/000-jenkins-stage-view.png&quot;
+        srcset=&quot;/static/de42a34c7917cd44423190ab9e0ac43a/c26ae/000-jenkins-stage-view.png 158w,
+/static/de42a34c7917cd44423190ab9e0ac43a/6bdcf/000-jenkins-stage-view.png 315w,
+/static/de42a34c7917cd44423190ab9e0ac43a/f058b/000-jenkins-stage-view.png 630w,
+/static/de42a34c7917cd44423190ab9e0ac43a/2e237/000-jenkins-stage-view.png 790w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -400,8 +1363,8 @@ pipeline {
     }
 }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;각 &lt;code class=&quot;language-text&quot;&gt;stage&lt;/code&gt; 내부의 &lt;code class=&quot;language-text&quot;&gt;steps&lt;/code&gt; 블록은 각각의 &lt;code class=&quot;language-text&quot;&gt;step&lt;/code&gt; 들을 묶어주는 역할을 한다.&lt;br&gt;
-여기에선 &lt;code class=&quot;language-text&quot;&gt;steps&lt;/code&gt; 블록 내부의 &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 이 하나의 &lt;code class=&quot;language-text&quot;&gt;step&lt;/code&gt; 인데,&lt;br&gt;
-&lt;a href=&quot;#3.1-git-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EC%84%A4%EC%A0%95&quot;&gt;아까&lt;/a&gt; 깃 설정을 &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 이라는 이름으로 만들었기 때문에 젠킨스 파이프라인 스크립트에서 &lt;code class=&quot;language-text&quot;&gt;git step&lt;/code&gt; 을 사용할 수 있게 되는것이다.&lt;/p&gt;
+여기에선 &lt;code class=&quot;language-text&quot;&gt;steps&lt;/code&gt; 블록 내부의 &lt;code class=&quot;language-text&quot;&gt;sh&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 가 각각의 &lt;code class=&quot;language-text&quot;&gt;step&lt;/code&gt; 인데,&lt;br&gt;
+&lt;a href=&quot;#3.1-git-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EC%84%A4%EC%A0%95&quot;&gt;아까&lt;/a&gt; 깃 설정을 &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; 라는 이름으로 만들었기 때문에 젠킨스 파이프라인 스크립트에서 &lt;code class=&quot;language-text&quot;&gt;git step&lt;/code&gt; 을 사용할 수 있게 되는것.&lt;/p&gt;
 &lt;h3&gt;4.1.1 깃허브와 연결&lt;/h3&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;prepare stage&lt;/code&gt;에선 &lt;code class=&quot;language-text&quot;&gt;git step&lt;/code&gt; 을 통해 깃허브 저장소에서 소스코드를 가져오는 작업을 한다.&lt;br&gt;
 내가 가져오려는 깃허브 저장소의 경우 비공개이기 때문에 SSH Key 를 통한 인증이 필요하다.&lt;br&gt;
@@ -412,7 +1375,7 @@ pipeline {
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/16ecf847f3ef273f007000a89fd15ba6/160a3/411-0-github-deploy-key.png&quot;
+    href=&quot;/static/16ecf847f3ef273f007000a89fd15ba6/160a3/000-github-deploy-key.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -425,11 +1388,11 @@ pipeline {
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;github-deploy-key&quot;
         title=&quot;github-deploy-key&quot;
-        src=&quot;/static/16ecf847f3ef273f007000a89fd15ba6/f058b/411-0-github-deploy-key.png&quot;
-        srcset=&quot;/static/16ecf847f3ef273f007000a89fd15ba6/c26ae/411-0-github-deploy-key.png 158w,
-/static/16ecf847f3ef273f007000a89fd15ba6/6bdcf/411-0-github-deploy-key.png 315w,
-/static/16ecf847f3ef273f007000a89fd15ba6/f058b/411-0-github-deploy-key.png 630w,
-/static/16ecf847f3ef273f007000a89fd15ba6/160a3/411-0-github-deploy-key.png 682w&quot;
+        src=&quot;/static/16ecf847f3ef273f007000a89fd15ba6/f058b/000-github-deploy-key.png&quot;
+        srcset=&quot;/static/16ecf847f3ef273f007000a89fd15ba6/c26ae/000-github-deploy-key.png 158w,
+/static/16ecf847f3ef273f007000a89fd15ba6/6bdcf/000-github-deploy-key.png 315w,
+/static/16ecf847f3ef273f007000a89fd15ba6/f058b/000-github-deploy-key.png 630w,
+/static/16ecf847f3ef273f007000a89fd15ba6/160a3/000-github-deploy-key.png 682w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -443,7 +1406,7 @@ pipeline {
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/c35314e84dcdd51003764f81e3d5b83c/898f6/411-1-jenkins-credential.png&quot;
+    href=&quot;/static/c35314e84dcdd51003764f81e3d5b83c/898f6/000-jenkins-credential.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -456,11 +1419,11 @@ pipeline {
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;jenkins-credential&quot;
         title=&quot;jenkins-credential&quot;
-        src=&quot;/static/c35314e84dcdd51003764f81e3d5b83c/f058b/411-1-jenkins-credential.png&quot;
-        srcset=&quot;/static/c35314e84dcdd51003764f81e3d5b83c/c26ae/411-1-jenkins-credential.png 158w,
-/static/c35314e84dcdd51003764f81e3d5b83c/6bdcf/411-1-jenkins-credential.png 315w,
-/static/c35314e84dcdd51003764f81e3d5b83c/f058b/411-1-jenkins-credential.png 630w,
-/static/c35314e84dcdd51003764f81e3d5b83c/898f6/411-1-jenkins-credential.png 798w&quot;
+        src=&quot;/static/c35314e84dcdd51003764f81e3d5b83c/f058b/000-jenkins-credential.png&quot;
+        srcset=&quot;/static/c35314e84dcdd51003764f81e3d5b83c/c26ae/000-jenkins-credential.png 158w,
+/static/c35314e84dcdd51003764f81e3d5b83c/6bdcf/000-jenkins-credential.png 315w,
+/static/c35314e84dcdd51003764f81e3d5b83c/f058b/000-jenkins-credential.png 630w,
+/static/c35314e84dcdd51003764f81e3d5b83c/898f6/000-jenkins-credential.png 798w&quot;
         sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -469,376 +1432,7 @@ pipeline {
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;h3&gt;4.1.2 git step 인자 설정&lt;/h3&gt;
-&lt;p&gt;기본적으로 &lt;code class=&quot;language-text&quot;&gt;git step&lt;/code&gt; 이 비공개 저장소에서 소스코드를 가져오기 위한 인자를 다음과 같이 설정한다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;branch&lt;/code&gt; : 가져오려는 브랜치 이름.&lt;/li&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;credentialsId&lt;/code&gt; : 젠킨스에 등록한 credential 의 ID. Name 을 사용하면 안된다.&lt;/li&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;url&lt;/code&gt; : 깃허브 저장소의 주소. HTTPS 가 아닌 SSH 를 선택해서 복사 한것을 붙여넣으면 된다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;4.2 stage - build&lt;/h2&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jenkinsfile&quot;&gt;&lt;pre class=&quot;language-jenkinsfile&quot;&gt;&lt;code class=&quot;language-jenkinsfile&quot;&gt;stage(&amp;#39;build&amp;#39;) {
-    steps {
-        sh &amp;quot;npm install&amp;quot;
-        sh &amp;quot;npm run build&amp;quot;
-    }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;build stage&lt;/code&gt; 에서는 &lt;code class=&quot;language-text&quot;&gt;sh step&lt;/code&gt;(쉘 스크립트 실행) 을 통해 &lt;code class=&quot;language-text&quot;&gt;npm&lt;/code&gt; 명령어를 실행한다.&lt;br&gt;
-만약 &lt;code class=&quot;language-text&quot;&gt;nodejs&lt;/code&gt; 플러그인 설정이 제대로 되지 않았다면 이 단계에서 문제가 생기므로 에러가 출력될 경우 해당 플러그인 설정을 확인하면 된다.&lt;/p&gt;
-&lt;p&gt;결과적으론 &lt;code class=&quot;language-text&quot;&gt;npm&lt;/code&gt; 명령어들이 실행되고 &lt;code class=&quot;language-text&quot;&gt;./dist&lt;/code&gt; 디렉토리에 정적 파일을 생성한다. 이 디렉토리를 S3 에 배포하면 되는것이다.&lt;/p&gt;
-&lt;h2&gt;4.3 stage - deploy&lt;/h2&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jenkinsfile&quot;&gt;&lt;pre class=&quot;language-jenkinsfile&quot;&gt;&lt;code class=&quot;language-jenkinsfile&quot;&gt;stage(&amp;#39;deploy&amp;#39;) {
-    steps{
-        sh &amp;quot;aws s3 sync ./dist s3://{버킷 이름} --delete&amp;quot;
-    }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;마찬가지로 &lt;code class=&quot;language-text&quot;&gt;sh step&lt;/code&gt; 을 통해 명령어를 실행한다.&lt;br&gt;
-&lt;code class=&quot;language-text&quot;&gt;aws s3 sync&lt;/code&gt; 명령어는 디렉토리와 S3 버킷을 동기화 한다. 원본 디렉토리에서 목적지로 새로운 파일 및 업데이트 된 파일을 복사하는것이다.&lt;/p&gt;
-&lt;p&gt;각각의 인자 및 옵션의 의미는 다음과 같다&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;./dist&lt;/code&gt; : 원본 파일의 경로.&lt;/li&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;s3://{버킷 이름}&lt;/code&gt; : 목적지 버킷의 이름.&lt;/li&gt;
-&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;--delete&lt;/code&gt; : 목적지에는 있지만 원본에 없는 파일의 경우 삭제하도록 하는 옵션.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;a href=&quot;https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/sync.html&quot;&gt;aws s3 sync 명령어 매뉴얼&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;이 명령어도 제대로 실행되기 위해 몇가지 설정이 필요하다.&lt;/p&gt;
-&lt;h3&gt;4.3.1 S3 버킷 생성&lt;/h3&gt;
-&lt;p&gt;가장먼저 아마존 S3 서비스에서 배포된 파일이 위치할 버킷을 생성한다. 이후 다음과 같이 설정해준다.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;속성 탭에서 해당 버킷을 웹 사이트로 호스팅 하기 위한 설정을 한다.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/c2548b04d8b2758f5a65515a18b7920a/d4c13/431-0-static-web-site-hosting.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 95.56962025316456%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAA7DAAAOwwHHb6hkAAACbklEQVQ4y42UiXLiMAyG8/5Pt0eHAqWQFggkvhNfOf8dq5BSusyuZ76R7cS/JVtWVgqNgmtIU6OSGlwZHCqFs9BQxqBiDFwIVIyjZAymrlE3zUOybf6Gp8UCy/ULdnmO59UKm+0OL69b/Pz1G9v8nTZLQv9DppSGlJK80MZAKgWlNZH6QmqYxsJ7B+8cnLNo7AOSh1prLFcrrNZrvGw2eH5eQkgF7z2stXDWkhW1J4wL6LoObdt+Ic2FEJA552ixcwn3yUWQcA7aBkLagL7vSOCeECOyJCaEAOeCXO77Af9q0zR9I7Wu75HVoUVRCaTQH/38lb9vkFpPgtaj5BLGGPowjuNDr4DHG82C2gUcSo7idKZc40LCh4DYtnCxh/EdbDv80/tZMB2wdxZlWYFVDFXFoLWhG/MhovYd6tDBd9eznW7AzdxF0MeWFigbyBrfook9LNGhaUfUcQR3PUI/IQwT4gDiduxTv+2QGRexr3u8Fhy7k0BeKmyODK8Fw+ZYYVswIn3bnjk2hwrLvMB6f8buLLA9CWz2JQrtyZHM+AgeJiyOEouDwqIwWBYKq7PGj3eBp12BRV4gZwaF8XhjBm9M453XJHJUFntmUNoeJnTIGufBjaWEbdqBsFe6kUIK1xCTHT+5zqf+HHJ6EVJISu42RsR0Gf7j1cQYgGnENN4zkP16ScBAlxICpNJUGNITS9k+XvJxSAx30NxAdrpJpfmWk8jpdKZax7ig/BtvFj1ifgD3gslDJT9KVoyRisIsluzs3c0Gl/mk883DdF5UE1PY2pCwtY7CT9ZdKlGqd94HGjcpM5qIso7zK7oK/gEf6r6kxCROugAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;jenkins-credential&quot;
-        title=&quot;jenkins-credential&quot;
-        src=&quot;/static/c2548b04d8b2758f5a65515a18b7920a/f058b/431-0-static-web-site-hosting.png&quot;
-        srcset=&quot;/static/c2548b04d8b2758f5a65515a18b7920a/c26ae/431-0-static-web-site-hosting.png 158w,
-/static/c2548b04d8b2758f5a65515a18b7920a/6bdcf/431-0-static-web-site-hosting.png 315w,
-/static/c2548b04d8b2758f5a65515a18b7920a/f058b/431-0-static-web-site-hosting.png 630w,
-/static/c2548b04d8b2758f5a65515a18b7920a/d4c13/431-0-static-web-site-hosting.png 825w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;ol start=&quot;2&quot;&gt;
-&lt;li&gt;권한 탭에서 해당 버킷을 외부에서 접속 가능하도록 하기 위한 설정을 한다.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/e85d222722e9ce456087a427420e3cfb/87a80/431-1-public-access.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 76.58227848101265%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABrElEQVQ4y6VTa3PjIAzk///Ea3OX5h0bY/MSGGLvjWQnfX7otMysV1ozkhBCnc5n/Hl6wm6/x7/tFs/PG1ybBjknJIogigghIkbmIHxH+EJTbdvicDzieDxifzjgZbfD6XTC4XzB7nTB/tygaVvwPt11Yhtj0GotGvtabA2tO6jBWpi+l2yvVQTYENE5gvEJpRSM4/iO34K1u644wDAMICIR5nleME0rbrjdvg/lmyua/Q66M3DOPbLNM360FKWEwTmYYRB0fS8cKSEQIVBETElQapUq6lpNZX+axL9rKuWMwXv0zsGuLLAOxlrovof1AZ77y22pFdM0LYHeJHgEjETopDqL3i7o1mrvGvvMHNiFAMoZfLJS6oJal8spFYqdXMpjk+CjnTM4cVy1mEh4LEUq5TWvTVeW+7eOjQQgWiB2etU+/aMliWjrA+DBbpoGm81fCepDkJsW+IWttfDef9IZrA8+QtsI4wl5HKH4w80sdR3QMn45sO8GeQXbuVTQuICPr8axwJge1jrknOUGf7MUV8elt7qTvtwb/FMo/vDz225fcLle5Yi/Cfof4XKNo/GQ96kAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;jenkins-credential&quot;
-        title=&quot;jenkins-credential&quot;
-        src=&quot;/static/e85d222722e9ce456087a427420e3cfb/f058b/431-1-public-access.png&quot;
-        srcset=&quot;/static/e85d222722e9ce456087a427420e3cfb/c26ae/431-1-public-access.png 158w,
-/static/e85d222722e9ce456087a427420e3cfb/6bdcf/431-1-public-access.png 315w,
-/static/e85d222722e9ce456087a427420e3cfb/f058b/431-1-public-access.png 630w,
-/static/e85d222722e9ce456087a427420e3cfb/40601/431-1-public-access.png 945w,
-/static/e85d222722e9ce456087a427420e3cfb/87a80/431-1-public-access.png 973w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;&quot;Version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;&quot;Statement&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;token property&quot;&gt;&quot;Sid&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ReadOnly&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;token property&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Allow&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;token property&quot;&gt;&quot;Principal&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;token property&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;s3:GetObject&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;token property&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;arn:aws:s3:::{버킷 이름}/*&quot;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;4.3.2 aws cli 설치&lt;/h3&gt;
-&lt;p&gt;이 &lt;code class=&quot;language-text&quot;&gt;aws cli&lt;/code&gt; 는 실제 젠킨스 서비스가 있는 컨테이너에 설치 되어야 한다.&lt;br&gt;
-먼저 젠킨스 서버에서 젠킨스 서비스 컨테이너의 쉘을 실행한다.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;docker&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;exec&lt;/span&gt; -it jenkins_cicd /bin/bash&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;이후 &lt;code class=&quot;language-text&quot;&gt;home&lt;/code&gt; 디렉토리로 이동하여 설치파일을 다운로드 하고 실행한다.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# cd 
-# curl &quot;https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip&quot; -o &quot;awscliv2.zip&quot;
-# unzip awscliv2.zip
-# ./aws/install&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;아래의 명령어가 실행된다면 정상적으로 설치된것이다. 만약 정상적으로 설치되지 않았다면 &lt;a href=&quot;https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html&quot;&gt;여기&lt;/a&gt; 를 눌러 공식 문서를 참고하자.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# aws --version&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;4.3.3 aws 인증 정보&lt;/h3&gt;
-&lt;p&gt;버킷도 생성했고 &lt;code class=&quot;language-text&quot;&gt;aws&lt;/code&gt; 명령어도 사용할 수 있게 되었다. 그러나 아직 끝이 아니다. 젠킨스가 해당 버킷에 대한 인증 정보를 가지고 있어야 파일을 업로드 할 수 있다.&lt;br&gt;
-쉽게 말하자면 로그인 해야 한다는 뜻이다.&lt;/p&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;aws configure&lt;/code&gt; 명령어를 입력하면 다음과 같이 인증 정보를 물어본다.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 447px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/9eb6629cf945f7f1233e4eaa6c1d5f2f/a2d48/433-0-aws-configure.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 21.51898734177215%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAyklEQVQY02WPvXKEMAwGKYCCzARszn9gHzYBzCXF5f1fbhPc3GRSfCMV0mpVxXUl54OUIiklUoykdcUHzzAMLMuCsw7nHN579m1HK4XSCikEVVX9zfP5zf0eCCEwTxPW2gK86gW5lqUcMdoghEApzShHzvPB1+cD6xxD//4C7sdRzKZ5xrqp9N4H4rIQUyJ4j1IKa02ZuQ5LKYp927b0/cBb172Al8227dxuI1obzpwLYPaeY98xxpDzyceaimHXddR1TdM0/9/9zQ9NjGQk43X6ugAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;aws-configure&quot;
-        title=&quot;aws-configure&quot;
-        src=&quot;/static/9eb6629cf945f7f1233e4eaa6c1d5f2f/a2d48/433-0-aws-configure.png&quot;
-        srcset=&quot;/static/9eb6629cf945f7f1233e4eaa6c1d5f2f/c26ae/433-0-aws-configure.png 158w,
-/static/9eb6629cf945f7f1233e4eaa6c1d5f2f/6bdcf/433-0-aws-configure.png 315w,
-/static/9eb6629cf945f7f1233e4eaa6c1d5f2f/a2d48/433-0-aws-configure.png 447w&quot;
-        sizes=&quot;(max-width: 447px) 100vw, 447px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;위 사진은 인증 정보를 입력 후 명령어를 다시 실행한 것인데, 처음이라면 다음과 같이 인증 정보를 발급받아 입력하면 된다.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;AWS 콘솔에 로그인 한 후 우측 상단에서 AWS 아이디 클릭&lt;/li&gt;
-&lt;li&gt;보안 자격 증명 메뉴 클릭&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 328px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/05c764a86c0c0834b26bb6d869b9442d/d5c60/433-1-IAM.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 140.50632911392407%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAEHUlEQVRIx5WV228UZRiHB8uF3hBQtq1tt+xMd2cP3d2Z2fPs7O5sd3uktECx1BYKaVQCJbUxJhI0XhMTaOhpuyttKcQr4yHhQhP/DPXKeK13JhCF0FYfM7OlHGxxe/Hk92Z28tv38H3zCvOVNebKt7eZWbjF7NIq1vOZhWVullaZL6/ZOrO4bP82W15jdXGZb+aW+GquzNdzZVtLS6sIh0WN+rYoDW1RrDh/dARZNXndGWJo7AJqupdDziCKfpRC32mC0Q5ek5N8eqABBIG/BIH1LdWb/Qiq0YdHM/FGOpC1PNneYQLpXlyqid47TLvRh0sz8aV6UHPH8MSLiNECPe1JPhQDTElBpqWgrZqSRbh2Y9HOzq3mEEMZXL4kartOJGQQ8iW2Y0vDgRRaMI03nMWp5XFEC9RHCjgiVRVVE2Fp5Qsa3TG6BseI9o0wEcvxUNjH/VfqeFC3nweWbnG/bj+P9+1j0KPRpObxhjJ4wtlt2sJZhIXKmt3DSOYovnQvRSVD2dHCYr1zRyqOFgx/klbVxG2ZKLnnEKxpOiSN1oDOkYCOS81RHy3uiiNaRNRMPGoOt2X6AsLi53d4U07QPzxBouM4UiiD/EwZO2GVJu2CsGAbxuk/PYHRdQpX0PhPGXvBztAhRQjEO+1jI+3Qlz0Z3lhYxhnQ7ZKN7lO24bM9sV7ay58IpVt3ecOl2qW2+FL2cJx+nRZ/yuaJWa2mwrX5VcSQwbGRd+g+MU5hYJSeoXP0nByn+8RZPHtsgzBbuUOzN0m6a4ho7hgxc4B05xB650l7SNa13DaswVj45LMyDZ4Y6Z5hYoXjRPODKNl+NHOANi2PK5TZLlmqJcOZ0m1EOc74mQsMDIwyODDK8cExO47Hi3hCRtVo6/z9r+H12RWSzT7S/jgpObpFhKRHI+OPY/oTTw1rybCyuIJ2JEBnwSCeMjDSOhlDpzuXxDB0Mr6EfWelGhFKpWWSzX66FJ3O9gRmIEFHIEFne5xi4GmG7lqnbH32GyQNOZTBHczgVXJ4lSxyOGfHbnVvCDdLKzR5k7x1fpJ8/9u0BqtDEMNZG2mPCNbSafTE0IsnUdK9W1evWuJueJ7NSnk+tkuulyJ2/dYKeKmZWu3TkbCJqFSRttR6ZhtaGTpEDTnS8fQA70CbkqU1lCMV17l3zsm98Wa+PdvCl2MtfH++mdURCbe1pOYrt+2d4osV7Hu7G96ISavSQVdG58+PDvHb9EF+nz7Ir5cP8ccHB/hlqhGvZiJcn6vwqkOmSU7Y2+9lHJZiiF6NiUwbl0yRizmRi6bIZVNkOOWhSY4j3PvuB8bfm+bi9FUuvH9ld6aq+u7UFc5MXmXsCZcs/Zizk1cZnZhEePjoEZubG2xsrNfABpub6/zzIn+vs7nxmJ9/+pF/Ac2j9nLwniBXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;IAM&quot;
-        title=&quot;IAM&quot;
-        src=&quot;/static/05c764a86c0c0834b26bb6d869b9442d/d5c60/433-1-IAM.png&quot;
-        srcset=&quot;/static/05c764a86c0c0834b26bb6d869b9442d/c26ae/433-1-IAM.png 158w,
-/static/05c764a86c0c0834b26bb6d869b9442d/6bdcf/433-1-IAM.png 315w,
-/static/05c764a86c0c0834b26bb6d869b9442d/d5c60/433-1-IAM.png 328w&quot;
-        sizes=&quot;(max-width: 328px) 100vw, 328px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;ol start=&quot;3&quot;&gt;
-&lt;li&gt;새 엑세스 키 만들기 버튼 클릭하여 인증 정보 생성&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/cb358e5732ff0aa82e94e2c380bddda6/eb2ef/433-2-create-access-key.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 62.65822784810127%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAChElEQVQ4y4WSzW8TRxjG97/k2EOPHFrAUZqQpBIYUtIQCEkpHzmjSiCO9NRTD63UC1KJcgixN/b6Y7327M7Xftr+VTMOkSpV6kg/Pe/uzD77zLwTrG+3ad1tc+e7HdY2dmht7HBnfYtba5t829rg9tqmf17fvk9r6yFr1zygtfWA7fv7bLYP2P1+l99vfkOQZRnJZEJd17BcUlcV1hiMMSwWC/53LJewXOBWaiCw1pLnhZ9z5s5ICEGe5xhtUEqjlEJrvapNgdQFmVy9q6rKh6nrhnlVEbgPnakbbkGSJJydnXF+fk4YhgwGA6Io8jocDhkORwwcg6F/Ho/HV4yI45igLEuaprk2dCn7/T69Xo9+FPnambnFk8nE4+p/szJ1cz6hlIrlconSGveDLM0QM0EqUo+UktzmFG43xvozdnVZlJRlTVFUVNVq297QpXLDnVFd5eRpSCkvkbMQMblAi55HJq4OEbHTS2zWR6QxyqQ0jaJpLIHbrjHWd9Q1RGUZf52e8vcff5K+f4P99S3VxUekjZlOQ4wZk2YRSRKizRgh+qRpRCIilJmuztBcNcVaQxIL3v32iV8+fCT+3AE9pdKCutTXNJVZUecsmhXz2rJoSoLCWp/KtV8qDfMCdIe57qKzkFR0yaYXyOmFVyU6qFkHJboIlzi7pNQRhe4xLxKC3CWbLyiLgjTNmM1mfO506IaXjEYjf+knk/g/Sa70S6d9lzn9BGH3y7WnqkqGg4gsTdFKoaTEaI0x2qtWEqWkVzd/jVZYowl2b3zFo69vsnd8wsP9Y3548vyKn3l89JonP53Q3jvi3qND2nvPeHz0ioPjE68/Hr5k7+kLr7sHz9k/fMk/jp6q7913aRsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;create-access-key&quot;
-        title=&quot;create-access-key&quot;
-        src=&quot;/static/cb358e5732ff0aa82e94e2c380bddda6/f058b/433-2-create-access-key.png&quot;
-        srcset=&quot;/static/cb358e5732ff0aa82e94e2c380bddda6/c26ae/433-2-create-access-key.png 158w,
-/static/cb358e5732ff0aa82e94e2c380bddda6/6bdcf/433-2-create-access-key.png 315w,
-/static/cb358e5732ff0aa82e94e2c380bddda6/f058b/433-2-create-access-key.png 630w,
-/static/cb358e5732ff0aa82e94e2c380bddda6/40601/433-2-create-access-key.png 945w,
-/static/cb358e5732ff0aa82e94e2c380bddda6/78612/433-2-create-access-key.png 1260w,
-/static/cb358e5732ff0aa82e94e2c380bddda6/eb2ef/433-2-create-access-key.png 1324w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;버튼을 클릭하면 아래 사진처럼 액세스 키가 바로 생성된다. 설명에도 나와있지만 이렇게 생성된 키의 비밀 키는 생성시에만 볼 수 있기 때문에 다운로드 하여 보관하는것이 좋다.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/2075e0a6b089f11b10b7a11c51f65b78/0ad97/433-3-created-key.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 41.77215189873418%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABsklEQVQoz32Oy27TYBBG/biFNRCCBN0gFbEB8QLdoEiVCETNPfAC3URAa1LSXBTHtzi2f/+O7fiWHlRTddlPOjozo9FolN+qir2x0NYa9sZGBAJfePf4FZ7wHnB9t5oFQYCUQeU7wjBkpa1Rxn9/caWpzK0Ff1YqM2NeeapPmawmzIwZk/WEG/PO11xqV2iORhju8DwPKSVCiMrO1kWZzRY49gbbMjF1HUPXsUwTS9PRl0vWiyXB1mUvQ+JdRBLFJFFEHEXVh0kSs98n5HmO5/soy9UaxwuwXclWxAgZs88K9oAEQmAHJEB0uCXMCsK8JClvSeKU8sBDhAxQDMuumizzCeUKZ7tgt7mBk7fw/Bm8qkPtBRy/plQvOKwuOcx/UhoTysKhyGyy1OJQuARSoqwNqzq4j5cE7pjNZkygX5C9q5HVjshfPqGoHVHUn5J/eEP68Zj0fZ208Yk4uSYJVeJQJY2nCOGj2M6WxxJvLYRjIm2dZBc8uhtFEUp78IP+aMiXVovecEi736dzT/f8nGajwefTU1pnZ3xrNukMBvQGAzq93v96NOS816X/fcTXdpd/AtBEo29mcr8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;created-key&quot;
-        title=&quot;created-key&quot;
-        src=&quot;/static/2075e0a6b089f11b10b7a11c51f65b78/f058b/433-3-created-key.png&quot;
-        srcset=&quot;/static/2075e0a6b089f11b10b7a11c51f65b78/c26ae/433-3-created-key.png 158w,
-/static/2075e0a6b089f11b10b7a11c51f65b78/6bdcf/433-3-created-key.png 315w,
-/static/2075e0a6b089f11b10b7a11c51f65b78/f058b/433-3-created-key.png 630w,
-/static/2075e0a6b089f11b10b7a11c51f65b78/0ad97/433-3-created-key.png 717w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;aws configure&lt;/code&gt; 명령어를 다시 실행하고 발급된 키의 ID 와 시크릿 키를 입력한다.&lt;br&gt;
-&lt;code class=&quot;language-text&quot;&gt;Default region name&lt;/code&gt; 은 버킷을 생성한 리전 이름을 입력한다.&lt;br&gt;
-&lt;code class=&quot;language-text&quot;&gt;Default output format&lt;/code&gt; 은 그대로 공백을 유지해도 문제 없다.&lt;/p&gt;
-&lt;h2&gt;5. 파이프라인 빌드하기&lt;/h2&gt;
-&lt;p&gt;이렇게 모든 설정이 완료되었다면 파이프라인을 빌드한다.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/fe9854bbecb4fa57565967afc88c1ce2/a1792/500-0-build-pipeline.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 86.0759493670886%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAAA7DAAAOwwHHb6hkAAACvUlEQVQ4y42S247jRBCG/ZSIlwFueIS93AueAIknAO1JC8PODMlm4zhx4sSO28e2u32O7fmQLQbCMiO2pF9V/XfX311dZQjhs/60xt7tCIIA3z8TRRGn4wmlFJM9PDxwbdP6kZv8+Bem2IjCkMViwW6743Bw8H2fPM8Jw5Cqqp4UvBb+3Az+x55Kun5hqgrMU8St5eMn6mnBx4Trsp4T/O7lj3z1zQu+/vYF3//wE0bf9zi7O4qipGoG6rb/j+iX4DHHGMeRUJwo646qHSnqpwU/f+k1/68/9DwPa27IHtve0V+6Z8v8ktjoum7uatM0M4ZhmDenr5BSkiTJzE+VPPrL5UJRFPMUTOen9aQzxc92+dL32Hub5cflPI/DOJCm6XzRlJwmMSrPGMeBqq5QWv0j+DAONHWNTFPSJCHLMvIsJ/ADzq5HHCXkmSJLMwqlCYOY3d7DOQpkItG5JpcZKtcYmSuIjme055IdT5RC0AQhiXfgcFjgHJYcnRXibCF8i1BscQ4rTGvBZrvAO5kEwsIXFpGzxmjilKxuCeOYsxB/lyyHHLOzMNstdn/A5YyDO/v94LCuTKx2izO6nPBwOCNyC6MKYlSU0GWSVkrGooCyREnBOd7iJzYisUmVS1q4pNolSPYz58c7IukgJ770yAIbQ5ctcZyRCh9xcqf2zujLmosqZ/S6gq6HbphxKSo6XdLqkrFuoR9njN0FYygLmjRGyRSVJlyamr6pKUpFWmbIakJO1dfUY0M1NOgspZApOompM0lflTNarTD05hPZZo2/27B7/wZlr9HbNafTirvonrvglmW8xMxNVvIjpjYR9zfEr34hev8Wefs7+v4D6sNvKMvEaHOJTiIC28Jd3qGPNqVj4503/BEvWEQLVvEKS1mYymSjLcTdr8Tv3hC+/pnk7Sv08h51e0N2e8OfdzUO4yHrAdgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;build-pipeline&quot;
-        title=&quot;build-pipeline&quot;
-        src=&quot;/static/fe9854bbecb4fa57565967afc88c1ce2/f058b/500-0-build-pipeline.png&quot;
-        srcset=&quot;/static/fe9854bbecb4fa57565967afc88c1ce2/c26ae/500-0-build-pipeline.png 158w,
-/static/fe9854bbecb4fa57565967afc88c1ce2/6bdcf/500-0-build-pipeline.png 315w,
-/static/fe9854bbecb4fa57565967afc88c1ce2/f058b/500-0-build-pipeline.png 630w,
-/static/fe9854bbecb4fa57565967afc88c1ce2/a1792/500-0-build-pipeline.png 780w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;이후 위 사진처럼 모든 &lt;code class=&quot;language-text&quot;&gt;stage&lt;/code&gt; 가 성공적으로 완료 되었다면 버킷 웹 사이트 엔드포인트로 접속하여 사이트를 확인한다.&lt;br&gt;
-엔드포인트는 정적 웹 사이트 호스팅 탭에서 확인 가능하다.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/13dd4dfd1e3ce35c1c176c32f001e666/6c745/500-1-bucket-endpoint.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 32.911392405063296%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA20lEQVQoz62QW0oDQRBFZ/9LCNmBrsiJP34Imnn1o7qqe7rnhExUiOCPeuFAFQUH6nZPfU/fnzidnjmfB1SVGOMNEVxUlpgIySg5k79RSkHNeD8PeB/ovPc47wkhEKMgKe0yEUEksURjisosRl1X1h/4lHfOOVSNWiv/kW5Z3Neybduf6aZ5ptW689tcRfAhXJxjdJ7Re8SuRRumiplhpmSzvfQoaa8mpdttkcwQM5OUu++6+eUVjke2w4H88MjglSkoo1fGcJvfXCJoYWtt77q1xlobuTZKbXfCC8JYIj0/lkOjAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;bucket-endpoint&quot;
-        title=&quot;bucket-endpoint&quot;
-        src=&quot;/static/13dd4dfd1e3ce35c1c176c32f001e666/f058b/500-1-bucket-endpoint.png&quot;
-        srcset=&quot;/static/13dd4dfd1e3ce35c1c176c32f001e666/c26ae/500-1-bucket-endpoint.png 158w,
-/static/13dd4dfd1e3ce35c1c176c32f001e666/6bdcf/500-1-bucket-endpoint.png 315w,
-/static/13dd4dfd1e3ce35c1c176c32f001e666/f058b/500-1-bucket-endpoint.png 630w,
-/static/13dd4dfd1e3ce35c1c176c32f001e666/6c745/500-1-bucket-endpoint.png 893w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;이 주소를 엔드포인트에 붙여 넣었을때 웹페이지가 정상적으로 나온다면 성공한것이다.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/e270c178d7d83cd7e207fa30e00753cb/eb2ef/500-2-webpage.png&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 62.65822784810127%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABdUlEQVQ4y9XPbUtacRzG8fMyohXBphVM7cYx9qA9WLDaQBnYrfhgG9PXEUxoT/Z+RnSjDmy+Ay0rerhJnv/dyZ3j6fgdirA1lBXrSX/4wA8uuLj+1tZYmNRknMfPlnmVTJNYecdyMt23yVLiXzZ4/SZDIvWWl4kNrOiTFzx4NMdaJodxHOpn59hCYkuJUAplDEoPJ7XBlgptDMa5xJp9usjIRITVzQ947TaO4xD4Pp0rH4IrbvKCoIPruriehzU985zx0Dwr6SytVouz7w3KRycc1upUjk97ytVjytX6UN9qJ/xoit5iayq2wHg4Tmr9PT6w8+kzW6MPyU/G2J6aYXt6lo+hCPlwhHzoL+FoP4tSP6xgXO93YffL2vXo1I7gyw58LcHBPuztQqkIxQIUiwMUoFSi3Whg/7lwNZ1Da4P2AxRgAA3X7mF6eesnQqp+YahbmEUbB2ELxEUT0bRvR0ik0gMKperphrc1eOF/FN75wvtR+AsDGU02FSKCQAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;webpage&quot;
-        title=&quot;webpage&quot;
-        src=&quot;/static/e270c178d7d83cd7e207fa30e00753cb/f058b/500-2-webpage.png&quot;
-        srcset=&quot;/static/e270c178d7d83cd7e207fa30e00753cb/c26ae/500-2-webpage.png 158w,
-/static/e270c178d7d83cd7e207fa30e00753cb/6bdcf/500-2-webpage.png 315w,
-/static/e270c178d7d83cd7e207fa30e00753cb/f058b/500-2-webpage.png 630w,
-/static/e270c178d7d83cd7e207fa30e00753cb/40601/500-2-webpage.png 945w,
-/static/e270c178d7d83cd7e207fa30e00753cb/78612/500-2-webpage.png 1260w,
-/static/e270c178d7d83cd7e207fa30e00753cb/eb2ef/500-2-webpage.png 1324w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-        decoding=&quot;async&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;h2&gt;99. 끝나고 나서&lt;/h2&gt;
-&lt;p&gt;젠킨스 파이프라인에서는 스크립트만 있으면 되기 때문에 굉장히 편해보인다.&lt;br&gt;
-하지만 그 스크립트를 실행하기 위해 설치해야 할것들이 꽤나 많았다. 거기다 젠킨스 서비스 컨테이너를 재시작 하면 이런 작업을 처음부터 다시 해야 하기 때문에 비효율적이다.&lt;br&gt;
-이런 작업을 수동으로 하지 않아도 되도록 내가 필요한 패키지들이 설치 되어 있는 이미지를 만들어 두면 좋을것 같다.&lt;/p&gt;
+&lt;h3&gt;3.4 aws cli 설정&lt;/h3&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://velog.io/@kimsehwan96/Jenkins-Github%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%95%B1-%EC%9E%90%EB%8F%99-%EB%B0%B0%ED%8F%AC-with-aws-S3&quot;&gt;전체 절차&lt;/a&gt;&lt;/li&gt;
@@ -1335,8 +1929,11 @@ Notify.Events bot 링크를 클릭하여 텔레그램 봇과 채팅을 시작한
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 장고 배포]]></title><description><![CDATA[0. 서론 지금 온라인중인 서비스는  로만 만들어져 있다.
-개발 수정사항을 깃허브에 푸쉬 하면 EC2에서 저장소의 소스코드를 수동으로 가져와야 한다. 소스코드를 리팩토링 하는 과정에서 프론트와 백엔드 구분을 위해 vue.js - drf…]]></description><link>https://ohyunkyo.github.io/DevOps/deploy-django-with-jenkins/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/deploy-django-with-jenkins/</guid><pubDate>Mon, 02 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[젠킨스를 사용한 장고 배포 OLD]]></title><description><![CDATA[다음 링크의 내용을 참고하여 작성한 글입니다. https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044…]]></description><link>https://ohyunkyo.github.io/DevOps/deploy-django-with-jenkins-old/</link><guid isPermaLink="false">https://ohyunkyo.github.io/DevOps/deploy-django-with-jenkins-old/</guid><pubDate>Mon, 02 May 2022 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;다음 링크의 내용을 참고하여 작성한 글입니다.&lt;br&gt;
+&lt;a href=&quot;https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044&quot;&gt;https://www.dongyeon1201.kr/9026133b-31be-4b58-bcc7-49abbe893044&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;지금 온라인중인 서비스는 &lt;code class=&quot;language-text&quot;&gt;django&lt;/code&gt; 로만 만들어져 있다.
 개발 수정사항을 깃허브에 푸쉬 하면 EC2에서 저장소의 소스코드를 수동으로 가져와야 한다.&lt;/p&gt;
 &lt;p&gt;소스코드를 리팩토링 하는 과정에서 프론트와 백엔드 구분을 위해 vue.js - drf 구조로 변경했고, 수동으로 소스코드를 가져오는 불편함을 해소하기 위해 젠킨스를 사용한 CI/CD 를 도입하기로 결정했다. 또한 백엔드는 도커 컨테이너를 통해 제공하고, 프론트는 S3 를 통해 배포하기로 결정했다.&lt;/p&gt;
