@@ -24,14 +24,15 @@ last_modified_at: "2022-06-00"
 - 개발 스택 : 
   - Application and Data
     - front-end : javascript, svelte, S3
-    - back-end : python, django, Amazon EC2
+    - back-end : python, django, nginx, gunicorn, Amazon EC2
     - database : mariadb, Amazon RDS
   - dev-ops
     - 버전관리 : Git, GitHub
     - CI/CD : Jenkins
+    - 가상화 : docker
 
 ## 3. 요구사항 분석
-### 3.1 페이지 및 기능 요구사항
+### 3.1 페이지 요구사항
 \* 이 포함된 페이지는 로그인이 필요한 페이지입니다.
 
 - 레시피 목록
@@ -47,15 +48,27 @@ last_modified_at: "2022-06-00"
   - 요리 단계별 설명을 작성한다. 각 단계의 순서를 변경할 수 있다.
 - 레시피 수정\*
   - 레시피 추가에서 직접 등록하는 모든 항목을 수정 할 수 있다.
-- 나의 재료 목록\*
-  - 내가 보유한 재료 목록이 표시된다. 
 - 재료 추가\*
   - 재료 이름 등록시 자동완성 기능 제공
-- 재료 수정\*
+- 나의 재료 목록\*
+  - 내가 보유한 재료 목록이 표시된다. 
+- 나의 재료 추가\*
+  - 재료를 선택하여 나의 재료에 등록한다.
+  - 수량, 단위를 선택할 수 있다.
+  - 이미지를 등록할 수 있다.
 
-### 3.2 추가 기능 요구사항
-- 각각 등록한 재료들이 모두 동일한 재료라는것이 파악되어야 함
+### 3.2 기능 요구사항(Functional Requirements)
 - 레시피에 등록된 재료 전체 차감
+- 쇼핑몰에서 구매한 내역으로 재료 추가
+
+### 3.3 비기능 요구사항(Non-Functional Requirements)
+1. 성능
+   1. 사용자 예측
+2. 배포
+   1. 어떻게 배포할 것인가
+
+## 4. DB 설계
+
 
 ## References
 [가온](https://www.ihee.com/636)  
