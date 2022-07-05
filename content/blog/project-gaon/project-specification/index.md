@@ -78,12 +78,32 @@ last_modified_at: "2022-06-00"
 ## 4. DB 설계
 > 이 문서를 완성하기까지, 그리고 개발을 완료하기까지 DB 설계가 여러번 변경되겠지만 현재 기획한것과 최종형태의 DB가 얼마나 어떻게 달라지는지 기록하는것도 필요하겠다는 생각이 들었다.
 ### 4.1 ERD
-![erd](./410-erd.png)
+![erd](./410-erd-v2.0.png)
 
-### 4.2 테이블 명세서 
+<!--
+erd-v1.0 - 20220704 - 초기버전
+erd-v2.0 : 20220705 - user 모델 추가버전
+-->
 
+### 4.2 모델 명세서
+#### 4.2.1 User Model
+![user](./420-0-user.png)
+
+#### 4.2.2 Ingredient Model
+![ingredient](./420-1-ingredient.png)
+
+#### 4.2.3 MyFridge Model
+![my-fridge](./420-2-my-fridge.png)
+
+#### 4.2.4 MyFridgeLog Model
+![my-fridge-log](./420-3-my-fridge-log.png)
+
+#### 4.2.5 Recipe Model
+![recipe](./420-4-recipe.png)
+
+## 5. API 명세서
+문서 참조
 
 ## References
 [가온](https://www.ihee.com/636)  
 [0. 어떤 블로그](https://dev-coco.tistory.com/111)  
-
