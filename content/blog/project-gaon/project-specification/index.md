@@ -86,20 +86,40 @@ erd-v2.0 : 20220705 - user 모델 추가버전
 -->
 
 ### 4.2 모델 명세서
-#### 4.2.1 User Model
-![user](./420-0-user.png)
+#### 4.2.1 User - 사용자
+| no  | Field Name | Field Type | Option                      | 설명      | 단위  |
+|-----|------------|------------|-----------------------------|---------|-----|
+| 1   | email      | EmailField | max_length=255, unique=True | 사용자 이메일 |     | 
 
-#### 4.2.2 Ingredient Model
-![ingredient](./420-1-ingredient.png)
+#### 4.2.2 Ingredient - 식재료
+| no  | Field Name | Field Type | Option                     | 설명    | 단위  |
+|-----|------------|------------|----------------------------|-------|-----|
+| 1   | name       | CharField  | max_length=32, unique=True | 식재료 명 |     | 
 
-#### 4.2.3 MyFridge Model
-![my-fridge](./420-2-my-fridge.png)
+#### 4.2.3 MyFridge - 나의 냉장고
+| no  | Field Name | Field Type | Option                               | 설명        | 단위  |
+|-----|------------|------------|--------------------------------------|-----------|-----|
+| 1   | ingredient | ForeignKey | to=Ingredient, on_delete=PROTECT     | 식재료       |     | 
+| 2   | user       | ForeignKey | to=User, on_delete=CASCADE           | 사용자       |     | 
+| 3   | detail     | CharField  | max_length=16, null=True, blank=True | 식재료 상세 내용 |     | 
+| 4   | unit       | CharField  | max_length=16                        | 단위        |     | 
 
-#### 4.2.4 MyFridgeLog Model
-![my-fridge-log](./420-3-my-fridge-log.png)
+#### 4.2.4 MyFridgeLog - 냉장고 사용 기록
+| no  | Field Name | Field Type    | Option                         | 설명         | 단위  |
+|-----|------------|---------------|--------------------------------|------------|-----|
+| 1   | my_fridge  | ForeignKey    | to=MyFridge, on_delete=PROTECT | 나의 냉장고 식재료 |     | 
+| 2   | user       | ForeignKey    | to=User, on_delete=CASCADE     | 사용자        |     | 
+| 3   | recipe     | ForeignKey    | to=Recipe, on_delete=?         | 레시피        |     | 
+| 4   | quantity   | IntegerField  | max_length=16                  | 수량         |     | 
+| 5   | method     | CharField     | max_length=16                  | 재료 처리 방법   |     | 
+| 6   | created_at | DateTimeField | auto_now_add=True              | 기록 생성 일시   |     | 
 
-#### 4.2.5 Recipe Model
-![recipe](./420-4-recipe.png)
+#### 4.2.5 Recipe - 레시피
+| no  | Field Name  | Field Type | Option               | 설명          | 단위  |
+|-----|-------------|------------|----------------------|-------------|-----|
+| 1   | user        | CharField  | to=user, on_delete=? | 사용자         |     | 
+| 2   | ingredients | JsonField  |                      | 레시피에 사용된 재료 |     | 
+| 3   | methods     | JsonField  |                      | 레시피 제작 방법   |     | 
 
 ## 5. API 명세서
 문서 참조
