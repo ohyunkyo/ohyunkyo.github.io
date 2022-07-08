@@ -52,7 +52,7 @@ last_modified_at: "2022-06-00"
   - 내가 보유한 재료 목록을 표시한다.
 - 나의 재료 상세\*
   - 해당 재료를 추가하거나 사용한 이력을 출력한다.
-- 레시피 추가\*
+- 레시피 등록\*
   - 나의 냉장고에서 재료를 선택한다.
   - 각 재료에 부가적인 설명을 등록할 수 있다.
   - 요리 단계별 설명을 작성한다. 각 단계의 순서를 변경할 수 있다.
@@ -65,7 +65,7 @@ last_modified_at: "2022-06-00"
   - 각 재료에 등록된 부가 설명을 표시한다.
   - 단계별로 작성된 요리 설명을 표시한다.
 - 레시피 수정\*
-  - 레시피 추가에서 직접 등록하는 모든 항목을 수정 할 수 있다.
+  - 레시피 등록에서 직접 등록하는 모든 항목을 수정 할 수 있다.
 
 ### 3.2 기능 요구사항(Functional Requirements)
 - 나의 냉장고에서 특정 레시피에 등록된 재료 한번에 차감
@@ -115,11 +115,13 @@ erd-v2.0 : 20220705 - user 모델 추가버전
 | 6   | created_at | DateTimeField | auto_now_add=True              | 기록 생성 일시   |     | 
 
 #### 4.2.5 Recipe - 레시피
-| no  | Field Name  | Field Type | Option               | 설명          | 단위  |
-|-----|-------------|------------|----------------------|-------------|-----|
-| 1   | user        | CharField  | to=user, on_delete=? | 사용자         |     | 
-| 2   | ingredients | JsonField  |                      | 레시피에 사용된 재료 |     | 
-| 3   | methods     | JsonField  |                      | 레시피 제작 방법   |     | 
+| no  | Field Name  | Field Type    | Option               | 설명          | 단위  |
+|-----|-------------|---------------|----------------------|-------------|-----|
+| 1   | user        | CharField     | to=user, on_delete=? | 사용자         |     | 
+| 2   | name        | CharField     | max_length=64        | 레시피 이름      |     |
+| 3   | ingredients | JsonField     |                      | 레시피에 사용된 재료 |     | 
+| 4   | methods     | JsonField     |                      | 레시피 제작 방법   |     | 
+| 5   | created_at  | DateTimeField | auto_now_add=True    | 레시피 등록 일시   |     |
 
 ## 5. API 명세서
 문서 참조

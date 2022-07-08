@@ -22,7 +22,7 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 |----------|---------------------------------|
 | 기능       | 회원가입에 필요한 회원 정보를 전달받아 DB에 저장한다. |
 | Method   | POST                            |
-| Endpoint | /user/join/                     |
+| Endpoint | /api/user/join/                 |
 
 #### 1.1.2 Request Body
 | Parameter | Data Type | Required | Description |
@@ -44,11 +44,11 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 
 ### 1.2 로그인
 #### 1.2.1 개요
-| name     | value           |
-|----------|-----------------|
-| 기능       | 로그인 정보를 받아 검증한다 |
-| Method   | POST            |
-| Endpoint | /user/login/    |
+| name     | value            |
+|----------|------------------|
+| 기능       | 로그인 정보를 받아 검증한다  |
+| Method   | POST             |
+| Endpoint | /api/user/login/ |
 
 #### 1.2.2 Request Body
 | Parameter | Data Type | Required | Description |
@@ -106,8 +106,8 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 #### 3.1.2 Request Body
 | Parameter  | Data Type | Required | Description |
 |------------|-----------|----------|-------------|
-| ingredient | string    | Y        | 재료          |
-| user       | string    | Y        | 사용자         |
+| ingredient | int       | Y        | 재료          |
+| user       | int       | Y        | 사용자         |
 | detail     | string    | Y        | 재료 상세 정보    |
 | unit       | string    | Y        | 단위          |
 
@@ -157,7 +157,7 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 ]
 ```
 
-### 3.3 나의 재료 상세 보기
+### 3.3 나의 재료 상세
 #### 3.3.1 개요
 | name     | value                             |
 |----------|-----------------------------------|
@@ -197,4 +197,137 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
         }
     ]
 }
+```
+
+## 4. 레시피 관련 API
+### 4.1 레시피 등록
+#### 4.1.1 개요
+| name     | value         |
+|----------|---------------|
+| 기능       | 레시피를 등록한다.    |
+| Method   | POST          |
+| Endpoint | /api/recipe/  |
+
+#### 4.1.2 Request Body
+| Parameter   | Data Type | Required | Description |
+|-------------|-----------|----------|-------------|
+| user        | int       | Y        | 사용자         |
+| name        | string    | Y        | 레시피 이름      |
+| ingredients | string    | Y        | 레시피에 사용된 재료 |
+| methods     | string    | Y        | 레시피 제작 방법   |
+
+#### 4.1.3 Response Body
+| Parameter | Data Type | Description       |
+|-----------|-----------|-------------------|
+| msg       | string    | 레시피 등록에 대한 안내 메시지 |
+
+#### 4.1.4 Response Example
+```json
+{
+    "msg": "레시피 등록이 완료되었습니다."
+}
+```
+
+### 4.2 레시피 목록
+#### 4.2.1 개요
+| name     | value                                      |
+|----------|--------------------------------------------|
+| 기능       | 레시피 목록을 출력한다                               |
+| Method   | GET                                        |
+| Endpoint | /api/recipe/?with={with}&without={without} |
+
+#### 4.2.2 Response Body
+| Parameter | Data Type | Description |
+|-----------|-----------|-------------|
+| id        | int       | 레시피 PK      |
+| user      | int       | 사용자         |
+| name      | string    | 레시피 이름      |
+
+#### 4.2.3 Response Example
+```json
+[
+    {
+        "id": "2",
+        "user": "2",
+        "name": "자두 슬러쉬"
+    },
+    {
+        "id": "3",
+        "user": "16",
+        "name": "호박죽"
+    },
+    {
+        "id": "4",
+        "user": "7",
+        "name": ""
+    }
+]
+```
+
+### 4.3 레시피 상세
+#### 4.3.1 개요
+| name     | value            |
+|----------|------------------|
+| 기능       | 레시피 상세 정보를 출력한다  |
+| Method   | GET              |
+| Endpoint | /api/recipe/{id} |
+
+#### 4.3.2 Response Body
+| Parameter   | Data Type | Description |
+|-------------|-----------|-------------|
+| id          | int       | 레시피 PK      |
+| user        | int       | 사용자         |
+| name        | string    | 레시피 이름      |
+| ingredients | string    | 레시피에 사용된 재료 |
+| methods     | string    | 레시피 제작 방법   |
+
+#### 4.3.3 Response Example
+```json
+{
+    "id": "1",
+    "user": "2",
+    "name": "자두 슬러쉬",
+    "ingredients": [
+        {
+            "my_fridge": "4",
+            "quantity": "6",
+            "description": "싱싱한 놈으로 준비해주세요~"
+        }
+    ],
+    "methods": [
+        {
+            "description": "잘 자르고 씨를 제거해주세요~~" 
+        },
+        {
+            "description": "갈아서 먹으면 됩니다~~"
+        }
+    ]
+}
+```
+
+### 4.4 레시피 수정
+#### 4.4.1 개요
+| name     | value            |
+|----------|------------------|
+| 기능       | 레시피 정보를 수정한다     |
+| Method   | PATCH            |
+| Endpoint | /api/recipe/{id} |
+
+#### 4.4.2 Request Body
+| Parameter   | Data Type | Required | Description |
+|-------------|-----------|----------|-------------|
+| name        | string    | Y        | 레시피 이름      |
+| ingredients | string    | Y        | 레시피에 사용된 재료 |
+| methods     | string    | Y        | 레시피 제작 방법   |
+
+#### 4.4.3 Response Body
+| Parameter | Data Type | Description       |
+|-----------|-----------|-------------------|
+| msg       | string    | 레시피 수정에 대한 안내 메시지 |
+
+#### 4.4.3 Response Example
+```json
+    {
+        "msg": "레시피 수정이 완료되었습니다."
+    }
 ```
