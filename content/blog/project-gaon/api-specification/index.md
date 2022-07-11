@@ -172,6 +172,12 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 | ingredient_name | string    | 재료 이름       |
 | detail          | string    | 재료 상세 정보    |
 | unit            | string    | 단위          |
+| my_fridge_log   | json      | 사용 이력       |
+| - recipe_id     | int       | 사용된 레시피 PK  |
+| - recipe_name   | string    | 사용된 레시피 이름  |
+| - quantity      | int       | 사용된 수량      |
+| - method        | string    | 재료 처리 방법    |
+| - created_at    | datetime  | 기록 생성 일시    |
 
 #### 3.3.3 Response Example
 ```json
