@@ -106,14 +106,14 @@ last_modified_at: "2022-06-00"
 | 4   | unit       | CharField  | max_length=16                        | 단위        | 
 
 #### 4.1.4 InventoryLog - 재고 기록
-| no  | Field Name           | Field Type    | Option                                    | 설명       |
-|-----|----------------------|---------------|-------------------------------------------|----------|
-| 1   | ingredient_inventory | ForeignKey    | to=IngredientInventory, on_delete=PROTECT | 식재료 재고   | 
-| 2   | user                 | ForeignKey    | to=User, on_delete=CASCADE                | 사용자      | 
-| 3   | recipe               | ForeignKey    | to=Recipe, on_delete=?                    | 레시피      | 
-| 4   | quantity             | IntegerField  | max_length=16                             | 수량       | 
-| 5   | method               | CharField     | max_length=16                             | 재료 처리 방법 | 
-| 6   | created_at           | DateTimeField | auto_now_add=True                         | 기록 생성 일시 | 
+| no  | Field Name           | Field Type    | Option                                        | 설명       |
+|-----|----------------------|---------------|-----------------------------------------------|----------|
+| 1   | ingredient_inventory | ForeignKey    | to=IngredientInventory, on_delete=PROTECT     | 식재료 재고   | 
+| 2   | user                 | ForeignKey    | to=User, on_delete=CASCADE                    | 사용자      | 
+| 3   | recipe               | ForeignKey    | to=Recipe, on_delete=?, null=True, blank=True | 레시피      | 
+| 4   | quantity             | IntegerField  | max_length=16                                 | 수량       | 
+| 5   | method               | CharField     | max_length=16                                 | 재료 처리 방법 | 
+| 6   | created_at           | DateTimeField | auto_now_add=True                             | 기록 생성 일시 | 
 
 #### 4.1.5 Recipe - 레시피
 | no  | Field Name  | Field Type    | Option               | 설명          |
@@ -127,17 +127,10 @@ last_modified_at: "2022-06-00"
 ### 4.2 ERD
 ![erd](./420-erd-v3.0.png)
 
-<!--
-erd-v1.0 - 20220704 - 초기버전
-erd-v2.0 : 20220705 - user 모델 추가버전
-erd-v3.0 : 20220712 - 페이지 요구사항 수정에 따른 DB 모델링 변경
--->
-
 ## 5. API 명세서
 [API 명세서](/project-gaon/api-specification/)
 
 ## 6. 프로토타입
--
 
 ## References
 [가온](https://www.ihee.com/636)  
