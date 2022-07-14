@@ -78,6 +78,7 @@ last_modified_at: "2022-06-00"
 
 ### 3.2 기능 요구사항(Functional Requirements)
 - 레시피에서 사용한 식재료들의 기록을 재고 기록에 일괄 추가한다.
+  - 특정 재료를 차감하거나 차감 하지 않는것을 선택 가능.
 - 쇼핑몰에서 구매한 내역으로 식재료 추가.
 
 ### 3.3 비기능 요구사항(Non-Functional Requirements)
