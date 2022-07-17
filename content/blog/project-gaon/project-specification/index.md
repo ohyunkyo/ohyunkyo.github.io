@@ -133,9 +133,19 @@ API 명세서는 별도의 페이지를 통해 관리한다.
 
 [API 명세서](/project-gaon/api-specification/)
 
-## 6. 프로토타입
+## 6. 화면설계서
+나는 화면설계서를 통해 각 페이지 간 흐름, API 요청과 그 결과에 따른 페이지 이동을 한눈에 보고 싶었다.  
+실제 화면에 필요한 내용은 최대한 간략히 포함하고 전체적 흐름을 위주로 보고자 했던 것이였다.
+
+화면설계서 중 와이어프레임은 인터페이스를 시각적으로 간단히 묘사한것이고, 프로토타입은 상호작용을 시뮬레이션 하는것이라고 한다.  
+두가지 모두 UI/UX 와 연결된 '디자인' 산출물 이라고 하는데 나는 UI/UX 에 대해 잘 모르기도 하고 보여지는 웹 화면은 현재 나에겐 주요 개발 대상이 아니기 때문에 다음 사진처럼 draw.io 를 통해 내가 필요한 정보를 담도록 제작했다.
+
+![prototype](./610-prototype-v1.0.png)
+
+이 사진을 통해 전체 페이지 이동에 대한 정보와 각 페이지의 버튼이 어느 API Endpoint 로 요청을 보내는지, 어느 페이지로 이동하는지 쉽게 파악할 수 있다.(고 생각중)
 
 ## References
 [가온](https://www.ihee.com/636)  
 [0. 어떤 블로그](https://dev-coco.tistory.com/111)  
+[6. 화면설계서 - 와이어프레임과 프로토타입](https://blog.adobe.com/ko/publish/2018/03/06/everything-you-need-to-know-about-wireframes-and-prototypes)
 [6. 프로토타입 예제](https://ditoday.com/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84%EA%B3%BC-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85-%EA%B5%AC%EB%B3%84%ED%95%98%EA%B8%B0/)
