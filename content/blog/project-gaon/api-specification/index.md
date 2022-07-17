@@ -68,13 +68,13 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 }
 ```
 
-### 1.3 회원 상세
+### 1.3 나의 식재료
 #### 1.3.1 개요
-| name     | value            |
-|----------|------------------|
-| 기능       | 회원의 상세 정보를 제공한다. |
-| Method   | GET              |
-| Endpoint | /api/user/{id}   |
+| name     | value                    |
+|----------|--------------------------|
+| 기능       | 회원의 상세 정보및 식재료 목록을 제공한다. |
+| Method   | GET                      |
+| Endpoint | /api/user/{id}           |
 
 #### 1.3.2 Response Body
 | Parameter            | Data Type | Description |
