@@ -1,5 +1,5 @@
 ---
-title: "API 명세서 - 가온"
+title: "API 명세서"
 date: "2022-07-05"
 last_modified_at: "2022-07-00"
 ---
