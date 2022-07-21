@@ -154,7 +154,7 @@ last_modified_at: "2022-06-00"
 ### 4.2 ERD
 `models.py` 파일을 참조해 생성될 데이터베이스 테이블의 ERD 이다. 
 
-![erd](./420-erd-v3.0.png)
+![erd](./420-erd-v4.0.png)
 
 ## 5. API 명세서
 각 API Endpoint 의 상세 정보를 담은 문서로, 내용이 많기 때문에 별도의 페이지를 통해 관리한다.
