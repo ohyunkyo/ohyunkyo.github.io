@@ -172,6 +172,11 @@ last_modified_at: "2022-06-00"
 
 이 사진을 통해 전체 페이지 이동에 대한 정보와 각 페이지의 버튼이 어느 API Endpoint 로 요청을 보내는지, 어느 페이지로 이동하는지 쉽게 파악할 수 있다.(고 생각중)
 
+## 7. 개발일지
+
+
+[API 명세서](/project-gaon/dev-log/)
+
 ## References
 [가온](https://www.ihee.com/636)  
 [0. 어떤 블로그](https://dev-coco.tistory.com/111)  
