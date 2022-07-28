@@ -174,8 +174,7 @@ last_modified_at: "2022-06-00"
 
 ## 7. 개발일지
 
-
-[API 명세서](/project-gaon/dev-log/)
+[개발일지](/project-gaon/dev-log/)
 
 ## References
 [가온](https://www.ihee.com/636)  
