@@ -134,7 +134,7 @@ last_modified_at: "2022-06-00"
 | 1   | ingredient_inventory | ForeignKey    | to=IngredientInventory, on_delete=PROTECT     | 식재료 재고   | 
 | 2   | user                 | ForeignKey    | to=User, on_delete=CASCADE                    | 사용자      | 
 | 3   | recipe               | ForeignKey    | to=Recipe, on_delete=?, null=True, blank=True | 레시피      | 
-| 4   | quantity             | IntegerField  | max_length=16                                 | 수량       | 
+| 4   | quantity             | IntegerField  |                                               | 수량       | 
 | 5   | method               | CharField     | max_length=16                                 | 재료 처리 방법 | 
 | 6   | created_at           | DateTimeField | auto_now_add=True                             | 기록 생성 일시 | 
 
