@@ -1,7 +1,8 @@
 ---
 title: "프로젝트 명세서"
 date: "2022-06-17"
-last_modified_at: "2022-06-00"
+last_modified_at: "2022-07-29"
+category: project-gaon
 ---
 
 ## 0. 서론

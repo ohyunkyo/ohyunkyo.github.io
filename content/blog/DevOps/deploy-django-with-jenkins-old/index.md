@@ -2,6 +2,7 @@
 title: "젠킨스를 사용한 장고 배포 OLD"
 date: "2022-05-02"
 last_modified_at: "2022-05-13"
+category: DevOps
 ---
 
 > 다음 링크의 내용을 참고하여 작성한 글입니다.  

@@ -1,6 +1,7 @@
 ---
 title: "github pages 를 사용하여 블로그 만들기"
 date: "2022-03-08"
+category: github
 ---
 
 ## 0. 서론
