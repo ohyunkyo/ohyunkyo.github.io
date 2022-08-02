@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
+import { Container, Row, Col, Card } from "react-bootstrap"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -21,6 +22,18 @@ const BlogPostTemplate = ({ data, location }) => {
         itemScope
         itemType="http://schema.org/Article"
       >
+        <Col md={4}>
+          {post.fields.category && (
+            <Card className="my-4">
+              <Card.Header>Filed Under</Card.Header>
+              <Card.Body>
+                <Link to={`/category/${post.fields.category}`}>
+                  {post.fields.category}
+                </Link>
+              </Card.Body>
+            </Card>
+          )}
+        </Col>
         <header>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           <p>{post.frontmatter.date}</p>
@@ -85,6 +98,10 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+      }
+      fields {
+        category
+        slug
       }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {
