@@ -1,27 +1,36 @@
 import React from "react"
 import { Link } from "gatsby"
-import { Card } from "react-bootstrap"
 
 const PostsListCard = ({ frontmatter, fields, excerpt }) => {
   const title = frontmatter.title || fields.slug
 
   return (
-    <Card className="mb-4">
-      <Card.Body>
-        <h2 className="card-title">{title}</h2>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: frontmatter.description || excerpt,
-          }}
-        />
-        <Link to={`/${fields.slug}/`} className="btn btn-primary">
-          Read More &rarr;
-        </Link>
-      </Card.Body>
-      <Card.Footer className="text-muted">
-        Posted on {frontmatter.date}
-      </Card.Footer>
-    </Card>
+    <ol style={{ listStyle: `none` }}>
+      <li key={fields.slug}>
+        <article
+          className="post-list-item"
+          itemScope
+          itemType="http://schema.org/Article"
+        >
+          <header>
+            <h2>
+              <Link to={fields.slug} itemProp="url">
+                <span itemProp="headline">{title}</span>
+              </Link>
+            </h2>
+            <small>{frontmatter.date}</small>
+          </header>
+          <section>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: frontmatter.description || excerpt,
+              }}
+              itemProp="description"
+            />
+          </section>
+        </article>
+      </li>
+    </ol>
   )
 }
 
