@@ -1,22 +1,33 @@
 import * as React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import {graphql, useStaticQuery} from "gatsby"
 
 const Menus = () => {
-  return (
-    <span>테스트중입니다</span>
-  )
-}
-
-export const pageQuery = graphql`
-  query {
-    allMarkdownRemark {
-      nodes {
-        fields {
-          category
+  const { data } = useStaticQuery(
+    graphql`
+      query MenuQuery{
+        allMarkdownRemark {
+          nodes {
+            fields {
+              category
+            }
+          }
         }
       }
-    }
-  }
-`
+    `
+  )
+
+  const posts = data.allMarkdownRemark.nodes
+
+  return (
+    <span>{posts}</span>
+    // <span>
+    //   {posts.map(post => {
+    //     return (
+    //       <span>{post.fields.category}</span>
+    //     )
+    //   })}
+    // </span>
+  )
+}
 
 export default Menus
