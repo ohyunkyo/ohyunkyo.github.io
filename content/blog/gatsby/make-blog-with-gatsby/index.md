@@ -1,6 +1,7 @@
 ---
 title: "gatsby 를 사용하여 블로그 만들기"
 date: "2022-03-08"
+last_modified_at: "2022-08-12"
 category: gatsby
 ---
 
