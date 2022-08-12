@@ -1,31 +1,55 @@
 import * as React from "react"
-import {graphql, StaticQuery} from "gatsby"
+import { Link, graphql, useStaticQuery} from "gatsby"
 
 const Menus = () => {
-  return (
-    <StaticQuery
-      query={pageQuery}
-      render={data => (
-        <header>
-          <div>{data.allMarkdownRemark.nodes.map(post => {
-            return <span>{post.fields.category} / </span>
-          })}</div>
-        </header>
-      )}
-    />
+  const { allMarkdownRemark } = useStaticQuery(
+    graphql`
+      query {
+        allMarkdownRemark {
+          nodes {
+            fields {
+              category
+            }
+          }
+        }
+      }
+    `
   )
+
+  const nodes = allMarkdownRemark.nodes
+
+  const categorySet = new Set();
+  nodes.forEach(({
+    fields
+  }) => {
+    if (fields && fields.category) {
+      categorySet.add(fields.category);
+    }
+  });
+
+  const categoryArr = Array.from(categorySet)
+
+  return (
+    <div>
+      카테고리 : &nbsp;&nbsp;&nbsp;&nbsp;
+      {categoryArr.map(category => {
+        return <span><Link to={`/category/${category}`}>{category}</Link>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      })}
+      <br/><br/><br/>
+    </div>
+  )
+
+  // return (
+  //   <div>
+  //     {categorySet.forEach(category => {
+  //       console.log(category)
+  //       return <Link to={`/category/${category}`}>{category}</Link>
+  //     })}
+  //   </div>
+  // )
+  
+  return false
+
 }
 
 export default Menus
-
-const pageQuery = graphql`
-  query HeadingQuery {
-    allMarkdownRemark {
-      nodes {
-        fields {
-          category
-        }
-      }
-    }
-  }
-`
