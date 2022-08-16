@@ -1,7 +1,8 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-import { Container, Row, Col, Card } from "react-bootstrap"
+import { Col, Card } from "react-bootstrap"
 
+import NavBar from "../components/NavBar"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -17,6 +18,7 @@ const BlogPostTemplate = ({ data, location }) => {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
+      <NavBar />
       <article
         className="blog-post"
         itemScope

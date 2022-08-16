@@ -2,28 +2,40 @@ import React from "react"
 import { graphql } from "gatsby"
 import { Container } from "react-bootstrap"
 
+import NavBar from "../components/NavBar"
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Seo from "../components/seo"
 import PostsList from "../components/PostsList"
 
 const CategoryTemplate = ({ location, pageContext, data }) => {
   const { category } = pageContext
-  return (
-    <Layout location={location} title={`Posts in category "${category}"`}>
-      <div className="category-container">
-        <SEO title={`Posts in category "${category}"`} />
+  const siteTitle = data.site.siteMetadata?.title || `Title`
 
-        <Container>
-          <h1>Category: {category}</h1>
-          <PostsList postEdges={data.allMarkdownRemark.edges} />
-        </Container>
-      </div>
+  return (
+    <Layout location={location} title={siteTitle}>
+      <Seo title={`"${category}" 카테고리 목록`} />
+      <NavBar />
+      <article
+        className="blog-post"
+        itemScope
+        itemType="http://schema.org/Article"
+      >
+        <header>
+          <h1 itemProp="headline">Category: {category}</h1>
+        </header>
+        <PostsList postEdges={data.allMarkdownRemark.edges} />
+      </article>
     </Layout>
   )
 }
 
 export const pageQuery = graphql`
   query CategoryPage($category: String) {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     allMarkdownRemark(
       limit: 1000
       filter: { fields: { category: { eq: $category } } }
@@ -39,7 +51,7 @@ export const pageQuery = graphql`
           timeToRead
           frontmatter {
             title
-            date
+            date(formatString: "MMMM DD, YYYY")
           }
         }
       }
