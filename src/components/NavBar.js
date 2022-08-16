@@ -34,7 +34,6 @@ const NavBar = () => {
       {categoryArr.map(category => {
         return <span><Link to={`/category/${category}`}>{category}</Link>&nbsp;&nbsp;&nbsp;&nbsp;</span>
       })}
-      <br/><br/><br/>
     </div>
   )
 

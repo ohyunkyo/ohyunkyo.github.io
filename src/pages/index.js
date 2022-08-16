@@ -13,7 +13,7 @@ const BlogIndex = ({ data, location }) => {
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <Seo title="All posts" />
+        <Seo title="모든 게시물" />
         <NavBar />
         <Bio />
         <p>
@@ -27,7 +27,7 @@ const BlogIndex = ({ data, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo title="All posts" />
+      <Seo title="모든 게시물" />
       <NavBar />
       <Bio />
       <ol style={{ listStyle: `none` }}>
