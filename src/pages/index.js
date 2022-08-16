@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import Menus from "../components/menus"
+import NavBar from "../components/NavBar"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -14,7 +14,7 @@ const BlogIndex = ({ data, location }) => {
     return (
       <Layout location={location} title={siteTitle}>
         <Seo title="All posts" />
-        <Menus />
+        <NavBar />
         <Bio />
         <p>
           No blog posts found. Add markdown posts to "content/blog" (or the
@@ -28,7 +28,7 @@ const BlogIndex = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
-      <Menus />
+      <NavBar />
       <Bio />
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {

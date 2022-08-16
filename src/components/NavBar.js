@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link, graphql, useStaticQuery} from "gatsby"
 
-const Menus = () => {
+const NavBar = () => {
   const { allMarkdownRemark } = useStaticQuery(
     graphql`
       query {
@@ -16,10 +16,9 @@ const Menus = () => {
     `
   )
 
-  const nodes = allMarkdownRemark.nodes
-
   const categorySet = new Set();
-  nodes.forEach(({
+
+  allMarkdownRemark.nodes.forEach(({
     fields
   }) => {
     if (fields && fields.category) {
@@ -39,17 +38,6 @@ const Menus = () => {
     </div>
   )
 
-  // return (
-  //   <div>
-  //     {categorySet.forEach(category => {
-  //       console.log(category)
-  //       return <Link to={`/category/${category}`}>{category}</Link>
-  //     })}
-  //   </div>
-  // )
-  
-  return false
-
 }
 
-export default Menus
+export default NavBar
