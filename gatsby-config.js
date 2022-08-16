@@ -8,7 +8,7 @@ module.exports = {
     description: `없음`,
     siteUrl: `https://ohyunkyo.github.io/`,
     social: {
-      twitter: ``,
+      github: `ohyunkyo`,
     },
   },
   plugins: [

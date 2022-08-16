@@ -19,7 +19,7 @@ const Bio = () => {
             summary
           }
           social {
-            twitter
+            github
           }
         }
       }
@@ -36,16 +36,19 @@ const Bio = () => {
         className="bio-avatar"
         layout="fixed"
         formats={["auto", "webp", "avif"]}
-        src="../images/profile-pic.png"
-        width={50}
-        height={50}
+        src="https://avatars.githubusercontent.com/u/53898395?v=4"
+        width={110}
+        height={110}
         quality={95}
         alt="Profile picture"
       />
       {author?.name && (
         <p>
-          Written by <strong>{author.name}</strong><br /> {author?.summary || null}
-          {` `}
+          <strong>{author.name}</strong>&nbsp;
+          <a href={`https://github.com/${social?.github || ``}`}>
+            (깃허브)
+          </a>
+          <br /> {author?.summary || null}
         </p>
       )}
     </div>
