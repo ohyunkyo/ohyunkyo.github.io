@@ -44,11 +44,9 @@ const Bio = () => {
       />
       {author?.name && (
         <p>
-          <strong>{author.name}</strong>&nbsp;
-          <a href={`https://github.com/${social?.github || ``}`}>
-            (깃허브)
-          </a>
-          <br /> {author?.summary || null}
+          <strong>{author.name}</strong><br />
+          {author?.summary || null}<br /><br />
+          깃허브: <a href={`https://github.com/${social?.github || ``}`}>ohyunkyo</a>
         </p>
       )}
     </div>

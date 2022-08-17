@@ -29,8 +29,8 @@ const NavBar = () => {
   const categoryArr = Array.from(categorySet)
 
   return (
-    <div>
-      카테고리 : &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="nav-bar">
+      Categories : &nbsp;&nbsp;&nbsp;&nbsp;
       {categoryArr.map(category => {
         return <span><Link to={`/category/${category}`}>{category}</Link>&nbsp;&nbsp;&nbsp;&nbsp;</span>
       })}

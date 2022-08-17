@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-import { Col, Card } from "react-bootstrap"
 
+import CurrentCategory from "../components/CurrentCategory"
 import NavBar from "../components/NavBar"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -24,18 +24,7 @@ const BlogPostTemplate = ({ data, location }) => {
         itemScope
         itemType="http://schema.org/Article"
       >
-        <Col md={4}>
-          {post.fields.category && (
-            <Card className="my-4">
-              <Card.Header>Filed Under</Card.Header>
-              <Card.Body>
-                <Link to={`/category/${post.fields.category}`}>
-                  {post.fields.category}
-                </Link>
-              </Card.Body>
-            </Card>
-          )}
-        </Col>
+        <CurrentCategory post={post}/>
         <header>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           <p>{post.frontmatter.date}</p>

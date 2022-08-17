@@ -3,7 +3,7 @@ module.exports = {
     title: `logging.ohyunkyo`,
     author: {
       name: `오현교`,
-      summary: `공부는 인덱싱 하는거래`,
+      summary: `인덱싱 하는 중입니다.`,
     },
     description: `없음`,
     siteUrl: `https://ohyunkyo.github.io/`,
