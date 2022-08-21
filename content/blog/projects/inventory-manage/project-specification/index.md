@@ -127,68 +127,127 @@ category: inventory-manage
 | no  | Field Name  | Field Type | Option                     | 설명    |
 |-----|-------------|------------|----------------------------|-------|
 | 1   | name        | CharField  | max_length=20, unique=True | 품목명   | 
-| 1   | description | TextField  | null=True, blank=True      | 품목 설명 | 
+| 2   | description | TextField  | null=True, blank=True      | 품목 설명 | 
 
 #### 4.1.2 Product - 상품
 | no  | Field Name       | Field Type        | Option                         | 설명    |
 |-----|------------------|-------------------|--------------------------------|-------|
 | 1   | name             | CharField         | max_length=64, unique=True     | 상품 명  | 
-| 1   | description      | TextField         | null=True, blank=True          | 상품 설명 | 
-| 1   | business         | ForeignKey        | to=Business, on_delete=PROTECT | 품목    | 
-| 1   | maximum_quantity | SmallIntegerField |                                | 최대수량  | 
+| 2   | description      | TextField         | null=True, blank=True          | 상품 설명 | 
+| 3   | business         | ForeignKey        | to=Business, on_delete=PROTECT | 품목    | 
+| 4   | maximum_quantity | SmallIntegerField |                                | 최대수량  | 
 
 #### 4.1.3 Supplement - 부자재
 | no  | Field Name       | Field Type        | Option                         | 설명     |
 |-----|------------------|-------------------|--------------------------------|--------|
 | 1   | name             | CharField         | max_length=64, unique=True     | 부자재 명  | 
-| 1   | description      | TextField         | null=True, blank=True          | 부자재 설명 | 
-| 1   | business         | ForeignKey        | to=Business, on_delete=PROTECT | 품목     | 
-| 1   | maximum_quantity | SmallIntegerField |                                | 최대수량   | 
+| 2   | description      | TextField         | null=True, blank=True          | 부자재 설명 | 
+| 3   | business         | ForeignKey        | to=Business, on_delete=PROTECT | 품목     | 
+| 4   | maximum_quantity | SmallIntegerField |                                | 최대수량   | 
 
 #### 4.1.4 Package - 패키지
 | no  | Field Name   | Field Type   | Option                                            | 설명        |
 |-----|--------------|--------------|---------------------------------------------------|-----------|
 | 1   | name         | CharField    | max_length=64, unique=True                        | 패키지 명     | 
-| 1   | description  | TextField    | null=True, blank=True                             | 패키지 설명    | 
-| 1   | serial_code  | CharField    | max_length=64, unique=True, null=True, blank=True | 제품번호      | 
-| 1   | product_code | CharField    | max_length=64, null=True, blank=True              | 판매자 상품코드  | 
-| 1   | is_split     | BooleanField | default=True                                      | 분할여부      | 
-| 1   | memo         | TextField    | null=True, blank=True                             | 설명        | 
-| 1   | business     | ForeignKey   | to=Business, on_delete=PROTECT                    | 품목        | 
-| 1   | product      | ForeignKey   | to=Product, through='PackageProduct'              | 구성품 - 상품  | 
-| 1   | supplement   | ForeignKey   | to=Supplement, through='PackageSupplement'        | 구성품 - 부자재 | 
+| 2   | description  | TextField    | null=True, blank=True                             | 패키지 설명    | 
+| 3   | serial_code  | CharField    | max_length=64, unique=True, null=True, blank=True | 제품번호      | 
+| 4   | product_code | CharField    | max_length=64, null=True, blank=True              | 판매자 상품코드  | 
+| 5   | is_split     | BooleanField | default=True                                      | 분할여부      | 
+| 6   | memo         | TextField    | null=True, blank=True                             | 설명        | 
+| 7   | business     | ForeignKey   | to=Business, on_delete=PROTECT                    | 품목        | 
+| 8   | product      | ForeignKey   | to=Product, through='PackageProduct'              | 구성품 - 상품  | 
+| 9   | supplement   | ForeignKey   | to=Supplement, through='PackageSupplement'        | 구성품 - 부자재 | 
 
 #### 4.1.5 PackageProduct - 패키지_상품
 | no  | Field Name | Field Type         | Option                        | 설명  |
 |-----|------------|--------------------|-------------------------------|-----|
 | 1   | package    | ForeignKey         | to=Package, on_delete=PROTECT | 패키지 | 
-| 1   | product    | ForeignKey         | to=Product, on_delete=PROTECT | 상품  |
-| 1   | quantity   | SmallIntegerField  |                               | 수량  |
+| 2   | product    | ForeignKey         | to=Product, on_delete=PROTECT | 상품  |
+| 3   | quantity   | SmallIntegerField  |                               | 수량  |
 
 #### 4.1.6 PackageSupplement - 패키지_부자재
 | no  | Field Name | Field Type          | Option                           | 설명  |
 |-----|------------|---------------------|----------------------------------|-----|
 | 1   | package    | ForeignKey          | to=Package, on_delete=PROTECT    | 패키지 | 
-| 1   | supplement | ForeignKey          | to=supplement, on_delete=PROTECT | 부자재 |
-| 1   | quantity   | SmallIntegerField   |                                  | 수량  |
+| 2   | supplement | ForeignKey          | to=supplement, on_delete=PROTECT | 부자재 |
+| 3   | quantity   | SmallIntegerField   |                                  | 수량  |
 
+#### 4.1.7 PurchaseOrder - 발주서 기록
+| no  | Field Name               | Field Type    | Option                                                               | 설명      |
+|-----|--------------------------|---------------|----------------------------------------------------------------------|---------|
+| 1   | order_number             | CharField     | max_length=64, null=True, blank=True                                 | 주문번호    | 
+| 2   | orderer                  | CharField     | max_length=30                                                        | 주문자     | 
+| 3   | orderer_phone_number     | CharField     | max_length=15                                                        | 주문자 연락처 | 
+| 4   | recipient                | CharField     | max_length=30                                                        | 수령인     | 
+| 5   | recipient_phone_number   | CharField     | max_length=30                                                        | 수령인 연락처 | 
+| 6   | package                  | ForeignKey    | to=Package, on_delete=PROTECT                                        | 패키지     | 
+| 7   | options                  | CharField     | max_length=20, null=True, blank=True                                 | 옵션      | 
+| 8   | order_quantity           | IntegerField  | max_length=10, null=True, blank=True                                 | 주문 수량   | 
+| 9   | postal_code              | CharField     | max_length=10, null=True, blank=True                                 | 우편번호    | 
+| 10  | address                  | TextField     | max_length=30                                                        | 주소      | 
+| 11  | epost                    | CharField     | max_length=10, null=True, blank=True                                 |         | 
+| 12  | fare_type                | CharField     | max_length=10, null=True, blank=True                                 |         | 
+| 13  | product_code             | CharField     | max_length=30, null=True, blank=True                                 |         | 
+| 14  | payment_code             | CharField     | max_length=30, null=True, blank=True                                 |         | 
+| 15  | member_code              | CharField     | max_length=30, null=True, blank=True                                 |         | 
+| 16  | group_code               | CharField     | max_length=10, null=True, blank=True                                 |         | 
+| 17  | baggage_number           | CharField     | max_length=64, null=True, blank=True                                 | 송장번호    | 
+| 18  | counsel_history          | CharField     | max_length=10, null=True, blank=True                                 |         | 
+| 19  | memo                     | TextField     | null=True, blank=True                                                | 메모      | 
+| 20  | created_at               | DateTimeField |                                                                      | 발주서 생성일 | 
+| 21  | status                   | CharField     | max_length=10, default='pending', choices=common_const.COMMON_STATUS | 발주상태    | 
+| 22  | product_order_number     | CharField     | max_length=64, null=True, blank=True                                 |         |
+
+#### 4.1.7 InventoryProcess - 재고 처리 방법
+| no  | Field Name | Field Type       | Option         | 설명          |
+|-----|------------|------------------|----------------|-------------|
+| 1   | name       | CharField        | max_length=15  | 재고 처리 방법 이름 |
+| 2   | effect     | BooleanField     |                | 재고 처리       |
+
+#### 4.1.8 ProductHistory - 상품 재고 처리 기록
+| no  | Field Name        | Field Type    | Option                                                               | 설명          |
+|-----|-------------------|---------------|----------------------------------------------------------------------|-------------|
+| 1   | business          | ForeignKey    | to=Business, on_delete=models.PROTECT, blank=True                    | 품목          |
+| 2   | product           | ForeignKey    | to=Product, on_delete=models.PROTECT, blank=True                     | 상품          |
+| 3   | status            | CharField     | max_length=20, default='pending', choices=common_const.COMMON_STATUS | 상태          |
+| 4   | quantity          | IntegerField  |                                                                      | 수량          |
+| 5   | inventory_process | ForeignKey    | to=InventoryProcess, on_delete=PROTECT                               | 재고 처리 방법    |
+| 6   | expiry_at         | DateField     | null=True, blank=True                                                | 만료일         |
+| 7   | created_at        | DateTimeField | auto_now_add=True                                                    | 재고 처리일      |
+| 8   | updated_at        | DateTimeField | auto_now=True                                                        | 수정일         |
+| 9   | reserved_at       | DateTimeField | null=True, blank=True                                                | 예약일         |
+| 10  | admin             | ForeignKey    | to=User, on_delete=PROTECT, blank=True                               | 재고 처리한 관리자  |
+
+#### 4.1.9 SupplementHistory - 부자재 재고 처리 기록
+| no  | Field Name        | Field Type    | Option                                                               | 설명         |
+|-----|-------------------|---------------|----------------------------------------------------------------------|------------|
+| 1   | business          | ForeignKey    | to=Business, on_delete=models.PROTECT, blank=True                    | 품목         |
+| 2   | supplement        | ForeignKey    | to=Supplement, on_delete=models.PROTECT, blank=True                  | 부자재        |
+| 3   | status            | CharField     | max_length=20, default='pending', choices=common_const.COMMON_STATUS | 상태         |
+| 4   | quantity          | IntegerField  |                                                                      | 수량         |
+| 5   | inventory_process | ForeignKey    | to=InventoryProcess, on_delete=PROTECT                               | 재고 처리 방법   |
+| 6   | expiry_at         | DateField     | null=True, blank=True                                                | 만료일        |
+| 7   | created_at        | DateTimeField | auto_now_add=True                                                    | 재고 처리일     |
+| 8   | updated_at        | DateTimeField | auto_now=True                                                        | 수정일        |
+| 9   | reserved_at       | DateTimeField | null=True, blank=True                                                | 예약일        |
+| 10  | admin             | ForeignKey    | to=User, on_delete=PROTECT, blank=True                               | 재고 처리한 관리자 |
 
 ### 4.2 ERD
 `models.py` 파일을 참조해 생성될 데이터베이스 테이블의 ERD 이다. 
 
-![erd](420-erd-v4.0.png)
+![erd](420-erd-v1.0.png)
 
 ## 5. API 명세서
 각 API Endpoint 의 상세 정보를 담은 문서로, 내용이 많기 때문에 별도의 페이지를 통해 관리한다.
 
-[API 명세서](/project-gaon/api-specification/)
+[API 명세서](/projects/inventory-manage/api-specification/)
 
 ## 6. 화면설계서
 ![prototype](610-prototype-v1.0.png)
 
 ## 7. 개발일지
 
-[개발일지](/project-gaon/dev-log/)
+[개발일지](https://munthe.tistory.com/category/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80/%EC%9E%AC%EA%B3%A0%EA%B4%80%EB%A6%AC%EC%9B%B9)
 
 ## References
 [0. 어떤 블로그](https://dev-coco.tistory.com/111)  
