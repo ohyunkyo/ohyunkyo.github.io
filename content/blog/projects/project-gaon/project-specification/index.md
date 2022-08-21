@@ -160,7 +160,7 @@ category: project-gaon
 ## 5. API 명세서
 각 API Endpoint 의 상세 정보를 담은 문서로, 내용이 많기 때문에 별도의 페이지를 통해 관리한다.
 
-[API 명세서](/project-gaon/api-specification/)
+[API 명세서](/projects/project-gaon/api-specification/)
 
 ## 6. 화면설계서
 나는 화면설계서를 통해 각 페이지 간 흐름, API 요청과 그 결과에 따른 페이지 이동을 한눈에 보고 싶었다.  
