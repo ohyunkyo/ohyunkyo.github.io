@@ -128,7 +128,7 @@ category: inventory-manage
 |-----|-------------|------------|----------------------------|-------|
 | 1   | name        | CharField  | max_length=20, unique=True | 품목명   | 
 | 2   | description | TextField  | null=True, blank=True      | 품목 설명 | 
-
+ 
 #### 4.1.2 Product - 상품
 | no  | Field Name       | Field Type        | Option                         | 설명    |
 |-----|------------------|-------------------|--------------------------------|-------|
@@ -233,7 +233,7 @@ category: inventory-manage
 | 10  | admin             | ForeignKey    | to=User, on_delete=PROTECT, blank=True                               | 재고 처리한 관리자 |
 
 ### 4.2 ERD
-`models.py` 파일을 참조해 생성될 데이터베이스 테이블의 ERD 이다. 
+`models.py` 파일을 참조해 생성된 데이터베이스 테이블의 ERD 이다. 
 
 ![erd](420-erd-v1.0.png)
 
@@ -248,6 +248,13 @@ category: inventory-manage
 ## 7. 개발일지
 
 [개발일지](https://munthe.tistory.com/category/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80/%EC%9E%AC%EA%B3%A0%EA%B4%80%EB%A6%AC%EC%9B%B9)
+
+## 99. 개발 후 소감
+개발을 다 끝내고 보니 부족한 부분이 많이 보였다.  
+완료한 이후에도 코드는 수정하기 쉽지만 전체적인 구조는 상대적으로 바꾸기 어렵다. (ex: 상품, 부자재를 분류한 것)  
+
+재고관리 웹은 기획 없이 간략한 요구사항 만을 가지고 개발을 시작했었다.    
+하지만 다음 프로젝트에서는 공부를 더 많이 해서 더 좋은 기획을 통해 더 좋은 구조, 더 나은 소스코드를 가진 결과물이 나오도록 할 것이다. 
 
 ## References
 [0. 어떤 블로그](https://dev-coco.tistory.com/111)  
