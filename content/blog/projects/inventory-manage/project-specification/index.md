@@ -1,7 +1,7 @@
 ---
 title: "재고관리 웹 프로젝트 명세서"
 date: "2022-08-18"
-last_modified_at: "2022-08-00"
+last_modified_at: "2022-08-29"
 category: inventory-manage
 ---
 
@@ -114,12 +114,10 @@ category: inventory-manage
 - mariadb : latest(Amazon RDS)
 - Jenkins : docker image(jenkins/jenkins:lts)
 - docker : latest
-#### 3.3.3 사용성
-- 각 페이지에서 필요한 기능의 API Endpoint 를 제공한다.(back-end)
-#### 3.3.4 성능
+#### 3.3.3 성능
 - 동시접속자 50명을 가정하고 적절한 성능의 인프라 구축.(dev-ops)
-#### 3.3.5 배포
-- [젠킨스를 사용한 장고 배포](/DevOps/deploy-django-with-jenkins/) 와 동일한 방식으로 배포.(dev-ops)
+#### 3.3.4 배포
+- [젠킨스를 사용한 장고 배포](/devops/deploy-django-with-jenkins/) 와 동일한 방식으로 배포.(dev-ops)
 
 ## 4. DB 설계
 ### 4.1 모델 명세서
@@ -187,12 +185,12 @@ category: inventory-manage
 | 8   | order_quantity           | IntegerField  | max_length=10, null=True, blank=True                                 | 주문 수량   | 
 | 9   | postal_code              | CharField     | max_length=10, null=True, blank=True                                 | 우편번호    | 
 | 10  | address                  | TextField     | max_length=30                                                        | 주소      | 
-| 11  | epost                    | CharField     | max_length=10, null=True, blank=True                                 |         | 
-| 12  | fare_type                | CharField     | max_length=10, null=True, blank=True                                 |         | 
-| 13  | product_code             | CharField     | max_length=30, null=True, blank=True                                 |         | 
-| 14  | payment_code             | CharField     | max_length=30, null=True, blank=True                                 |         | 
-| 15  | member_code              | CharField     | max_length=30, null=True, blank=True                                 |         | 
-| 16  | group_code               | CharField     | max_length=10, null=True, blank=True                                 |         | 
+| 11  | epost                    | CharField     | max_length=10, null=True, blank=True                                 | 우체국택배   | 
+| 12  | fare_type                | CharField     | max_length=10, null=True, blank=True                                 | 운임구분    | 
+| 13  | product_code             | CharField     | max_length=30, null=True, blank=True                                 | 상품코드번호  | 
+| 14  | payment_code             | CharField     | max_length=30, null=True, blank=True                                 | 결제코드    | 
+| 15  | member_code              | CharField     | max_length=30, null=True, blank=True                                 | 멤버코드    | 
+| 16  | group_code               | CharField     | max_length=10, null=True, blank=True                                 | 분류코드    | 
 | 17  | baggage_number           | CharField     | max_length=64, null=True, blank=True                                 | 송장번호    | 
 | 18  | counsel_history          | CharField     | max_length=10, null=True, blank=True                                 |         | 
 | 19  | memo                     | TextField     | null=True, blank=True                                                | 메모      | 
@@ -253,13 +251,12 @@ category: inventory-manage
 
 ## 99. 개발 후 소감
 개발을 다 끝내고 보니 부족한 부분이 많이 보였다.  
-완료한 이후에도 코드는 수정하기 쉽지만 전체적인 구조는 상대적으로 바꾸기 어렵다. (ex: 상품, 부자재를 분류한 것)  
+특히 구조적인 문제가 눈에 많이 들어왔는데, 완료한 이후에도 코드는 수정하면 되지만 전체적인 구조는 상대적으로 바꾸기 어렵다. (ex: 상품, 부자재를 분류하여 관리하는 것)  
 
 재고관리 웹은 기획 없이 간략한 요구사항 만을 가지고 개발을 시작했었다.    
 하지만 다음 프로젝트에서는 더 많이 공부하고 많이 알아봐서 더 좋은 기획을 통해 더 좋은 구조, 더 나은 소스코드를 가진 결과물이 나오도록 해야겠다. 
 
 ## References
-[0. 어떤 블로그](https://dev-coco.tistory.com/111)  
 [3.2 비기능 요구사항](https://ee-22-joo.tistory.com/2)  
 [6. 화면설계서 - 와이어프레임과 프로토타입](https://blog.adobe.com/ko/publish/2018/03/06/everything-you-need-to-know-about-wireframes-and-prototypes)  
 [6. 프로토타입 예제](https://ditoday.com/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84%EA%B3%BC-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85-%EA%B5%AC%EB%B3%84%ED%95%98%EA%B8%B0/)
