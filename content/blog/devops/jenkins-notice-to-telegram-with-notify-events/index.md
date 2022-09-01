@@ -2,7 +2,7 @@
 title: "notify.events 를 통해 텔레그램으로 젠킨스 알림 받기"
 date: "2022-05-04"
 last_modified_at: "2022-05-06"
-category: DevOps
+category: devops
 ---
 
 ## 0. 서론

@@ -2,7 +2,7 @@
 title: "젠킨스를 사용한 뷰 배포"
 date: "2022-05-16"
 last_modified_at: "2022-06-13"
-category: DevOps
+category: devops
 ---
 
 ## 0. 서론

@@ -2,7 +2,7 @@
 title: "젠킨스를 사용한 장고 배포"
 date: "2022-05-24"
 last_modified_at: "2022-06-15"
-category: DevOps
+category: devops
 ---
 
 ## 0. 서론
@@ -237,7 +237,7 @@ pipeline {
 }
 ```
 
-> pipeline script 의 전체적 문법은 [여기](/DevOps/deploy-vue-with-jenkins/) 에서 간략히 설명했다.
+> pipeline script 의 전체적 문법은 [여기](/devops/deploy-vue-with-jenkins/) 에서 간략히 설명했다.
 
 나는 `prepare`, `test`, `deploy` 로 단계를 나눴다. `prepare stage` 에서는 깃허브 저장소에서 소스코드를 가져오고, `test stage` 에서 소스코드를 테스트한다.  
 그 다음 `Publish Over SSH` 플러그인을 사용하여 소스코드를 배포서버에 업로드하고 컨테이너를 실행한다.

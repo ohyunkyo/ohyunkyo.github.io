@@ -105,7 +105,7 @@ category: project-gaon
 #### 3.3.4 성능
 - 동시접속자 50명을 가정하고 적절한 성능의 인프라 구축.(dev-ops)
 #### 3.3.5 배포
-- [젠킨스를 사용한 장고 배포](/DevOps/deploy-django-with-jenkins/) 와 동일한 방식으로 배포.(dev-ops)
+- [젠킨스를 사용한 장고 배포](/devops/deploy-django-with-jenkins/) 와 동일한 방식으로 배포.(dev-ops)
 
 ## 4. DB 설계
 ### 4.1 모델 명세서
