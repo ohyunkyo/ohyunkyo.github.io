@@ -2,7 +2,7 @@
 title: "API 명세서"
 date: "2022-07-05"
 last_modified_at: "2022-07-20"
-category: project-gaon
+category: dinner-project
 ---
 
 ## 0. 서론

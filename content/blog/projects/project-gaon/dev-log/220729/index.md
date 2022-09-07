@@ -2,7 +2,7 @@
 title: "2022-07-29"
 date: "2022-07-29"
 last_modified_at: "2022-07-00"
-category: project-gaon
+category: dinner-project-dev-log
 ---
 
 - 10:30

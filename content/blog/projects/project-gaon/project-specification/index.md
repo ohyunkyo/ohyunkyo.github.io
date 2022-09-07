@@ -2,7 +2,7 @@
 title: "프로젝트 명세서"
 date: "2022-06-17"
 last_modified_at: "2022-07-29"
-category: project-gaon
+category: dinner-project
 ---
 
 ## 0. 서론
@@ -21,7 +21,7 @@ category: project-gaon
 이번 프로젝트를 통해 내가 직접 기획, 개발하고 사용해 보기로 했다.   
 
 ## 2. 개요
-- 프로젝트 이름 : 가온(가제)  
+- 프로젝트 이름 : Dinner Project  
 - 개발 (목표) 기간 : 2022-06-17 ~ 2022-07-31
 - 목적 : 보유한 식재료 관리 및 그것으로 제작 가능한 결과물 검색
 - 주요 기능 :
@@ -160,7 +160,7 @@ category: project-gaon
 ## 5. API 명세서
 각 API Endpoint 의 상세 정보를 담은 문서로, 내용이 많기 때문에 별도의 페이지를 통해 관리한다.
 
-[API 명세서](/projects/project-gaon/api-specification/)
+[API 명세서](/projects/dinner-project/api-specification/)
 
 ## 6. 화면설계서
 나는 화면설계서를 통해 각 페이지 간 흐름, API 요청과 그 결과에 따른 페이지 이동을 한눈에 보고 싶었다.  
@@ -175,7 +175,7 @@ category: project-gaon
 
 ## 7. 개발일지
 
-[개발일지](/project-gaon/dev-log/)
+[개발일지](/dinner-project/dev-log/)
 
 ## References
 [가온](https://www.ihee.com/636)  
