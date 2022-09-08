@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-category-js",
+    "path": "/category/inventory-manage/",
+    "result": {"data":{"site":{"siteMetadata":{"title":"logging.ohyunkyo"}},"allMarkdownRemark":{"totalCount":2,"edges":[{"node":{"fields":{"slug":"/projects/inventory-manage/api-specification/","category":"inventory-manage"},"excerpt":"0. 서론 API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성. 각 모델별로 관리한다. 0.1 Request Header 특별히 서술하지 않는 이상 POST, PATCH, DELETE 메소드에서 다음과 같이 헤더를 설정해야 한다. name…","timeToRead":40,"frontmatter":{"title":"재고관리 웹 API 명세서","date":"August 23, 2022"}}},{"node":{"fields":{"slug":"/projects/inventory-manage/project-specification/","category":"inventory-manage"},"excerpt":"…","timeToRead":12,"frontmatter":{"title":"재고관리 웹 프로젝트 명세서","date":"August 18, 2022"}}}]}},"pageContext":{"category":"inventory-manage"}},
+    "staticQueryHashes": ["2841359383","3496359572"]}
