@@ -119,7 +119,7 @@ category: inventory-manage
 #### 3.3.4 배포
 - [젠킨스를 사용한 장고 배포](/devops/deploy-django-with-jenkins/) 와 동일한 방식으로 배포.(dev-ops)
 
-## 4. DB 설계
+## 4. DB 설계<a id='4-DB-설계'></a>
 ### 4.1 모델 명세서
 모델 명세서에는 django 의 `models.py` 파일에서 필요한 필드 이름, 옵션등을 서술한다.  
 
