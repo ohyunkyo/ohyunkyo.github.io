@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 08 Sep 2022 02:48:49 GMT</lastBuildDate><item><title><![CDATA[재고관리 웹 API 명세서]]></title><description><![CDATA[0. 서론 API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성. 각 모델별로 관리한다. 0.1 Request Header 특별히 서술하지 않는 이상 POST, PATCH, DELETE 메소드에서 다음과 같이 헤더를 설정해야 한다. name…]]></description><link>https://ohyunkyo.github.io/projects/inventory-manage/api-specification/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/inventory-manage/api-specification/</guid><pubDate>Tue, 23 Aug 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[없음]]></description><link>https://ohyunkyo.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 22 Sep 2022 07:49:42 GMT</lastBuildDate><item><title><![CDATA[재고관리 웹 API 명세서]]></title><description><![CDATA[0. 서론 API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성. 각 모델별로 관리한다. 0.1 Request Header 특별히 서술하지 않는 이상 POST, PATCH, DELETE 메소드에서 다음과 같이 헤더를 설정해야 한다. name…]]></description><link>https://ohyunkyo.github.io/projects/inventory-manage/api-specification/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/inventory-manage/api-specification/</guid><pubDate>Tue, 23 Aug 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성.&lt;br&gt;
 각 모델별로 관리한다.&lt;/p&gt;
 &lt;h3&gt;0.1 Request Header&lt;/h3&gt;
@@ -5065,44 +5065,7 @@
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://ee-22-joo.tistory.com/2&quot;&gt;3.2 비기능 요구사항&lt;/a&gt;&lt;br&gt;
 &lt;a href=&quot;https://blog.adobe.com/ko/publish/2018/03/06/everything-you-need-to-know-about-wireframes-and-prototypes&quot;&gt;6. 화면설계서 - 와이어프레임과 프로토타입&lt;/a&gt;&lt;br&gt;
-&lt;a href=&quot;https://ditoday.com/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84%EA%B3%BC-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85-%EA%B5%AC%EB%B3%84%ED%95%98%EA%B8%B0/&quot;&gt;6. 프로토타입 예제&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[2022-07-29]]></title><description><![CDATA[10:30 프로젝트 명세서와 API 명세서 참고하여 백엔드 개발 시작 12:00 모델 정의 완료. 로그인/로그아웃 부터 해야할듯. 프론트/백 분리되어 있을때 어떻게 로그인 기능을 구현해야 하는지? Session, Token, JWT…]]></description><link>https://ohyunkyo.github.io/projects/project-gaon/dev-log/220729/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/project-gaon/dev-log/220729/</guid><pubDate>Fri, 29 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
-&lt;li&gt;10:30
-&lt;ul&gt;
-&lt;li&gt;프로젝트 명세서와 API 명세서 참고하여 백엔드 개발 시작&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;12:00
-&lt;ul&gt;
-&lt;li&gt;모델 정의 완료.&lt;/li&gt;
-&lt;li&gt;로그인/로그아웃 부터 해야할듯.&lt;/li&gt;
-&lt;li&gt;프론트/백 분리되어 있을때 어떻게 로그인 기능을 구현해야 하는지?&lt;/li&gt;
-&lt;li&gt;Session, Token, JWT 로 하는 방법이 있다고 한다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;17:00
-&lt;ul&gt;
-&lt;li&gt;drf 의 인증 정리 완료&lt;/li&gt;
-&lt;li&gt;drf Authentication 방식으로 인증하는것으로 결정&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;18:00
-&lt;ul&gt;
-&lt;li&gt;깃 커밋 리셋하기 정리 완료&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[2022-07-28]]></title><description><![CDATA[18:00 drf 사용하여 API 만들기 문서 작성 완료]]></description><link>https://ohyunkyo.github.io/projects/project-gaon/dev-log/220728/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/project-gaon/dev-log/220728/</guid><pubDate>Thu, 28 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
-&lt;li&gt;18:00
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/TIL/django-rest-framework/django-start-with-drf/&quot;&gt;drf 사용하여 API 만들기&lt;/a&gt; 문서 작성 완료&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[개발 일지]]></title><link>https://ohyunkyo.github.io/projects/project-gaon/dev-log/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/project-gaon/dev-log/</guid><pubDate>Fri, 22 Jul 2022 00:00:00 GMT</pubDate><content:encoded></content:encoded></item><item><title><![CDATA[2022-07-22]]></title><description><![CDATA[15:00 drf 사용하여 API 만들기 문서 작성중]]></description><link>https://ohyunkyo.github.io/projects/project-gaon/dev-log/220722/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/project-gaon/dev-log/220722/</guid><pubDate>Fri, 22 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
-&lt;li&gt;15:00
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/TIL/django-rest-framework/django-start-with-drf/&quot;&gt;drf 사용하여 API 만들기&lt;/a&gt; 문서 작성중&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[API 명세서]]></title><description><![CDATA[0. 서론 API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성. 각 모델별로 관리한다. 0.1 Request Header 특별히 서술하지 않는 이상 POST, PATCH, DELETE 메소드에서 다음과 같이 헤더를 설정해야 한다. name…]]></description><link>https://ohyunkyo.github.io/projects/project-gaon/api-specification/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/project-gaon/api-specification/</guid><pubDate>Tue, 05 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+&lt;a href=&quot;https://ditoday.com/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84%EA%B3%BC-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85-%EA%B5%AC%EB%B3%84%ED%95%98%EA%B8%B0/&quot;&gt;6. 프로토타입 예제&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[API 명세서]]></title><description><![CDATA[0. 서론 API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성. 각 모델별로 관리한다. 0.1 Request Header 특별히 서술하지 않는 이상 POST, PATCH, DELETE 메소드에서 다음과 같이 헤더를 설정해야 한다. name…]]></description><link>https://ohyunkyo.github.io/projects/dinner-project/api-specification/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/dinner-project/api-specification/</guid><pubDate>Tue, 05 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생성.&lt;br&gt;
 각 모델별로 관리한다.&lt;/p&gt;
 &lt;h3&gt;0.1 Request Header&lt;/h3&gt;
@@ -6083,7 +6046,7 @@
 &lt;h4&gt;5.5.3 Response Example&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token property&quot;&gt;&quot;msg&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;레시피 수정이 완료되었습니다.&quot;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[프로젝트 명세서]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/projects/project-gaon/project-specification/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/project-gaon/project-specification/</guid><pubDate>Fri, 17 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[프로젝트 명세서]]></title><description><![CDATA[…]]></description><link>https://ohyunkyo.github.io/projects/dinner-project/project-specification/</link><guid isPermaLink="false">https://ohyunkyo.github.io/projects/dinner-project/project-specification/</guid><pubDate>Fri, 17 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;0. 서론&lt;/h2&gt;
 &lt;p&gt;프로젝트 시작을 위해 많은 고민을 하던중에 이 고민들과 이후에 결정하는 것들을 모두 기록할 필요가 있다는 생각이 들었다.&lt;br&gt;
 기록할 내용에 대해서는 이미 생각했고 형식만 정하면 됐는데, 마침 어떤 블로그에서 내 상황에 맞는 좋은 서식을 발견하여 사용해보기로 했다.&lt;/p&gt;
 &lt;p&gt;이후에 개발이 완료되면 이 문서를 토대로 소프트웨어 산출물을 제작할 예정이다.&lt;/p&gt;

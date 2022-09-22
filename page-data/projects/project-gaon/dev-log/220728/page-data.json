@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-blog-post-js",
-    "path": "/projects/project-gaon/dev-log/220728/",
-    "result": {"data":{"site":{"siteMetadata":{"title":"logging.ohyunkyo"}},"markdownRemark":{"id":"333ab90f-4fbc-571a-b1d0-1b76d979ffbd","excerpt":"18:00 drf 사용하여 API 만들기 문서 작성 완료","html":"<ul>\n<li>18:00\n<ul>\n<li><a href=\"/TIL/django-rest-framework/django-start-with-drf/\">drf 사용하여 API 만들기</a> 문서 작성 완료</li>\n</ul>\n</li>\n</ul>","frontmatter":{"title":"2022-07-28","date":"July 28, 2022","description":null},"fields":{"category":"dinner-project-dev-log","slug":"/projects/project-gaon/dev-log/220728/"}},"previous":{"fields":{"slug":"/projects/project-gaon/dev-log/220722/"},"frontmatter":{"title":"2022-07-22"}},"next":{"fields":{"slug":"/projects/project-gaon/dev-log/220729/"},"frontmatter":{"title":"2022-07-29"}}},"pageContext":{"id":"333ab90f-4fbc-571a-b1d0-1b76d979ffbd","previousPostId":"9b2ca84a-ded2-599c-bc8c-4d3520afdd01","nextPostId":"a9697348-dfc6-5277-a2d9-e4e785deb8e9"}},
-    "staticQueryHashes": ["230163734","2841359383","3496359572"]}

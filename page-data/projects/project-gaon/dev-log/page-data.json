@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-blog-post-js",
-    "path": "/projects/project-gaon/dev-log/",
-    "result": {"data":{"site":{"siteMetadata":{"title":"logging.ohyunkyo"}},"markdownRemark":{"id":"a8cdf0f2-5c7a-5da9-9475-996caf52081c","excerpt":"","html":"","frontmatter":{"title":"개발 일지","date":"July 22, 2022","description":null},"fields":{"category":"dinner-project-dev-log","slug":"/projects/project-gaon/dev-log/"}},"previous":{"fields":{"slug":"/projects/project-gaon/api-specification/"},"frontmatter":{"title":"API 명세서"}},"next":{"fields":{"slug":"/projects/project-gaon/dev-log/220722/"},"frontmatter":{"title":"2022-07-22"}}},"pageContext":{"id":"a8cdf0f2-5c7a-5da9-9475-996caf52081c","previousPostId":"96b9de58-de37-5805-9ae5-7227a8c462ce","nextPostId":"9b2ca84a-ded2-599c-bc8c-4d3520afdd01"}},
-    "staticQueryHashes": ["230163734","2841359383","3496359572"]}
