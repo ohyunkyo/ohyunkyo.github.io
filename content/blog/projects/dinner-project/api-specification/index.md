@@ -147,7 +147,6 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 | Parameter  | Data Type | Required | Description |
 |------------|-----------|----------|-------------|
 | ingredient | int       | Y        | 식재료         |
-| user       | int       | Y        | 사용자         |
 | detail     | string    | Y        | 식재료 상세 정보   |
 | unit       | string    | Y        | 단위          |
 
@@ -224,11 +223,10 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 | Parameter            | Data Type | Required | Description |
 |----------------------|-----------|----------|-------------|
 | ingredient_inventory | int       | Y        | 식재료 재고 PK   |
-| user                 | int       | Y        | 사용자 PK      |
 | recipe               | int       |          | 사용된 레시피 PK  |
-| quantity             | int       | Y        | 사용된 수량      |
-| method               | string    | Y        | 식재료 처리 방법   |
-| created_at           | datetime  | Y        | 기록 생성 일시    |
+| quantity             | int       | Y        | 재고 처리 수량      |
+| process_name             | string       | Y        | 재고 처리 방법      |
+| is_increased               | boolean    | Y        | 식재료 증감   |
 
 #### 4.1.3 Response Body
 | Parameter | Data Type | Description         |
@@ -246,16 +244,17 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 #### 4.2.1 개요
 | name     | value              |
 |----------|--------------------|
-| 기능       | 재고 기록을 추가한다        |
-| Method   | POST               |
-| Endpoint | /api/inventory_log |
+| 기능       | 재고 기록을 수정한다        |
+| Method   | PATCH               |
+| Endpoint | /api/inventory_log/{id} |
 
 #### 4.2.2 Request Body
 | Parameter      | Data Type | Required | Description |
 |----------------|-----------|----------|-------------|
-| inventory_log  | int       | Y        | 재고 기록 PK    |
-| quantity       | int       | Y        | 사용된 수량      |
-| method         | string    | Y        | 식재료 처리 방법   |
+| recipe             | int       | Y        | 재고 처리 수량      |
+| quantity             | int       | Y        | 사용된 레시피 PK      |
+| process_name             | string       | Y        | 재고 처리 방법      |
+| is_increased               | boolean    | Y        | 식재료 증감   |
 
 #### 4.2.3 Response Body
 | Parameter | Data Type | Description         |
@@ -281,7 +280,6 @@ API 명세서를 마크다운 형식으로 관리하기 위해 개별 문서 생
 #### 5.1.2 Request Body
 | Parameter   | Data Type | Required | Description   |
 |-------------|-----------|----------|---------------|
-| user        | int       | Y        | 사용자           |
 | name        | string    | Y        | 레시피 이름        |
 | ingredients | string    | Y        | 레시피에 사용된 식재료  |
 | methods     | string    | Y        | 레시피 제작 방법     |
